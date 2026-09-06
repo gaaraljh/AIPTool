@@ -1,4 +1,7 @@
-# Visual Studio 用户特定文件
 .vs/
+bin/
+obj/
 *.user
 *.suo
+*.vsidx
+packages/
