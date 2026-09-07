@@ -673,4 +673,7 @@ Public Class FormOption
         FormManager.CloseAndDisposeForm(Of FormOption)()
     End Sub
 
+    Private Sub lvw设置图标大小_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lvw设置图标大小.SelectedIndexChanged
+
+    End Sub
 End Class

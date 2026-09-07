@@ -23,7 +23,7 @@ Public Class FormPantone
         '设置按钮图标
         Btn_Random.Image = My.Resources.色卡16.ToBitmap
         Btn_Color.Image = My.Resources.色卡16.ToBitmap
-        Btn_Clear.Image = My.Resources.色卡16.ToBitmap
+        Btn_外观列表.Image = My.Resources.色卡16.ToBitmap
         Btn_Close.Image = My.Resources.关闭16.ToBitmap
         Btn_Refresh.Image = My.Resources.刷新16.ToBitmap
         Btn_Print.Image = My.Resources.色卡16.ToBitmap
@@ -758,7 +758,7 @@ Public Class FormPantone
     ''' <summary>
     ''' 清理
     ''' </summary>
-    Private Sub Btn_Clear_Click() Handles Btn_Clear.Click
+    Private Sub Btn_Clear_Click() Handles Btn_外观列表.Click
         Dim oInventorPartDocument As Inventor.PartDocument
         oInventorPartDocument = ThisApplication.ActiveDocument
 
@@ -771,7 +771,7 @@ Public Class FormPantone
         Btn_Refresh_Click()
     End Sub
 
-    Private Sub ToolStripLabel8_Click(sender As Object, e As EventArgs) Handles ToolStripLabel8.Click
-      ProcessStart("https://www.pmhker.com/article/71.html")
+    Private Sub Btn_Clear_Click(sender As Object, e As EventArgs) Handles Btn_外观列表.Click
+
     End Sub
 End Class

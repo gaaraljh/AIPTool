@@ -16,6 +16,8 @@ Public Class FormPlaceOpenComponent
     Public Sub FormPlaceOpenComponent_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Icon = My.Resources.插入零部件32
         Me.TopMost = True
+        Dgw列表.AllowUserToResizeRows = False
+
 
         ' --- 【新增】设置快捷键行为 ---
         Me.AcceptButton = btn插入到部件   ' 按 Enter 键触发此按钮
@@ -71,7 +73,7 @@ Public Class FormPlaceOpenComponent
 
         For Each oDoc As Inventor.Document In ThisApplication.Documents.VisibleDocuments
             ' 跳过当前装配体本身
-            If oDoc.FullDocumentName = strActiveAssemblyPath Then Continue For
+            If oDoc.FullDocumentName = strActiveAssemblyPath Or oDoc.FullDocumentName = "" Then Continue For
 
             ' 只处理零件和子装配
             If oDoc.DocumentType <> DocumentTypeEnum.kPartDocumentObject And
@@ -261,30 +263,13 @@ Public Class FormPlaceOpenComponent
         ' 但如果需要强制对齐顶部：
         Dgw列表.Top = PictureBox缩略图.Top
     End Sub
-    ''' <summary>
-    ''' 重写按键处理，确保 Enter 和 ESC 在任何焦点下都生效
-    ''' </summary>
-    Protected Overrides Function ProcessDialogKey(keyData As Keys) As Boolean
-        If keyData = Keys.Enter Then
-            ' 防止在 DataGridView 编辑模式下触发（虽然我们是只读的，但以防万一）
-            If Dgw列表.IsCurrentCellInEditMode Then
-                Return MyBase.ProcessDialogKey(keyData)
-            End If
 
-            ' 模拟点击插入按钮
-            btn插入到部件.PerformClick()
-            Return True ' 表示按键已处理，不再传递给控件
-        ElseIf keyData = Keys.Escape Then
-            ' 直接关闭窗体
+
+    Private Sub FormPlaceOpenComponent_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+        If e.KeyCode = Keys.Escape Then
             Me.Close()
-            Return True
+        ElseIf e.KeyCode = Keys.Enter Then
+            btn插入到部件_Click(sender, e)
         End If
-
-        Return MyBase.ProcessDialogKey(keyData)
-    End Function
-
-
-
-
-
+    End Sub
 End Class

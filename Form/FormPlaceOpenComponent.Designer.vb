@@ -51,7 +51,6 @@ Partial Class FormPlaceOpenComponent
         Me.PictureBox缩略图.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.PictureBox缩略图.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.PictureBox缩略图.Location = New System.Drawing.Point(385, 20)
         Me.PictureBox缩略图.Margin = New System.Windows.Forms.Padding(4, 6, 4, 6)
         Me.PictureBox缩略图.Name = "PictureBox缩略图"
@@ -78,6 +77,7 @@ Partial Class FormPlaceOpenComponent
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Dgw列表.BackgroundColor = System.Drawing.SystemColors.Window
+        Me.Dgw列表.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.Dgw列表.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window
@@ -109,6 +109,7 @@ Partial Class FormPlaceOpenComponent
         Me.Controls.Add(Me.BtnClose)
         Me.Controls.Add(Me.btn插入到部件)
         Me.Controls.Add(Me.PictureBox缩略图)
+        Me.KeyPreview = True
         Me.Margin = New System.Windows.Forms.Padding(4, 6, 4, 6)
         Me.MaximizeBox = False
         Me.MinimizeBox = False

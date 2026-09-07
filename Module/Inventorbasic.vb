@@ -23,6 +23,8 @@ Imports System.Collections.Generic
 
 Module InventorBasic
 
+    Private IsAutoSaving As Boolean = False   ' 【新增】自动保存状态锁，防止重复弹出保存窗口
+
     '-------------------------------------------------------------------------------
     Public Sub SetStatusBarText(Optional ByVal StatusBarText As String = "就绪")
         ThisApplication.StatusBarText = StatusBarText
@@ -89,7 +91,7 @@ Module InventorBasic
 
             Dim strFullFileName As String = Nothing
 
-            Dim frmQuitOpen As New formQuitOpen
+            Dim frmQuitOpen As New FormQuitOpen
             frmQuitOpen.lvw文件列表.CheckBoxes = True
             frmQuitOpen.btn多选打开.Visible = True
             frmQuitOpen.btn插入文件.Visible = True
@@ -114,7 +116,7 @@ Module InventorBasic
                             str模型匹配检查标记 = 1
                             ThisApplication.Documents.Open(strQuitOpenSelectFileFullName)
                         Case Else
-                          ProcessStart(strQuitOpenSelectFileFullName)
+                            ProcessStart(strQuitOpenSelectFileFullName)
                     End Select
 
 
@@ -134,7 +136,7 @@ Module InventorBasic
                             str模型匹配检查标记 = 1
                             ThisApplication.Documents.Open(strQuitOpenSelectFileFullName)
                         Case Else
-                          ProcessStart(strQuitOpenSelectFileFullName)
+                            ProcessStart(strQuitOpenSelectFileFullName)
                     End Select
 
                     frmQuitOpen.Close()
@@ -144,74 +146,150 @@ Module InventorBasic
             MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
-
     ''' <summary>
-    ''' 保存文件并关闭
+    ''' 保存文件并关闭（彻底解决多模型状态路径问题）
     ''' </summary>
-    ''' <remarks></remarks>
     Public Sub SaveClose()
         Try
-            If IsInventorOpenDocument() = False Then
+            ' 1. 检查是否有打开的文档
+            If Not IsInventorOpenDocument() Then Exit Sub
+
+            Dim oDoc As Inventor.Document = ThisApplication.ActiveDocument
+
+            ' 2. 获取原始路径并清洗
+            Dim strRawPath As String = oDoc.FullDocumentName
+            Dim strCleanPath As String = CleanModelStatePath(strRawPath)
+
+            ' 3. 处理未保存的新建文档
+            If String.IsNullOrEmpty(strRawPath) OrElse String.IsNullOrEmpty(strCleanPath) Then
+                Dim result As DialogResult = MessageBox.Show("当前文档尚未保存。是否立即保存？", AIPTool, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If result = DialogResult.Yes Then
+                    Try
+                        ThisApplication.CommandManager.ControlDefinitions.Item("AppFileSaveCmd").Execute2(True)
+                        ' 保存后重新获取并清洗路径
+                        strCleanPath = CleanModelStatePath(oDoc.FullDocumentName)
+                        If String.IsNullOrEmpty(strCleanPath) Then Exit Sub
+                    Catch ex As Exception
+                        Exit Sub
+                    End Try
+                Else
+                    oDoc.Close(True)
+                    Exit Sub
+                End If
+            End If
+
+            ' 4. 【关键】使用清洗后的路径进行文件存在性检查
+            If Not IsFileExists(strCleanPath) Then
+                ' 如果清洗后的路径仍不存在，可能是文件真的被删除了，或者路径解析错误
+                ' 这里给出更明确的提示
+                MessageBox.Show("无法找到文件物理路径：" & vbCrLf & strCleanPath, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 Exit Sub
             End If
 
-            Dim strDocumentFullName As String
-            strDocumentFullName = ThisApplication.ActiveDocument.FullDocumentName
-
-            If GetFileReadOnly(strDocumentFullName) = False Then
-                ThisApplication.ActiveDocument.Save2(True)
-                ThisApplication.ActiveDocument.Close()
-                Exit Sub
-            Else
-                ThisApplication.ActiveDocument.Close(True)
+            ' 5. 检查只读状态（使用清洗后的路径）
+            If GetFileReadOnly(strCleanPath) Then
+                MessageBox.Show("文件是只读的，无法保存。" & vbCrLf & strCleanPath, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                oDoc.Close(True)
                 Exit Sub
             End If
 
+            ' 6. 执行保存
+            ' Save2 是内部方法，它直接使用文档对象，不依赖外部路径字符串，因此是安全的
+            Try
+                oDoc.Save2(True)
+            Catch ex As Exception
+                MessageBox.Show("保存失败: " & ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
+            End Try
 
-            Select Case ThisApplication.ActiveDocumentType
-                Case kDrawingDocumentObject    '工程图
-
-                    Dim oInventorDrawingDocument As Inventor.DrawingDocument
-                    oInventorDrawingDocument = ThisApplication.ActiveDocument
-
-                    For Each oReferencedDocument In oInventorDrawingDocument.ReferencedDocumentDescriptors
-                        If IsFileExists(oReferencedDocument.FullDocumentName) = True Then
-                            Dim strNewFullFileName As String = GetChangeExtension(oReferencedDocument.FullDocumentName, IDW)
-
-                            Dim strFilter As String = "Inventor 工程图文件(*.idw;*.dwg)|*.idw;*.dwg" '添加过滤文件
-
-                            Dim arrayFullFileName As List(Of String)
-                            arrayFullFileName = SaveFileDialog(strFilter, False, strNewFullFileName)
-
-                            If arrayFullFileName Is Nothing Then
-                                Exit Sub
-                            End If
-
-                            strNewFullFileName = arrayFullFileName.Item(0).ToString
-
-                            oInventorDrawingDocument.SaveAs(strNewFullFileName, False)
-                            oInventorDrawingDocument.Save2()
-
-                        End If
-                    Next
-
-
-                Case Else   '非工程图
-
-                    ThisApplication.CommandManager.ControlDefinitions.Item("AppFileSaveCmd").Execute()
-
-                    strDocumentFullName = ThisApplication.ActiveDocument.FullDocumentName
-
-                    If IsFileExists(strDocumentFullName) = True Then
-                        ThisApplication.ActiveDocument.Close()
-                    End If
-
-            End Select
+            ' 7. 关闭文档
+            oDoc.Close()
 
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("保存并关闭发生错误: " & ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
+
+    'Public Sub SaveClose()
+    '    Try
+    '        If IsInventorOpenDocument() = False Then
+    '            Exit Sub
+    '        End If
+
+    '        Dim strDocumentFullName As String
+    '        strDocumentFullName = ThisApplication.ActiveDocument.FullDocumentName
+
+
+    '        If GetFileReadOnly(strDocumentFullName) = False Then
+    '            ThisApplication.ActiveDocument.Save2(True)
+    '            ThisApplication.ActiveDocument.Close()
+    '            Exit Sub
+    '        Else
+    '            ThisApplication.ActiveDocument.Close(True)
+    '            Exit Sub
+    '        End If
+
+
+    '        Select Case ThisApplication.ActiveDocumentType
+    '            Case kDrawingDocumentObject    '工程图
+
+    '                Dim oInventorDrawingDocument As Inventor.DrawingDocument
+    '                oInventorDrawingDocument = ThisApplication.ActiveDocument
+
+    '                For Each oReferencedDocument In oInventorDrawingDocument.ReferencedDocumentDescriptors
+    '                    If IsFileExists(oReferencedDocument.FullDocumentName) = True Then
+
+
+    '                        Dim strNewFullFileName As String
+
+    '                        Dim strTemplateEx As String = GetFileExtensionUCase(str工程图模板)
+    '                        If strTemplateEx = ".DWG" Then
+    '                            strNewFullFileName = GetChangeExtension(oReferencedDocument.FullDocumentName, DWG)
+    '                        Else
+    '                            strNewFullFileName = GetChangeExtension(oReferencedDocument.FullDocumentName, IDW)
+    '                        End If
+
+
+    '                        Dim strFilter As String = "Inventor 工程图文件(*.idw;*.dwg)|*.idw;*.dwg" '添加过滤文件
+
+    '                        Dim arrayFullFileName As List(Of String)
+    '                        arrayFullFileName = SaveFileDialog(strFilter, False, strNewFullFileName)
+
+    '                        If arrayFullFileName Is Nothing Then
+    '                            Exit Sub
+    '                        End If
+
+    '                        strNewFullFileName = arrayFullFileName.Item(0).ToString
+
+    '                        oInventorDrawingDocument.SaveAs(strNewFullFileName, False)
+    '                        oInventorDrawingDocument.Save2()
+
+
+
+
+    '                    End If
+    '                Next
+
+
+    '            Case Else   '非工程图
+
+    '                ThisApplication.CommandManager.ControlDefinitions.Item("AppFileSaveCmd").Execute()
+
+    '                strDocumentFullName = ThisApplication.ActiveDocument.FullDocumentName
+
+    '                If IsFileExists(strDocumentFullName) = True Then
+    '                    ThisApplication.ActiveDocument.Close()
+    '                End If
+
+    '        End Select
+
+    '    Catch ex As Exception
+    '        MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+    '    End Try
+    'End Sub
+
+
 
 
     ''' <summary>
@@ -251,7 +329,7 @@ Module InventorBasic
             Dim strFolderPath As String
             strFolderPath = GetDirectoryName2(oInventorDocument.FullDocumentName)
 
-          ProcessStart(strFolderPath)
+            ProcessStart(strFolderPath)
         Catch ex As Exception
             MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
@@ -1376,36 +1454,102 @@ Module InventorBasic
     End Sub
 
     ''' <summary>
-    ''' 自动保存文档
+    ''' 自动保存文档子程序（带防重入保护）
     ''' </summary>
-    ''' <param name="oInventorDocument">文档</param>
+    ''' <param name="oInventorDocument">文档对象</param>
     Public Sub AutoSaveDocumentSub(oInventorDocument As Inventor.Document)
-        Dim strFileFullName As String
+        ' 1. 基本校验
+        If oInventorDocument Is Nothing Then Exit Sub
 
-        strFileFullName = oInventorDocument.FullFileName
-        If IsFileExists(strFileFullName) = False Then
+        Dim strFileFullName As String = oInventorDocument.FullDocumentName
+
+        ' 2. 检查文件是否有效（已保存过或有路径）
+        ' 如果文件从未保存（FullFileName 为空），自动保存通常会触发“另存为”弹窗
+        ' 我们只处理那些已经有路径的文件，或者明确需要静默保存的场景
+        If String.IsNullOrEmpty(strFileFullName) Then
+            ' 如果是新文件，自动保存通常会弹窗。
+            ' 为了防止弹窗堆积，如果正在保存中，直接跳过
+            If IsAutoSaving Then Exit Sub
+
+            ' 可选策略：对于新文件，是否要自动触发弹窗？
+            ' 通常建议：自动保存仅针对已存在的文件进行静默更新。
+            ' 如果必须处理新文件，请确保下方逻辑加了锁。
+            ' 这里为了安全，建议新文件不通过自动保存处理，或者由用户手动保存。
             Exit Sub
         End If
 
-        If GetFileReadOnly(strFileFullName) = True Then
+        ' 3. 检查文件是否存在且非只读
+        If Not IsFileExists(strFileFullName) Then Exit Sub
+        If GetFileReadOnly(strFileFullName) Then Exit Sub
+
+        ' 4. 【关键】防重入检查与加锁
+        If IsAutoSaving Then
+            ' 如果上一个保存窗口还没关闭，或者保存操作正在进行，直接跳过本次定时触发
+            Debug.Print("自动保存跳过：上一次保存操作尚未完成。")
             Exit Sub
         End If
 
-        'Dim changedate As Date
-        'changedate = IO.File.GetLastWriteTime(strFileFullName)
+        ' 加锁
+        IsAutoSaving = True
 
-        'Dim nowdate As Date
-        'nowdate = Now
+        Try
+            ' 5. 执行保存
+            ' 注意：Save() 或 Save2() 对于已存在文件通常是静默的，不会弹窗。
+            ' 但如果文件有外部引用更新警告等，仍可能弹窗。
+            ' 使用 Save2(True) 可以尝试跳过某些警告，但最稳妥的是捕获异常
+            oInventorDocument.Save2(True)
 
-        '' 计算分钟差（精确到分钟）
-        'Dim minutesDifference As Double = (nowdate - changedate).TotalMinutes
-
-        '' 如果需要整数分钟（向下取整）
-        'Dim wholeMinutes As Integer = CInt(Math.Floor(minutesDifference))
-
-        'If wholeMinutes > Val(str保存间隔时间) Then
-        oInventorDocument.Save()
-        'End If
-
+        Catch ex As Exception
+            ' 记录错误，但不要弹窗打扰用户（因为是自动保存）
+            Debug.Print("自动保存失败: " & ex.Message)
+        Finally
+            ' 6. 【关键】无论成功与否，必须释放锁
+            IsAutoSaving = False
+        End Try
     End Sub
+
+    ''' <summary>
+    ''' 清洗可能包含模型状态标识的文件路径
+    ''' 例如: "C:\Part.ipt:State1" -> "C:\Part.ipt"
+    ''' </summary>
+    ''' <param name="rawPath">原始路径</param>
+    ''' <returns>纯净的物理路径</returns>
+    Public Function CleanModelStatePath(ByVal rawPath As String) As String
+        If String.IsNullOrEmpty(rawPath) Then Return ""
+
+        Dim cleanPath As String = rawPath
+
+        ' 情况1: 处理冒号分隔的状态 (例如: Part.ipt:StateName)
+        ' 注意: Windows 盘符也是冒号 (C:)，所以要从后面找最后一个冒号，或者判断冒号后是否包含非法文件名字符
+        Dim lastColonIndex As Integer = cleanPath.LastIndexOf(":"c)
+        If lastColonIndex > 2 Then ' 确保不是盘符 (C:)
+            ' 检查冒号后面是否是合法的文件扩展名或路径部分
+            ' 通常模型状态标识在扩展名之后，如 .ipt:State
+            Dim extensionIndex As Integer = cleanPath.LastIndexOf("."c)
+            If extensionIndex > 0 And lastColonIndex > extensionIndex Then
+                ' 冒号在扩展名之后，很可能是状态标识
+                cleanPath = cleanPath.Substring(0, lastColonIndex)
+            End If
+        End If
+
+        ' 情况2: 处理尖括号或其他特殊字符包裹的状态 (例如: Part<State>.ipt - 较少见，但需防范)
+        ' 这里主要处理最常见的 ":State" 后缀
+
+        ' 额外保护：确保路径以合法的扩展名结尾 (.ipt, .iam, .idw, .dwg)
+        Dim lowerPath As String = cleanPath.ToLower()
+        If Not (lowerPath.EndsWith(".ipt") OrElse lowerPath.EndsWith(".iam") OrElse lowerPath.EndsWith(".idw") OrElse lowerPath.EndsWith(".dwg")) Then
+            ' 如果清洗后仍不合法，尝试再次查找最后一个合法扩展名
+            ' 这一步是兜底策略
+            Dim validExtensions As String() = {".ipt", ".iam", ".idw", ".dwg"}
+            For Each ext In validExtensions
+                Dim idx As Integer = rawPath.ToLower().LastIndexOf(ext)
+                If idx > 0 Then
+                    cleanPath = rawPath.Substring(0, idx + ext.Length)
+                    Exit For
+                End If
+            Next
+        End If
+
+        Return cleanPath
+    End Function
 End Module

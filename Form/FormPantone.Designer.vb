@@ -5,7 +5,7 @@ Partial Class FormPantone
     Inherits System.Windows.Forms.Form
 
     'Form 重写 Dispose，以清理组件列表。
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -38,7 +38,6 @@ Partial Class FormPantone
         Me.Btn_Close = New System.Windows.Forms.ToolStripButton()
         Me.Btn_Color = New System.Windows.Forms.ToolStripButton()
         Me.Btn_Random = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripLabel8 = New System.Windows.Forms.ToolStripLabel()
         Me.Tol_ColorBar = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel3 = New System.Windows.Forms.ToolStripLabel()
         Me.Txt_R = New System.Windows.Forms.ToolStripTextBox()
@@ -51,11 +50,12 @@ Partial Class FormPantone
         Me.Tol_ColorAsset = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel7 = New System.Windows.Forms.ToolStripLabel()
         Me.Btn_Refresh = New System.Windows.Forms.ToolStripButton()
-        Me.Btn_Clear = New System.Windows.Forms.ToolStripButton()
+        Me.Btn_外观列表 = New System.Windows.Forms.ToolStripButton()
         Me.Btn_Print = New System.Windows.Forms.ToolStripButton()
         Me.Tre_Asset = New System.Windows.Forms.TreeView()
         Me.img_Tree = New System.Windows.Forms.ImageList(Me.components)
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.ToolStripButton1 = New System.Windows.Forms.ToolStripButton()
         Me.Tol_ColorList.SuspendLayout()
         Me.Tol_ColorFilter.SuspendLayout()
         Me.Tol_ColorSet.SuspendLayout()
@@ -81,14 +81,14 @@ Partial Class FormPantone
         Me.Tol_ColorList.Location = New System.Drawing.Point(0, 0)
         Me.Tol_ColorList.Name = "Tol_ColorList"
         Me.Tol_ColorList.Padding = New System.Windows.Forms.Padding(0, 0, 3, 0)
-        Me.Tol_ColorList.Size = New System.Drawing.Size(759, 32)
+        Me.Tol_ColorList.Size = New System.Drawing.Size(759, 38)
         Me.Tol_ColorList.TabIndex = 3
         Me.Tol_ColorList.Text = "ToolStrip1"
         '
         'ToolStripLabel1
         '
         Me.ToolStripLabel1.Name = "ToolStripLabel1"
-        Me.ToolStripLabel1.Size = New System.Drawing.Size(46, 27)
+        Me.ToolStripLabel1.Size = New System.Drawing.Size(50, 28)
         Me.ToolStripLabel1.Text = "色卡"
         '
         'Com_ColorList
@@ -96,12 +96,12 @@ Partial Class FormPantone
         Me.Com_ColorList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Com_ColorList.FlatStyle = System.Windows.Forms.FlatStyle.Standard
         Me.Com_ColorList.Name = "Com_ColorList"
-        Me.Com_ColorList.Size = New System.Drawing.Size(373, 32)
+        Me.Com_ColorList.Size = New System.Drawing.Size(373, 33)
         '
         'ToolStripLabel6
         '
         Me.ToolStripLabel6.Name = "ToolStripLabel6"
-        Me.ToolStripLabel6.Size = New System.Drawing.Size(46, 27)
+        Me.ToolStripLabel6.Size = New System.Drawing.Size(50, 28)
         Me.ToolStripLabel6.Text = "类型"
         '
         'Com_Type
@@ -109,24 +109,24 @@ Partial Class FormPantone
         Me.Com_Type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Com_Type.FlatStyle = System.Windows.Forms.FlatStyle.Standard
         Me.Com_Type.Name = "Com_Type"
-        Me.Com_Type.Size = New System.Drawing.Size(148, 32)
+        Me.Com_Type.Size = New System.Drawing.Size(148, 33)
         '
         'Tol_ColorFilter
         '
         Me.Tol_ColorFilter.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
         Me.Tol_ColorFilter.ImageScalingSize = New System.Drawing.Size(24, 24)
         Me.Tol_ColorFilter.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel2, Me.Txt_Filter})
-        Me.Tol_ColorFilter.Location = New System.Drawing.Point(0, 32)
+        Me.Tol_ColorFilter.Location = New System.Drawing.Point(0, 38)
         Me.Tol_ColorFilter.Name = "Tol_ColorFilter"
         Me.Tol_ColorFilter.Padding = New System.Windows.Forms.Padding(0, 0, 3, 0)
-        Me.Tol_ColorFilter.Size = New System.Drawing.Size(759, 30)
+        Me.Tol_ColorFilter.Size = New System.Drawing.Size(759, 38)
         Me.Tol_ColorFilter.TabIndex = 4
         Me.Tol_ColorFilter.Text = "ToolStrip2"
         '
         'ToolStripLabel2
         '
         Me.ToolStripLabel2.Name = "ToolStripLabel2"
-        Me.ToolStripLabel2.Size = New System.Drawing.Size(46, 25)
+        Me.ToolStripLabel2.Size = New System.Drawing.Size(50, 25)
         Me.ToolStripLabel2.Text = "查找"
         '
         'Txt_Filter
@@ -141,13 +141,13 @@ Partial Class FormPantone
         Me.Tol_ColorSet.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.Tol_ColorSet.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
         Me.Tol_ColorSet.ImageScalingSize = New System.Drawing.Size(24, 24)
-        Me.Tol_ColorSet.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Btn_Close, Me.Btn_Color, Me.Btn_Random, Me.ToolStripLabel8})
+        Me.Tol_ColorSet.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Btn_Close, Me.Btn_Color, Me.Btn_Random})
         Me.Tol_ColorSet.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow
-        Me.Tol_ColorSet.Location = New System.Drawing.Point(0, 809)
+        Me.Tol_ColorSet.Location = New System.Drawing.Point(0, 964)
         Me.Tol_ColorSet.Name = "Tol_ColorSet"
         Me.Tol_ColorSet.Padding = New System.Windows.Forms.Padding(0, 0, 3, 0)
         Me.Tol_ColorSet.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.Tol_ColorSet.Size = New System.Drawing.Size(759, 33)
+        Me.Tol_ColorSet.Size = New System.Drawing.Size(759, 34)
         Me.Tol_ColorSet.TabIndex = 5
         Me.Tol_ColorSet.Text = "ToolStrip3"
         '
@@ -155,7 +155,7 @@ Partial Class FormPantone
         '
         Me.Btn_Close.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.Btn_Close.Name = "Btn_Close"
-        Me.Btn_Close.Size = New System.Drawing.Size(50, 28)
+        Me.Btn_Close.Size = New System.Drawing.Size(54, 29)
         Me.Btn_Close.Text = "关闭"
         Me.Btn_Close.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -164,7 +164,7 @@ Partial Class FormPantone
         Me.Btn_Color.Enabled = False
         Me.Btn_Color.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.Btn_Color.Name = "Btn_Color"
-        Me.Btn_Color.Size = New System.Drawing.Size(50, 28)
+        Me.Btn_Color.Size = New System.Drawing.Size(54, 29)
         Me.Btn_Color.Text = "着色"
         Me.Btn_Color.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -172,22 +172,9 @@ Partial Class FormPantone
         '
         Me.Btn_Random.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.Btn_Random.Name = "Btn_Random"
-        Me.Btn_Random.Size = New System.Drawing.Size(50, 28)
+        Me.Btn_Random.Size = New System.Drawing.Size(54, 29)
         Me.Btn_Random.Text = "随机"
         Me.Btn_Random.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        'ToolStripLabel8
-        '
-        Me.ToolStripLabel8.AutoSize = False
-        Me.ToolStripLabel8.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripLabel8.IsLink = True
-        Me.ToolStripLabel8.LinkVisited = True
-        Me.ToolStripLabel8.Name = "ToolStripLabel8"
-        Me.ToolStripLabel8.Size = New System.Drawing.Size(352, 17)
-        Me.ToolStripLabel8.Text = "由 https://www.pmhker.com/article/71.html 移植，感谢Lucas"
-        Me.ToolStripLabel8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.ToolStripLabel8.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage
-        Me.ToolStripLabel8.Visible = False
         '
         'Tol_ColorBar
         '
@@ -196,17 +183,17 @@ Partial Class FormPantone
         Me.Tol_ColorBar.ImageScalingSize = New System.Drawing.Size(24, 24)
         Me.Tol_ColorBar.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel3, Me.Txt_R, Me.ToolStripLabel5, Me.Txt_G, Me.ToolStripLabel4, Me.Txt_B, Me.Btn_Custom})
         Me.Tol_ColorBar.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow
-        Me.Tol_ColorBar.Location = New System.Drawing.Point(0, 776)
+        Me.Tol_ColorBar.Location = New System.Drawing.Point(0, 930)
         Me.Tol_ColorBar.Name = "Tol_ColorBar"
         Me.Tol_ColorBar.Padding = New System.Windows.Forms.Padding(0, 0, 3, 0)
-        Me.Tol_ColorBar.Size = New System.Drawing.Size(759, 33)
+        Me.Tol_ColorBar.Size = New System.Drawing.Size(759, 34)
         Me.Tol_ColorBar.TabIndex = 6
         Me.Tol_ColorBar.Text = "ToolStrip4"
         '
         'ToolStripLabel3
         '
         Me.ToolStripLabel3.Name = "ToolStripLabel3"
-        Me.ToolStripLabel3.Size = New System.Drawing.Size(86, 24)
+        Me.ToolStripLabel3.Size = New System.Drawing.Size(80, 25)
         Me.ToolStripLabel3.Text = "R(0-255)"
         '
         'Txt_R
@@ -219,7 +206,7 @@ Partial Class FormPantone
         'ToolStripLabel5
         '
         Me.ToolStripLabel5.Name = "ToolStripLabel5"
-        Me.ToolStripLabel5.Size = New System.Drawing.Size(87, 24)
+        Me.ToolStripLabel5.Size = New System.Drawing.Size(81, 25)
         Me.ToolStripLabel5.Text = "G(0-255)"
         '
         'Txt_G
@@ -232,7 +219,7 @@ Partial Class FormPantone
         'ToolStripLabel4
         '
         Me.ToolStripLabel4.Name = "ToolStripLabel4"
-        Me.ToolStripLabel4.Size = New System.Drawing.Size(85, 24)
+        Me.ToolStripLabel4.Size = New System.Drawing.Size(79, 25)
         Me.ToolStripLabel4.Text = "B(0-255)"
         '
         'Txt_B
@@ -247,17 +234,17 @@ Partial Class FormPantone
         Me.Btn_Custom.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.Btn_Custom.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.Btn_Custom.Name = "Btn_Custom"
-        Me.Btn_Custom.Size = New System.Drawing.Size(68, 28)
+        Me.Btn_Custom.Size = New System.Drawing.Size(73, 29)
         Me.Btn_Custom.Text = "自定义"
         '
         'Lst_Color
         '
         Me.Lst_Color.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Lst_Color.HideSelection = False
-        Me.Lst_Color.Location = New System.Drawing.Point(0, 62)
-        Me.Lst_Color.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Lst_Color.Location = New System.Drawing.Point(0, 76)
+        Me.Lst_Color.Margin = New System.Windows.Forms.Padding(4)
         Me.Lst_Color.Name = "Lst_Color"
-        Me.Lst_Color.Size = New System.Drawing.Size(759, 714)
+        Me.Lst_Color.Size = New System.Drawing.Size(759, 854)
         Me.Lst_Color.SmallImageList = Me.Img_Color
         Me.Lst_Color.TabIndex = 7
         Me.Lst_Color.UseCompatibleStateImageBehavior = False
@@ -267,42 +254,42 @@ Partial Class FormPantone
         '
         Me.Tol_ColorAsset.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
         Me.Tol_ColorAsset.ImageScalingSize = New System.Drawing.Size(24, 24)
-        Me.Tol_ColorAsset.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel7, Me.Btn_Refresh, Me.Btn_Clear, Me.Btn_Print})
+        Me.Tol_ColorAsset.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel7, Me.Btn_Refresh, Me.ToolStripButton1, Me.Btn_外观列表, Me.Btn_Print})
         Me.Tol_ColorAsset.Location = New System.Drawing.Point(0, 0)
         Me.Tol_ColorAsset.Name = "Tol_ColorAsset"
         Me.Tol_ColorAsset.Padding = New System.Windows.Forms.Padding(0, 0, 3, 0)
-        Me.Tol_ColorAsset.Size = New System.Drawing.Size(531, 33)
+        Me.Tol_ColorAsset.Size = New System.Drawing.Size(531, 38)
         Me.Tol_ColorAsset.TabIndex = 0
         Me.Tol_ColorAsset.Text = "ToolStrip5"
         '
         'ToolStripLabel7
         '
         Me.ToolStripLabel7.Name = "ToolStripLabel7"
-        Me.ToolStripLabel7.Size = New System.Drawing.Size(82, 28)
+        Me.ToolStripLabel7.Size = New System.Drawing.Size(88, 29)
         Me.ToolStripLabel7.Text = "文档外观"
         '
         'Btn_Refresh
         '
         Me.Btn_Refresh.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.Btn_Refresh.Name = "Btn_Refresh"
-        Me.Btn_Refresh.Size = New System.Drawing.Size(50, 28)
+        Me.Btn_Refresh.Size = New System.Drawing.Size(54, 29)
         Me.Btn_Refresh.Text = "刷新"
         Me.Btn_Refresh.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
-        'Btn_Clear
+        'Btn_外观列表
         '
-        Me.Btn_Clear.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.Btn_Clear.Name = "Btn_Clear"
-        Me.Btn_Clear.Size = New System.Drawing.Size(86, 28)
-        Me.Btn_Clear.Text = "清理冗余"
-        Me.Btn_Clear.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        Me.Btn_外观列表.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.Btn_外观列表.Name = "Btn_外观列表"
+        Me.Btn_外观列表.Size = New System.Drawing.Size(73, 33)
+        Me.Btn_外观列表.Text = "外观库"
+        Me.Btn_外观列表.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'Btn_Print
         '
         Me.Btn_Print.Enabled = False
         Me.Btn_Print.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.Btn_Print.Name = "Btn_Print"
-        Me.Btn_Print.Size = New System.Drawing.Size(86, 28)
+        Me.Btn_Print.Size = New System.Drawing.Size(92, 29)
         Me.Btn_Print.Text = "油漆用量"
         Me.Btn_Print.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -311,11 +298,11 @@ Partial Class FormPantone
         Me.Tre_Asset.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Tre_Asset.ImageIndex = 0
         Me.Tre_Asset.ImageList = Me.img_Tree
-        Me.Tre_Asset.Location = New System.Drawing.Point(0, 33)
-        Me.Tre_Asset.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Tre_Asset.Location = New System.Drawing.Point(0, 38)
+        Me.Tre_Asset.Margin = New System.Windows.Forms.Padding(4)
         Me.Tre_Asset.Name = "Tre_Asset"
         Me.Tre_Asset.SelectedImageIndex = 0
-        Me.Tre_Asset.Size = New System.Drawing.Size(531, 809)
+        Me.Tre_Asset.Size = New System.Drawing.Size(531, 960)
         Me.Tre_Asset.TabIndex = 1
         '
         'img_Tree
@@ -328,7 +315,7 @@ Partial Class FormPantone
         '
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.SplitContainer1.Margin = New System.Windows.Forms.Padding(4)
         Me.SplitContainer1.Name = "SplitContainer1"
         '
         'SplitContainer1.Panel1
@@ -343,21 +330,29 @@ Partial Class FormPantone
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.Tre_Asset)
         Me.SplitContainer1.Panel2.Controls.Add(Me.Tol_ColorAsset)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1296, 842)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1296, 998)
         Me.SplitContainer1.SplitterDistance = 759
         Me.SplitContainer1.SplitterWidth = 6
         Me.SplitContainer1.TabIndex = 8
         '
+        'ToolStripButton1
+        '
+        Me.ToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton1.Name = "ToolStripButton1"
+        Me.ToolStripButton1.Size = New System.Drawing.Size(92, 29)
+        Me.ToolStripButton1.Text = "清理冗余"
+        Me.ToolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
         'FormPantone
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 18.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1296, 842)
+        Me.ClientSize = New System.Drawing.Size(1296, 998)
         Me.Controls.Add(Me.SplitContainer1)
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
-        Me.MinimumSize = New System.Drawing.Size(1309, 872)
+        Me.MinimumSize = New System.Drawing.Size(1309, 963)
         Me.Name = "FormPantone"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "色卡"
@@ -406,10 +401,10 @@ Partial Class FormPantone
     Friend WithEvents SplitContainer1 As SplitContainer
     Friend WithEvents Tre_Asset As TreeView
     Friend WithEvents Tol_ColorAsset As ToolStrip
-    Friend WithEvents Btn_Clear As ToolStripButton
+    Friend WithEvents Btn_外观列表 As ToolStripButton
     Friend WithEvents Btn_Refresh As ToolStripButton
     Friend WithEvents ToolStripLabel7 As ToolStripLabel
     Friend WithEvents img_Tree As ImageList
     Friend WithEvents Btn_Print As ToolStripButton
-    Friend WithEvents ToolStripLabel8 As ToolStripLabel
+    Friend WithEvents ToolStripButton1 As ToolStripButton
 End Class

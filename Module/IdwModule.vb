@@ -2348,14 +2348,21 @@ Module IdwModule
                     '    End If
                     'End With
 
-                    oInventorDrawingDocument.SaveAs(strInventorDrawingDocumentFullFileName, False)
                     oInventorDrawingDocument.Save2()
+
+                    'oInventorDrawingDocument.SaveAs(strInventorDWGDrawingDocumentFullFileName, True)
+
                 Case MsgBoxResult.Cancel
 
             End Select
         Else
-            oInventorDrawingDocument.SaveAs(strInventorDrawingDocumentFullFileName, False)
             oInventorDrawingDocument.Save2()
+            If IsFileExists(strInventorDWGDrawingDocumentFullFileName) = False Then
+
+                MsgBox(“文件保存已取消，请注意!")
+            End If
+            'oInventorDrawingDocument.SaveAs(strInventorDWGDrawingDocumentFullFileName, True)
+
         End If
 
         '保存dwg工程图
@@ -2400,14 +2407,23 @@ Module IdwModule
                     '    End If
                     'End With
 
-                    oInventorDrawingDocument.SaveAs(strInventorDWGDrawingDocumentFullFileName, False)
+
                     oInventorDrawingDocument.Save2()
+
+
+                    'oInventorDrawingDocument.SaveAs(strInventorDWGDrawingDocumentFullFileName, True)
+
                 Case MsgBoxResult.Cancel
 
             End Select
         Else
-            oInventorDrawingDocument.SaveAs(strInventorDWGDrawingDocumentFullFileName, False)
+
             oInventorDrawingDocument.Save2()
+            If IsFileExists(strInventorDWGDrawingDocumentFullFileName) = False Then
+
+                MsgBox(“文件保存已取消，请注意!")
+            End If
+            'oInventorDrawingDocument.SaveAs(strInventorDWGDrawingDocumentFullFileName, True)
         End If
 
 

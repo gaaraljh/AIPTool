@@ -17,7 +17,7 @@ Public Module PublicParameters
     Public Const AIPTool As String = "AIPTool"
 
     Public Const GitWeb As String = "https://gitcode.net/leaky114/inventoraddin"
-    Public Const Bilibili As String = "https://space.bilibili.com/482062689"
+    Public Const Bilibili As String = "https://space.bilibili.com/116515938"
     Public Const Github As String = "https://github.com/gaaraljh/AIPTool"
 
     Public strLargeSmallIconNames As String = "快速打开,按列表打开文件,保存关闭,关闭,打开工程图,提取iProperty,打开文件夹"
