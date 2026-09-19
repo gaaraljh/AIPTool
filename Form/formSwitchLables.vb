@@ -93,7 +93,8 @@ Public Class FormSwitchLables
 
             Try
                 Dim img As System.Drawing.Image
-                img = GetImageFromView(ThisApplication.Documents.VisibleDocuments.Item(i + 1))
+                '按图框大小生成适应图框的缩略图
+                img = GetImageFromView(ThisApplication.Documents.VisibleDocuments.Item(i + 1), int图框宽度, int图框高度)
 
                 PictureBoxes(i) = New PictureBox()
 

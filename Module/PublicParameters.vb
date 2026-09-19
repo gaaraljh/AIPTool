@@ -448,12 +448,20 @@ Autodesk Inventor 表达视图(*.ipn)|*.ipn|"
     End Function
 
     ''' <summary>
-    ''' 保存缩略图为jpg文件
+    ''' 获取文档的缩略图（自动缩放，适应图框大小）
     ''' </summary>
     ''' <param name="oInventorDocument">文件对象</param>
-    ''' <returns></returns>
+    ''' <param name="intWidth">缩略图宽度，默认400</param>
+    ''' <param name="intHeight">缩略图高度，默认300</param>
+    ''' <returns>缩略图</returns>
     ''' <remarks></remarks>
-    Public Function GetImageFromView(ByVal oInventorDocument As Inventor.Document) As Drawing.Image
+    Public Function GetImageFromView(ByVal oInventorDocument As Inventor.Document,
+                                     Optional ByVal intWidth As Integer = 400,
+                                     Optional ByVal intHeight As Integer = 300) As Drawing.Image
+
+        If intWidth <= 0 Then intWidth = 400
+        If intHeight <= 0 Then intHeight = 300
+
         Dim tempFile As String = IO.Path.GetTempFileName()
         tempFile = IO.Path.ChangeExtension(tempFile, ".jpg")
 
@@ -463,9 +471,50 @@ Autodesk Inventor 表达视图(*.ipn)|*.ipn|"
         Dim oCamera As Camera
         oCamera = oActiveView.Camera
 
-        oCamera.SaveAsBitmap(tempFile, 400, 300)
+        '保存当前视图相机位置，生成缩略图后恢复，避免改变用户当前视图
+        Dim oOldEye As Inventor.Point = Nothing
+        Dim oOldTarget As Inventor.Point = Nothing
+        Dim oOldUpVector As UnitVector = Nothing
 
-        GetImageFromView = Image.FromFile(tempFile)
+        Try
+            Dim oTransientGeometry As TransientGeometry = ThisApplication.TransientGeometry
+            oOldEye = oTransientGeometry.CreatePoint(oCamera.Eye.X, oCamera.Eye.Y, oCamera.Eye.Z)
+            oOldTarget = oTransientGeometry.CreatePoint(oCamera.Target.X, oCamera.Target.Y, oCamera.Target.Z)
+            oOldUpVector = oTransientGeometry.CreateUnitVector(oCamera.UpVector.X, oCamera.UpVector.Y, oCamera.UpVector.Z)
+        Catch ex As Exception
+        End Try
+
+        Try
+            '缩放至适应图框大小
+            oCamera.Fit()
+            oCamera.Apply()
+        Catch ex As Exception
+        End Try
+
+        oCamera.SaveAsBitmap(tempFile, intWidth, intHeight)
+
+        '恢复原视图
+        Try
+            If oOldEye IsNot Nothing Then
+                oCamera.Eye = oOldEye
+                oCamera.Target = oOldTarget
+                oCamera.UpVector = oOldUpVector
+                oCamera.Apply()
+            End If
+        Catch ex As Exception
+        End Try
+
+        '复制图像到内存，解除对临时文件的占用并删除临时文件
+        Using oStream As New IO.MemoryStream(IO.File.ReadAllBytes(tempFile))
+            Using oTempImage As Drawing.Image = Drawing.Image.FromStream(oStream)
+                GetImageFromView = New Drawing.Bitmap(oTempImage)
+            End Using
+        End Using
+
+        Try
+            IO.File.Delete(tempFile)
+        Catch ex As Exception
+        End Try
 
     End Function
 

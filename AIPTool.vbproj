@@ -118,6 +118,8 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.VisualBasic.Compatibility" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>False</EmbedInteropTypes>
@@ -163,6 +165,7 @@
     <Compile Include="Class\clsRightMouseSelectPartCurveInDrawing.vb" />
     <Compile Include="Class\clsWindowSelection.vb" />
     <Compile Include="Class\clsWindowWrapper.vb" />
+    <Compile Include="Class\clsBomTool.vb" />
     <Compile Include="Class\clsXml.vb" />
     <Compile Include="Form\formBatchChangeFileNames.Designer.vb">
       <DependentUpon>formBatchChangeFileNames.vb</DependentUpon>

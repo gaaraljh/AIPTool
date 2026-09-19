@@ -24,6 +24,9 @@ Public Class FormPlaceOpenComponent
         Me.CancelButton = BtnClose        ' 按 ESC 键触发此按钮（假设关闭按钮名为 BtnClose）
         ' --------------------------------
 
+        ' 多选提示
+        ToolTip1.SetToolTip(Dgw列表, "按住 Ctrl 或 Shift 可多选，Ctrl + A 全选，可一次插入多个零部件")
+
         ' 初始化 UI 布局
         SyncUILayout()
 
@@ -33,7 +36,7 @@ Public Class FormPlaceOpenComponent
             .AllowUserToDeleteRows = False    ' 禁止删除
             .ReadOnly = True                  ' 只读
             .SelectionMode = DataGridViewSelectionMode.FullRowSelect ' 整行选中
-            .MultiSelect = False              ' 单选
+            .MultiSelect = True               ' 允许多选，可一次插入多个零部件
             .ColumnHeadersVisible = True      ' 显示列头
             .RowHeadersVisible = False        ' 隐藏左侧行号
 
@@ -102,8 +105,13 @@ Public Class FormPlaceOpenComponent
             Exit Sub
         End If
 
-        ' 获取选中行的路径 (索引为 "Path" 的列)
-        Dim strFullPath As String = Dgw列表.SelectedRows(0).Cells("Path").Value.ToString()
+        ' 获取选中行的路径 (索引为 "Path" 的列)，多选时显示行号最小的一行
+        Dim oSelectRow As DataGridViewRow = Dgw列表.SelectedRows(0)
+        For Each oRow As DataGridViewRow In Dgw列表.SelectedRows
+            If oRow.Index < oSelectRow.Index Then oSelectRow = oRow
+        Next
+
+        Dim strFullPath As String = oSelectRow.Cells("Path").Value.ToString()
 
         Dim oInventorDocument As Inventor.Document = Nothing
 
@@ -119,10 +127,10 @@ Public Class FormPlaceOpenComponent
         If oInventorDocument IsNot Nothing Then
             strSelectFileFullName = strFullPath
 
-            ' 调用缩略图生成函数
-            ' 注意：原 GetImageFromView 可能需要你确认其实现，或者使用下面的 GetThumbnailFromDoc
-            Dim img As System.Drawing.Image = GetImageFromView(oInventorDocument)
-            ' 如果 GetImageFromView 不存在，请使用下面定义的 GetThumbnailFromDoc
+            ' 调用缩略图生成函数，按图框大小生成适应图框的缩略图
+            Dim img As System.Drawing.Image = GetImageFromView(oInventorDocument,
+                                                               PictureBox缩略图.ClientSize.Width,
+                                                               PictureBox缩略图.ClientSize.Height)
 
             If img IsNot Nothing Then
                 ' 释放旧图片防止内存泄漏
@@ -130,7 +138,8 @@ Public Class FormPlaceOpenComponent
                     PictureBox缩略图.Image.Dispose()
                 End If
 
-                PictureBox缩略图.SizeMode = PictureBoxSizeMode.StretchImage ' Zoom 比 StretchImage 更好，保持比例
+                ' 保持比例，完整适应图框显示
+                PictureBox缩略图.SizeMode = PictureBoxSizeMode.Zoom
                 PictureBox缩略图.Image = img
             Else
                 PictureBox缩略图.Image = Nothing
@@ -141,43 +150,93 @@ Public Class FormPlaceOpenComponent
 
     End Sub
 
+    ''' <summary>
+    ''' 获取选中行的文件全名，按行号升序排列并去重
+    ''' </summary>
+    Private Function GetSelectFullFileNames() As Generic.List(Of String)
+        Dim listFullFileNames As New Generic.List(Of String)
+
+        Dim listRows As New Generic.List(Of DataGridViewRow)
+        For Each oRow As DataGridViewRow In Dgw列表.SelectedRows
+            listRows.Add(oRow)
+        Next
+        ' 按行号升序，保证插入顺序与列表显示顺序一致
+        listRows.Sort(Function(row1 As DataGridViewRow, row2 As DataGridViewRow) row1.Index.CompareTo(row2.Index))
+
+        For Each oRow As DataGridViewRow In listRows
+            Dim strFullFileName As String = oRow.Cells("Path").Value.ToString()
+            If Not listFullFileNames.Contains(strFullFileName) Then
+                listFullFileNames.Add(strFullFileName)
+            End If
+        Next
+
+        Return listFullFileNames
+    End Function
+
     Private Sub btn插入到部件_Click(sender As Object, e As EventArgs) Handles btn插入到部件.Click
         If Dgw列表.SelectedRows.Count = 0 Then
-            MessageBox.Show("请先选择一个零部件。")
-            Return
-        End If
-
-        ' 获取路径
-        Dim strSelectPath As String = Dgw列表.SelectedRows(0).Cells("Path").Value.ToString()
-
-        ' 验证文件是否存在
-        If Not System.IO.File.Exists(strSelectPath) Then
-            MessageBox.Show("选中的文件路径无效或文件不存在：" & vbCrLf & strSelectPath)
+            MessageBox.Show("请先选择一个或多个零部件。", AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Information)
             Return
         End If
 
         ' 检查当前是否为装配环境
         If ThisApplication.ActiveDocumentType <> DocumentTypeEnum.kAssemblyDocumentObject Then
-            MessageBox.Show("请在装配体环境下运行此命令。")
+            MessageBox.Show("请在装配体环境下运行此命令。", AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Information)
             Return
         End If
 
-        ' 防止将装配体插入自身
-        If ThisApplication.ActiveDocument.FullDocumentName = strSelectPath Then
-            MessageBox.Show("不能将装配体插入到其自身中。")
+        ' 获取所有选中行的路径（支持多选）
+        Dim listSelectFullFileNames As Generic.List(Of String) = GetSelectFullFileNames()
+
+        Dim strActiveFullFileName As String = ThisApplication.ActiveDocument.FullDocumentName
+
+        ' 验证文件，排除不存在的文件和当前装配体自身
+        Dim listValidFullFileNames As New Generic.List(Of String)
+        Dim strInvalidFiles As String = ""
+
+        For Each strFullFileName As String In listSelectFullFileNames
+            If Not System.IO.File.Exists(strFullFileName) Then
+                strInvalidFiles &= strFullFileName & vbCrLf
+                Continue For
+            End If
+
+            ' 防止将装配体插入自身
+            If strFullFileName = strActiveFullFileName Then Continue For
+
+            listValidFullFileNames.Add(strFullFileName)
+        Next
+
+        If strInvalidFiles <> "" Then
+            MessageBox.Show("以下文件路径无效或文件不存在：" & vbCrLf & strInvalidFiles,
+                            AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        End If
+
+        If listValidFullFileNames.Count = 0 Then
+            MessageBox.Show("没有可插入的零部件。", AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Information)
             Return
         End If
+
+        Dim oControlDefinition As Inventor.ControlDefinition = Nothing
 
         Try
             ' 使用 PostPrivateEvent 触发放置组件命令
-            ThisApplication.CommandManager.PostPrivateEvent(PrivateEventTypeEnum.kFileNameEvent, strSelectPath)
-            ThisApplication.CommandManager.ControlDefinitions.Item("AssemblyPlaceComponentCmd").Execute()
-
-            ' 插入后关闭窗体
-            Me.Close()
-
+            oControlDefinition = ThisApplication.CommandManager.ControlDefinitions.Item("AssemblyPlaceComponentCmd")
         Catch ex As Exception
-            MessageBox.Show("插入组件时发生错误: " & ex.Message)
+            MessageBox.Show("未找到放置零部件命令：" & ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return
+        End Try
+
+        ' 先关闭窗体，避免遮挡交互式放置
+        Me.Close()
+
+        Try
+            ' 逐个放置选中的零部件：每投递一个文件名后同步执行一次放置命令
+            For Each strFullFileName As String In listValidFullFileNames
+                ThisApplication.CommandManager.PostPrivateEvent(PrivateEventTypeEnum.kFileNameEvent, strFullFileName)
+                oControlDefinition.Execute2(True)
+            Next
+        Catch ex As Exception
+            MessageBox.Show("插入组件时发生错误: " & ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -270,6 +329,11 @@ Public Class FormPlaceOpenComponent
             Me.Close()
         ElseIf e.KeyCode = Keys.Enter Then
             btn插入到部件_Click(sender, e)
+        ElseIf e.Control AndAlso e.KeyCode = Keys.A Then
+            ' Ctrl + A 全选，方便批量插入
+            Dgw列表.SelectAll()
+            e.Handled = True
+            e.SuppressKeyPress = True
         End If
     End Sub
 End Class
