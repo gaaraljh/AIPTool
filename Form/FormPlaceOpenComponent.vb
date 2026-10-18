@@ -4,6 +4,7 @@ Imports System.IO
 Imports System.Windows.Forms
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports Inventor
+Imports System.Runtime.InteropServices
 
 Public Class FormPlaceOpenComponent
     ' 移除未使用的 strCurrentDirectory，或者确保它被正确初始化
@@ -13,10 +14,18 @@ Public Class FormPlaceOpenComponent
     ' 用于存储当前激活装配体的路径，以便判断是否重复插入
     Private strActiveAssemblyPath As String
 
+    ' 缩略图延迟加载：快速切换选中行时只渲染最后一次，减少等待
+    Private ThumbnailTimer As System.Windows.Forms.Timer = New System.Windows.Forms.Timer()
+    Private oPendingThumbnailDocument As Inventor.Document = Nothing
+
     Public Sub FormPlaceOpenComponent_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Icon = My.Resources.插入零部件32
         Me.TopMost = True
         Dgw列表.AllowUserToResizeRows = False
+
+        ' 初始化缩略图延迟加载计时器
+        ThumbnailTimer.Interval = 150
+        AddHandler ThumbnailTimer.Tick, AddressOf ThumbnailTimer_Tick
 
 
         ' --- 【新增】设置快捷键行为 ---
@@ -101,7 +110,9 @@ Public Class FormPlaceOpenComponent
     Private Sub Dgw列表_SelectionChanged(sender As Object, e As EventArgs) Handles Dgw列表.SelectionChanged
         ' 防止在初始化或清除数据时触发错误
         If Dgw列表.SelectedRows.Count = 0 Then
-            PictureBox缩略图.Image = Nothing
+            oPendingThumbnailDocument = Nothing
+            If ThumbnailTimer IsNot Nothing Then ThumbnailTimer.Stop()
+            SetThumbnailImage(Nothing)
             Exit Sub
         End If
 
@@ -112,6 +123,7 @@ Public Class FormPlaceOpenComponent
         Next
 
         Dim strFullPath As String = oSelectRow.Cells("Path").Value.ToString()
+        strSelectFileFullName = strFullPath
 
         Dim oInventorDocument As Inventor.Document = Nothing
 
@@ -124,30 +136,60 @@ Public Class FormPlaceOpenComponent
             End If
         Next
 
-        If oInventorDocument IsNot Nothing Then
-            strSelectFileFullName = strFullPath
+        ' 延迟生成缩略图：连续切换选中行时只渲染最后一次
+        oPendingThumbnailDocument = oInventorDocument
+        If ThumbnailTimer IsNot Nothing Then
+            ThumbnailTimer.Stop()
+            ThumbnailTimer.Start()
+        End If
+    End Sub
 
-            ' 调用缩略图生成函数，按图框大小生成适应图框的缩略图
-            Dim img As System.Drawing.Image = GetImageFromView(oInventorDocument,
-                                                               PictureBox缩略图.ClientSize.Width,
-                                                               PictureBox缩略图.ClientSize.Height)
+    ''' <summary>
+    ''' 延迟生成缩略图（防抖动）
+    ''' </summary>
+    Private Sub ThumbnailTimer_Tick(sender As Object, e As EventArgs)
+        ThumbnailTimer.Stop()
+        ShowThumbnail(oPendingThumbnailDocument)
+    End Sub
 
-            If img IsNot Nothing Then
-                ' 释放旧图片防止内存泄漏
-                If PictureBox缩略图.Image IsNot Nothing Then
-                    PictureBox缩略图.Image.Dispose()
-                End If
-
-                ' 保持比例，完整适应图框显示
-                PictureBox缩略图.SizeMode = PictureBoxSizeMode.Zoom
-                PictureBox缩略图.Image = img
-            Else
-                PictureBox缩略图.Image = Nothing
-            End If
-        Else
-            PictureBox缩略图.Image = Nothing
+    ''' <summary>
+    ''' 显示指定文档的缩略图
+    ''' </summary>
+    Private Sub ShowThumbnail(ByVal oInventorDocument As Inventor.Document)
+        If oInventorDocument Is Nothing Then
+            SetThumbnailImage(Nothing)
+            Exit Sub
         End If
 
+        ' 采用与 clsBomTool 相同的方式：shell 缩略图接口
+        ' 优先从 Inventor 文件二进制流提取内置预览 PNG，失败再用 shell 接口兜底
+        Dim img As System.Drawing.Image = GetThumbnail(oInventorDocument.FullDocumentName,
+                                                       PictureBox缩略图.ClientSize.Width,
+                                                       PictureBox缩略图.ClientSize.Height)
+
+        SetThumbnailImage(img)
+    End Sub
+
+    ''' <summary>
+    ''' 设置图框显示的图片，并保持比例适应图框
+    ''' </summary>
+    Private Sub SetThumbnailImage(ByVal img As System.Drawing.Image)
+        If img Is Nothing Then
+            If PictureBox缩略图.Image IsNot Nothing Then
+                PictureBox缩略图.Image.Dispose()
+                PictureBox缩略图.Image = Nothing
+            End If
+            Exit Sub
+        End If
+
+        ' 释放旧图片防止内存泄漏
+        If PictureBox缩略图.Image IsNot Nothing Then
+            PictureBox缩略图.Image.Dispose()
+        End If
+
+        ' 保持比例，完整适应图框显示
+        PictureBox缩略图.SizeMode = PictureBoxSizeMode.Zoom
+        PictureBox缩略图.Image = img
     End Sub
 
     ''' <summary>
@@ -242,8 +284,15 @@ Public Class FormPlaceOpenComponent
 
     Private Sub FormPlaceOpenComponent_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
         ' 清理资源
+        If ThumbnailTimer IsNot Nothing Then
+            ThumbnailTimer.Stop()
+            ThumbnailTimer.Dispose()
+            ThumbnailTimer = Nothing
+        End If
+
         If PictureBox缩略图.Image IsNot Nothing Then
             PictureBox缩略图.Image.Dispose()
+            PictureBox缩略图.Image = Nothing
         End If
         FormManager.CloseAndDisposeForm(Of FormPlaceOpenComponent)()
     End Sub
@@ -265,32 +314,6 @@ Public Class FormPlaceOpenComponent
     Private Sub PictureBox缩略图_Click(sender As Object, e As EventArgs) Handles PictureBox缩略图.Click
 
     End Sub
-
-    ''' <summary>
-    ''' 从 Inventor 文档生成指定尺寸的缩略图
-    ''' </summary>
-    ''' <param name="oDoc">Inventor 文档</param>
-    ''' <param name="width">宽度</param>
-    ''' <param name="height">高度</param>
-    ''' <returns>Bitmap 图像</returns>
-    Private Function GetThumbnailFromDoc(oDoc As Inventor.Document, width As Integer, height As Integer) As System.Drawing.Bitmap
-        Try
-            ' 激活该文档的视图
-            oDoc.Activate()
-
-            ' 获取当前视图
-            Dim oView As Inventor.View = ThisApplication.ActiveView
-
-            ' 使用 View.GetImage 方法获取位图
-            ' 注意：GetImage 可能需要文档处于激活状态且可见
-            Dim oBitmap As System.Drawing.Bitmap = CType(oView.GetImage(width, height), System.Drawing.Bitmap)
-
-            Return oBitmap
-        Catch ex As Exception
-            ' 如果失败，返回空或默认图片
-            Return Nothing
-        End Try
-    End Function
 
     Private Sub Dgw列表_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles Dgw列表.CellContentClick
 
@@ -336,4 +359,119 @@ Public Class FormPlaceOpenComponent
             e.SuppressKeyPress = True
         End If
     End Sub
+
+    ' ===== 缩略图：与 clsBomTool 相同的方式（shell 缩略图接口） =====
+
+    ' Shell32 缩略图 COM 接口
+    <ComImport()>
+    <Guid("bcc18b79-ba16-442f-80c4-8a59c30c463b")>
+    <InterfaceType(ComInterfaceType.InterfaceIsIUnknown)>
+    Private Interface IShellItemImageFactory
+        Function GetImage(<[In]> sz As System.Drawing.Size,
+                          <[In]> flags As UInteger,
+                          <[Out]> ByRef phbm As IntPtr) As Integer
+    End Interface
+
+    <DllImport("shell32.dll", CharSet:=CharSet.Unicode)>
+    Private Shared Function SHCreateItemFromParsingName(
+        pszPath As String, pbc As IntPtr, riid As System.Guid,
+        ByRef ppv As IShellItemImageFactory) As Integer
+    End Function
+
+    <DllImport("gdi32.dll")>
+    Private Shared Function DeleteObject(hObject As IntPtr) As Boolean
+    End Function
+
+    ' 优先：从 Inventor 文件二进制流直接提取内置预览图（PNG），不打开文档、不经过 COM、瞬间完成
+    Private Function GetInventorThumbnail(filePath As String) As System.Drawing.Image
+        Try
+            If String.IsNullOrEmpty(filePath) OrElse Not System.IO.File.Exists(filePath) Then Return Nothing
+            Dim allBytes() As Byte
+            Using fs As New System.IO.FileStream(filePath, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.ReadWrite)
+                allBytes = New Byte(CInt(fs.Length) - 1) {}
+                Dim off As Integer = 0
+                Do
+                    Dim n As Integer = fs.Read(allBytes, off, allBytes.Length - off)
+                    If n <= 0 Then Exit Do
+                    off += n
+                Loop While off < allBytes.Length
+            End Using
+            Dim bestStart As Integer = -1
+            Dim bestSize As Integer = 0
+            Dim pos As Integer = 0
+            Do
+                Dim found As Integer = -1
+                For i As Integer = pos To allBytes.Length - 8
+                    If allBytes(i) = &H89 AndAlso allBytes(i + 1) = &H50 AndAlso allBytes(i + 2) = &H4E AndAlso allBytes(i + 3) = &H47 AndAlso
+                       allBytes(i + 4) = &HD AndAlso allBytes(i + 5) = &HA AndAlso allBytes(i + 6) = &H1A AndAlso allBytes(i + 7) = &HA Then
+                        found = i : Exit For
+                    End If
+                Next
+                If found < 0 Then Exit Do
+                Dim cp As Integer = found + 8
+                Dim pngEnd As Integer = -1
+                Dim cc As Integer = 0
+                Do While cp + 8 < allBytes.Length AndAlso cc < 500
+                    Dim cLen As Integer = (CInt(allBytes(cp)) << 24) Or (CInt(allBytes(cp + 1)) << 16) Or (CInt(allBytes(cp + 2)) << 8) Or CInt(allBytes(cp + 3))
+                    If cLen < 0 OrElse cLen > 20 * 1024 * 1024 Then Exit Do
+                    Dim ct As String = System.Text.Encoding.ASCII.GetString(allBytes, cp + 4, 4)
+                    If ct = "IEND" Then pngEnd = cp + 12 : Exit Do
+                    cp += 12 + cLen
+                    cc += 1
+                Loop
+                If pngEnd > found Then
+                    Dim sz As Integer = pngEnd - found
+                    If sz > bestSize Then bestSize = sz : bestStart = found
+                    pos = pngEnd
+                Else
+                    pos = found + 8
+                End If
+            Loop
+            If bestStart < 0 OrElse bestSize < 100 Then Return Nothing
+            Dim pngBytes(bestSize - 1) As Byte
+            Array.Copy(allBytes, bestStart, pngBytes, 0, bestSize)
+            Dim tmpPng As String = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "inv_" & System.IO.Path.GetFileNameWithoutExtension(filePath) & ".png")
+            System.IO.File.WriteAllBytes(tmpPng, pngBytes)
+            Dim bmp As New System.Drawing.Bitmap(tmpPng)
+            Try : System.IO.File.Delete(tmpPng) : Catch : End Try
+            Return bmp
+        Catch : End Try
+        Return Nothing
+    End Function
+
+    ' 兜底：Shell32 缩略图接口，按图框尺寸生成缩略图（纯 Win32 API，不经过 Inventor COM）
+    Private Function GetShellThumbnail(filePath As String, w As Integer, h As Integer) As System.Drawing.Image
+        Try
+            If String.IsNullOrEmpty(filePath) OrElse Not System.IO.File.Exists(filePath) Then Return Nothing
+            If w <= 0 Then w = 256
+            If h <= 0 Then h = 256
+            Dim iid As New System.Guid("bcc18b79-ba16-442f-80c4-8a59c30c463b")
+            Dim factory As IShellItemImageFactory = Nothing
+            Dim hr As Integer = SHCreateItemFromParsingName(filePath, IntPtr.Zero, iid, factory)
+            If hr = 0 AndAlso factory IsNot Nothing Then
+                Dim hBmp As IntPtr = IntPtr.Zero
+                Dim sz As New System.Drawing.Size(w, h)
+                Dim hr2 As Integer = factory.GetImage(sz, 0UI, hBmp)
+                If hr2 = 0 AndAlso hBmp <> IntPtr.Zero Then
+                    Dim rawBmp As System.Drawing.Bitmap = System.Drawing.Image.FromHbitmap(hBmp)
+                    DeleteObject(hBmp)
+                    Dim bmp As New System.Drawing.Bitmap(w, h)
+                    Dim gfx As System.Drawing.Graphics = System.Drawing.Graphics.FromImage(bmp)
+                    gfx.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic
+                    gfx.Clear(System.Drawing.Color.White)
+                    gfx.DrawImage(rawBmp, 0, 0, w, h)
+                    gfx.Dispose() : rawBmp.Dispose()
+                    Return bmp
+                End If
+            End If
+        Catch : End Try
+        Return Nothing
+    End Function
+
+    ' 组合：优先取文件内置预览，失败再用 shell 接口兜底
+    Private Function GetThumbnail(filePath As String, w As Integer, h As Integer) As System.Drawing.Image
+        Dim img As System.Drawing.Image = GetInventorThumbnail(filePath)
+        If img IsNot Nothing Then Return img
+        Return GetShellThumbnail(filePath, w, h)
+    End Function
 End Class

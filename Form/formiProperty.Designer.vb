@@ -22,339 +22,331 @@ Partial Class FormiProperty
     '不要使用代码编辑器修改它。
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.btn确定 = New System.Windows.Forms.Button()
-        Me.btn取消 = New System.Windows.Forms.Button()
-        Me.lbl图号 = New System.Windows.Forms.Label()
-        Me.txt图号 = New System.Windows.Forms.TextBox()
-        Me.txt文件名 = New System.Windows.Forms.TextBox()
-        Me.btn向上1 = New System.Windows.Forms.Button()
-        Me.btn向上2 = New System.Windows.Forms.Button()
-        Me.cmb描述 = New System.Windows.Forms.ComboBox()
-        Me.cmb材料 = New System.Windows.Forms.ComboBox()
-        Me.lbl文件名 = New System.Windows.Forms.Label()
-        Me.lbl描述 = New System.Windows.Forms.Label()
-        Me.lbl材料 = New System.Windows.Forms.Label()
-        Me.btn查询 = New System.Windows.Forms.Button()
-        Me.lbl供应商 = New System.Windows.Forms.Label()
-        Me.cmb供应商 = New System.Windows.Forms.ComboBox()
-        Me.txt价格 = New System.Windows.Forms.TextBox()
-        Me.lbl价格 = New System.Windows.Forms.Label()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.txt位置 = New System.Windows.Forms.TextBox()
-        Me.btn提取文件名 = New System.Windows.Forms.Button()
-        Me.txt质量 = New System.Windows.Forms.TextBox()
-        Me.lbl质量 = New System.Windows.Forms.Label()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.txt生产数量 = New System.Windows.Forms.ComboBox()
-        Me.btn保存描述 = New System.Windows.Forms.Button()
-        Me.SuspendLayout()
-        '
-        'btn确定
-        '
-        Me.btn确定.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn确定.Location = New System.Drawing.Point(254, 501)
-        Me.btn确定.Margin = New System.Windows.Forms.Padding(4)
-        Me.btn确定.Name = "btn确定"
-        Me.btn确定.Size = New System.Drawing.Size(98, 42)
-        Me.btn确定.TabIndex = 10
-        Me.btn确定.Text = "确定"
-        '
-        'btn取消
-        '
-        Me.btn取消.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn取消.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btn取消.Location = New System.Drawing.Point(363, 501)
-        Me.btn取消.Margin = New System.Windows.Forms.Padding(4)
-        Me.btn取消.Name = "btn取消"
-        Me.btn取消.Size = New System.Drawing.Size(98, 42)
-        Me.btn取消.TabIndex = 11
-        Me.btn取消.Text = "关闭"
-        '
-        'lbl图号
-        '
-        Me.lbl图号.AutoSize = True
-        Me.lbl图号.Location = New System.Drawing.Point(18, 33)
-        Me.lbl图号.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.lbl图号.Name = "lbl图号"
-        Me.lbl图号.Size = New System.Drawing.Size(98, 18)
-        Me.lbl图号.TabIndex = 1
-        Me.lbl图号.Text = "图    号："
-        '
-        'txt图号
-        '
-        Me.txt图号.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txt图号.Location = New System.Drawing.Point(118, 27)
-        Me.txt图号.Margin = New System.Windows.Forms.Padding(4)
-        Me.txt图号.Name = "txt图号"
-        Me.txt图号.Size = New System.Drawing.Size(276, 28)
-        Me.txt图号.TabIndex = 0
-        '
-        'txt文件名
-        '
-        Me.txt文件名.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txt文件名.Location = New System.Drawing.Point(118, 74)
-        Me.txt文件名.Margin = New System.Windows.Forms.Padding(4)
-        Me.txt文件名.Name = "txt文件名"
-        Me.txt文件名.Size = New System.Drawing.Size(276, 28)
-        Me.txt文件名.TabIndex = 1
-        '
-        'btn向上1
-        '
-        Me.btn向上1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn向上1.Location = New System.Drawing.Point(412, 22)
-        Me.btn向上1.Margin = New System.Windows.Forms.Padding(4)
-        Me.btn向上1.Name = "btn向上1"
-        Me.btn向上1.Size = New System.Drawing.Size(39, 39)
-        Me.btn向上1.TabIndex = 7
-        Me.btn向上1.UseVisualStyleBackColor = True
-        '
-        'btn向上2
-        '
-        Me.btn向上2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn向上2.Location = New System.Drawing.Point(412, 69)
-        Me.btn向上2.Margin = New System.Windows.Forms.Padding(4)
-        Me.btn向上2.Name = "btn向上2"
-        Me.btn向上2.Size = New System.Drawing.Size(39, 39)
-        Me.btn向上2.TabIndex = 8
-        Me.btn向上2.UseVisualStyleBackColor = True
-        '
-        'cmb描述
-        '
-        Me.cmb描述.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmb描述.FormattingEnabled = True
-        Me.cmb描述.Items.AddRange(New Object() {"", "见本图", "无图", "无图,×", "无图,L="})
-        Me.cmb描述.Location = New System.Drawing.Point(120, 165)
-        Me.cmb描述.Margin = New System.Windows.Forms.Padding(4)
-        Me.cmb描述.Name = "cmb描述"
-        Me.cmb描述.Size = New System.Drawing.Size(276, 26)
-        Me.cmb描述.TabIndex = 2
-        '
-        'cmb材料
-        '
-        Me.cmb材料.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmb材料.FormattingEnabled = True
-        Me.cmb材料.Location = New System.Drawing.Point(120, 207)
-        Me.cmb材料.Margin = New System.Windows.Forms.Padding(4)
-        Me.cmb材料.Name = "cmb材料"
-        Me.cmb材料.Size = New System.Drawing.Size(276, 26)
-        Me.cmb材料.Sorted = True
-        Me.cmb材料.TabIndex = 3
-        '
-        'lbl文件名
-        '
-        Me.lbl文件名.AutoSize = True
-        Me.lbl文件名.Location = New System.Drawing.Point(18, 80)
-        Me.lbl文件名.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.lbl文件名.Name = "lbl文件名"
-        Me.lbl文件名.Size = New System.Drawing.Size(98, 18)
-        Me.lbl文件名.TabIndex = 9
-        Me.lbl文件名.Text = "文 件 名："
-        '
-        'lbl描述
-        '
-        Me.lbl描述.AutoSize = True
-        Me.lbl描述.Location = New System.Drawing.Point(20, 171)
-        Me.lbl描述.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.lbl描述.Name = "lbl描述"
-        Me.lbl描述.Size = New System.Drawing.Size(98, 18)
-        Me.lbl描述.TabIndex = 10
-        Me.lbl描述.Text = "描    述："
-        '
-        'lbl材料
-        '
-        Me.lbl材料.AutoSize = True
-        Me.lbl材料.Location = New System.Drawing.Point(20, 213)
-        Me.lbl材料.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.lbl材料.Name = "lbl材料"
-        Me.lbl材料.Size = New System.Drawing.Size(98, 18)
-        Me.lbl材料.TabIndex = 11
-        Me.lbl材料.Text = "材    料："
-        '
-        'btn查询
-        '
-        Me.btn查询.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn查询.Location = New System.Drawing.Point(412, 296)
-        Me.btn查询.Margin = New System.Windows.Forms.Padding(4)
-        Me.btn查询.Name = "btn查询"
-        Me.btn查询.Size = New System.Drawing.Size(39, 39)
-        Me.btn查询.TabIndex = 9
-        Me.btn查询.UseVisualStyleBackColor = True
-        Me.btn查询.Visible = False
-        '
-        'lbl供应商
-        '
-        Me.lbl供应商.AutoSize = True
-        Me.lbl供应商.Location = New System.Drawing.Point(18, 256)
-        Me.lbl供应商.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.lbl供应商.Name = "lbl供应商"
-        Me.lbl供应商.Size = New System.Drawing.Size(98, 18)
-        Me.lbl供应商.TabIndex = 15
-        Me.lbl供应商.Text = "供 应 商："
-        '
-        'cmb供应商
-        '
-        Me.cmb供应商.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmb供应商.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cmb供应商.FormattingEnabled = True
-        Me.cmb供应商.Items.AddRange(New Object() {"", "标准件", "看板件", "外购件", "外协件", "自制件"})
-        Me.cmb供应商.Location = New System.Drawing.Point(120, 250)
-        Me.cmb供应商.Margin = New System.Windows.Forms.Padding(4)
-        Me.cmb供应商.Name = "cmb供应商"
-        Me.cmb供应商.Size = New System.Drawing.Size(272, 26)
-        Me.cmb供应商.TabIndex = 5
-        '
-        'txt价格
-        '
-        Me.txt价格.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txt价格.Location = New System.Drawing.Point(120, 300)
-        Me.txt价格.Margin = New System.Windows.Forms.Padding(4)
-        Me.txt价格.Name = "txt价格"
-        Me.txt价格.Size = New System.Drawing.Size(276, 28)
-        Me.txt价格.TabIndex = 6
-        '
-        'lbl价格
-        '
-        Me.lbl价格.AutoSize = True
-        Me.lbl价格.Location = New System.Drawing.Point(20, 306)
-        Me.lbl价格.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.lbl价格.Name = "lbl价格"
-        Me.lbl价格.Size = New System.Drawing.Size(98, 18)
-        Me.lbl价格.TabIndex = 17
-        Me.lbl价格.Text = "价    格："
-        '
-        'Label1
-        '
-        Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(20, 406)
-        Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(98, 18)
-        Me.Label1.TabIndex = 18
-        Me.Label1.Text = "位    置："
-        '
-        'txt位置
-        '
-        Me.txt位置.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txt位置.Location = New System.Drawing.Point(117, 400)
-        Me.txt位置.Margin = New System.Windows.Forms.Padding(4)
-        Me.txt位置.Multiline = True
-        Me.txt位置.Name = "txt位置"
-        Me.txt位置.ReadOnly = True
-        Me.txt位置.Size = New System.Drawing.Size(344, 85)
-        Me.txt位置.TabIndex = 19
-        Me.txt位置.TabStop = False
-        '
-        'btn提取文件名
-        '
-        Me.btn提取文件名.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn提取文件名.Location = New System.Drawing.Point(22, 501)
-        Me.btn提取文件名.Margin = New System.Windows.Forms.Padding(4)
-        Me.btn提取文件名.Name = "btn提取文件名"
-        Me.btn提取文件名.Size = New System.Drawing.Size(128, 42)
-        Me.btn提取文件名.TabIndex = 21
-        Me.btn提取文件名.Text = "提取文件名"
-        '
-        'txt质量
-        '
-        Me.txt质量.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txt质量.Location = New System.Drawing.Point(120, 348)
-        Me.txt质量.Margin = New System.Windows.Forms.Padding(4)
-        Me.txt质量.Name = "txt质量"
-        Me.txt质量.ReadOnly = True
-        Me.txt质量.Size = New System.Drawing.Size(276, 28)
-        Me.txt质量.TabIndex = 22
-        '
-        'lbl质量
-        '
-        Me.lbl质量.AutoSize = True
-        Me.lbl质量.Location = New System.Drawing.Point(20, 354)
-        Me.lbl质量.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.lbl质量.Name = "lbl质量"
-        Me.lbl质量.Size = New System.Drawing.Size(98, 18)
-        Me.lbl质量.TabIndex = 23
-        Me.lbl质量.Text = "质    量："
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(20, 122)
-        Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(98, 18)
-        Me.Label2.TabIndex = 27
-        Me.Label2.Text = "数    量："
-        '
-        'txt生产数量
-        '
-        Me.txt生产数量.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txt生产数量.FormattingEnabled = True
-        Me.txt生产数量.Items.AddRange(New Object() {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"})
-        Me.txt生产数量.Location = New System.Drawing.Point(120, 117)
-        Me.txt生产数量.Margin = New System.Windows.Forms.Padding(4)
-        Me.txt生产数量.Name = "txt生产数量"
-        Me.txt生产数量.Size = New System.Drawing.Size(276, 26)
-        Me.txt生产数量.TabIndex = 26
-        '
-        'btn保存描述
-        '
-        Me.btn保存描述.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn保存描述.Location = New System.Drawing.Point(430, 165)
-        Me.btn保存描述.Margin = New System.Windows.Forms.Padding(4)
-        Me.btn保存描述.Name = "btn保存描述"
-        Me.btn保存描述.Size = New System.Drawing.Size(39, 39)
-        Me.btn保存描述.TabIndex = 20
-        Me.btn保存描述.UseVisualStyleBackColor = True
-        '
-        'FormiProperty
-        '
-        Me.AcceptButton = Me.btn确定
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 18.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.CancelButton = Me.btn取消
-        Me.ClientSize = New System.Drawing.Size(482, 555)
-        Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.txt生产数量)
-        Me.Controls.Add(Me.txt质量)
-        Me.Controls.Add(Me.lbl质量)
-        Me.Controls.Add(Me.btn提取文件名)
-        Me.Controls.Add(Me.btn保存描述)
-        Me.Controls.Add(Me.txt位置)
-        Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.txt价格)
-        Me.Controls.Add(Me.lbl价格)
-        Me.Controls.Add(Me.cmb供应商)
-        Me.Controls.Add(Me.lbl供应商)
-        Me.Controls.Add(Me.btn查询)
-        Me.Controls.Add(Me.lbl材料)
-        Me.Controls.Add(Me.lbl描述)
-        Me.Controls.Add(Me.lbl文件名)
-        Me.Controls.Add(Me.cmb材料)
-        Me.Controls.Add(Me.cmb描述)
-        Me.Controls.Add(Me.btn确定)
-        Me.Controls.Add(Me.btn取消)
-        Me.Controls.Add(Me.btn向上2)
-        Me.Controls.Add(Me.btn向上1)
-        Me.Controls.Add(Me.txt文件名)
-        Me.Controls.Add(Me.txt图号)
-        Me.Controls.Add(Me.lbl图号)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
-        Me.Margin = New System.Windows.Forms.Padding(4)
-        Me.MaximizeBox = False
-        Me.Name = "FormiProperty"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "iProperty+"
-        Me.TopMost = True
-        Me.ResumeLayout(False)
-        Me.PerformLayout()
+        btn确定 = New Button()
+        btn取消 = New Button()
+        lbl图号 = New Label()
+        txt图号 = New System.Windows.Forms.TextBox()
+        txt文件名 = New System.Windows.Forms.TextBox()
+        btn向上1 = New Button()
+        btn向上2 = New Button()
+        cmb描述 = New ComboBox()
+        cmb材料 = New ComboBox()
+        lbl文件名 = New Label()
+        lbl描述 = New Label()
+        lbl材料 = New Label()
+        btn查询 = New Button()
+        lbl供应商 = New Label()
+        cmb供应商 = New ComboBox()
+        txt价格 = New System.Windows.Forms.TextBox()
+        lbl价格 = New Label()
+        Label1 = New Label()
+        txt位置 = New System.Windows.Forms.TextBox()
+        btn提取文件名 = New Button()
+        txt质量 = New System.Windows.Forms.TextBox()
+        lbl质量 = New Label()
+        Label2 = New Label()
+        txt生产数量 = New ComboBox()
+        btn保存描述 = New Button()
+        SuspendLayout()
+        ' 
+        ' btn确定
+        ' 
+        btn确定.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        btn确定.Location = New System.Drawing.Point(282, 696)
+        btn确定.Margin = New Padding(4, 6, 4, 6)
+        btn确定.Name = "btn确定"
+        btn确定.Size = New Size(109, 58)
+        btn确定.TabIndex = 10
+        btn确定.Text = "确定"
+        ' 
+        ' btn取消
+        ' 
+        btn取消.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        btn取消.DialogResult = DialogResult.Cancel
+        btn取消.Location = New System.Drawing.Point(403, 696)
+        btn取消.Margin = New Padding(4, 6, 4, 6)
+        btn取消.Name = "btn取消"
+        btn取消.Size = New Size(109, 58)
+        btn取消.TabIndex = 11
+        btn取消.Text = "关闭"
+        ' 
+        ' lbl图号
+        ' 
+        lbl图号.AutoSize = True
+        lbl图号.Location = New System.Drawing.Point(20, 46)
+        lbl图号.Margin = New Padding(4, 0, 4, 0)
+        lbl图号.Name = "lbl图号"
+        lbl图号.Size = New Size(89, 25)
+        lbl图号.TabIndex = 1
+        lbl图号.Text = "图    号："
+        ' 
+        ' txt图号
+        ' 
+        txt图号.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        txt图号.Location = New System.Drawing.Point(131, 38)
+        txt图号.Margin = New Padding(4, 6, 4, 6)
+        txt图号.Name = "txt图号"
+        txt图号.Size = New Size(306, 31)
+        txt图号.TabIndex = 0
+        ' 
+        ' txt文件名
+        ' 
+        txt文件名.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        txt文件名.Location = New System.Drawing.Point(131, 103)
+        txt文件名.Margin = New Padding(4, 6, 4, 6)
+        txt文件名.Name = "txt文件名"
+        txt文件名.Size = New Size(306, 31)
+        txt文件名.TabIndex = 1
+        ' 
+        ' btn向上1
+        ' 
+        btn向上1.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btn向上1.Location = New System.Drawing.Point(458, 31)
+        btn向上1.Margin = New Padding(4, 6, 4, 6)
+        btn向上1.Name = "btn向上1"
+        btn向上1.Size = New Size(43, 54)
+        btn向上1.TabIndex = 7
+        btn向上1.UseVisualStyleBackColor = True
+        ' 
+        ' btn向上2
+        ' 
+        btn向上2.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btn向上2.Location = New System.Drawing.Point(458, 96)
+        btn向上2.Margin = New Padding(4, 6, 4, 6)
+        btn向上2.Name = "btn向上2"
+        btn向上2.Size = New Size(43, 54)
+        btn向上2.TabIndex = 8
+        btn向上2.UseVisualStyleBackColor = True
+        ' 
+        ' cmb描述
+        ' 
+        cmb描述.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        cmb描述.FormattingEnabled = True
+        cmb描述.Items.AddRange(New Object() {"", "见本图", "无图", "无图,×", "无图,L="})
+        cmb描述.Location = New System.Drawing.Point(133, 229)
+        cmb描述.Margin = New Padding(4, 6, 4, 6)
+        cmb描述.Name = "cmb描述"
+        cmb描述.Size = New Size(306, 33)
+        cmb描述.TabIndex = 2
+        ' 
+        ' cmb材料
+        ' 
+        cmb材料.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        cmb材料.FormattingEnabled = True
+        cmb材料.Location = New System.Drawing.Point(133, 288)
+        cmb材料.Margin = New Padding(4, 6, 4, 6)
+        cmb材料.Name = "cmb材料"
+        cmb材料.Size = New Size(306, 33)
+        cmb材料.Sorted = True
+        cmb材料.TabIndex = 3
+        ' 
+        ' lbl文件名
+        ' 
+        lbl文件名.AutoSize = True
+        lbl文件名.Location = New System.Drawing.Point(20, 111)
+        lbl文件名.Margin = New Padding(4, 0, 4, 0)
+        lbl文件名.Name = "lbl文件名"
+        lbl文件名.Size = New Size(79, 25)
+        lbl文件名.TabIndex = 9
+        lbl文件名.Text = "名  称："
+        ' 
+        ' lbl描述
+        ' 
+        lbl描述.AutoSize = True
+        lbl描述.Location = New System.Drawing.Point(22, 237)
+        lbl描述.Margin = New Padding(4, 0, 4, 0)
+        lbl描述.Name = "lbl描述"
+        lbl描述.Size = New Size(89, 25)
+        lbl描述.TabIndex = 10
+        lbl描述.Text = "描    述："
+        ' 
+        ' lbl材料
+        ' 
+        lbl材料.AutoSize = True
+        lbl材料.Location = New System.Drawing.Point(22, 296)
+        lbl材料.Margin = New Padding(4, 0, 4, 0)
+        lbl材料.Name = "lbl材料"
+        lbl材料.Size = New Size(89, 25)
+        lbl材料.TabIndex = 11
+        lbl材料.Text = "材    料："
+        ' 
+        ' btn查询
+        ' 
+        btn查询.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btn查询.Location = New System.Drawing.Point(458, 411)
+        btn查询.Margin = New Padding(4, 6, 4, 6)
+        btn查询.Name = "btn查询"
+        btn查询.Size = New Size(43, 54)
+        btn查询.TabIndex = 9
+        btn查询.UseVisualStyleBackColor = True
+        btn查询.Visible = False
+        ' 
+        ' lbl供应商
+        ' 
+        lbl供应商.AutoSize = True
+        lbl供应商.Location = New System.Drawing.Point(20, 356)
+        lbl供应商.Margin = New Padding(4, 0, 4, 0)
+        lbl供应商.Name = "lbl供应商"
+        lbl供应商.Size = New Size(98, 25)
+        lbl供应商.TabIndex = 15
+        lbl供应商.Text = "供 应 商："
+        ' 
+        ' cmb供应商
+        ' 
+        cmb供应商.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        cmb供应商.DropDownStyle = ComboBoxStyle.DropDownList
+        cmb供应商.FormattingEnabled = True
+        cmb供应商.Items.AddRange(New Object() {"", "标准件", "看板件", "外购件", "外协件", "自制件"})
+        cmb供应商.Location = New System.Drawing.Point(133, 347)
+        cmb供应商.Margin = New Padding(4, 6, 4, 6)
+        cmb供应商.Name = "cmb供应商"
+        cmb供应商.Size = New Size(302, 33)
+        cmb供应商.TabIndex = 5
+        ' 
+        ' txt价格
+        ' 
+        txt价格.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        txt价格.Location = New System.Drawing.Point(133, 417)
+        txt价格.Margin = New Padding(4, 6, 4, 6)
+        txt价格.Name = "txt价格"
+        txt价格.Size = New Size(306, 31)
+        txt价格.TabIndex = 6
+        ' 
+        ' lbl价格
+        ' 
+        lbl价格.AutoSize = True
+        lbl价格.Location = New System.Drawing.Point(22, 425)
+        lbl价格.Margin = New Padding(4, 0, 4, 0)
+        lbl价格.Name = "lbl价格"
+        lbl价格.Size = New Size(89, 25)
+        lbl价格.TabIndex = 17
+        lbl价格.Text = "价    格："
+        ' 
+        ' Label1
+        ' 
+        Label1.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        Label1.AutoSize = True
+        Label1.Location = New System.Drawing.Point(22, 564)
+        Label1.Margin = New Padding(4, 0, 4, 0)
+        Label1.Name = "Label1"
+        Label1.Size = New Size(89, 25)
+        Label1.TabIndex = 18
+        Label1.Text = "位    置："
+        ' 
+        ' txt位置
+        ' 
+        txt位置.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        txt位置.Location = New System.Drawing.Point(130, 556)
+        txt位置.Margin = New Padding(4, 6, 4, 6)
+        txt位置.Multiline = True
+        txt位置.Name = "txt位置"
+        txt位置.ReadOnly = True
+        txt位置.Size = New Size(382, 116)
+        txt位置.TabIndex = 19
+        txt位置.TabStop = False
+        ' 
+        ' btn提取文件名
+        ' 
+        btn提取文件名.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        btn提取文件名.Location = New System.Drawing.Point(24, 696)
+        btn提取文件名.Margin = New Padding(4, 6, 4, 6)
+        btn提取文件名.Name = "btn提取文件名"
+        btn提取文件名.Size = New Size(142, 58)
+        btn提取文件名.TabIndex = 21
+        btn提取文件名.Text = "提取文件名"
+        ' 
+        ' txt质量
+        ' 
+        txt质量.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        txt质量.Location = New System.Drawing.Point(133, 483)
+        txt质量.Margin = New Padding(4, 6, 4, 6)
+        txt质量.Name = "txt质量"
+        txt质量.ReadOnly = True
+        txt质量.Size = New Size(306, 31)
+        txt质量.TabIndex = 22
+        ' 
+        ' lbl质量
+        ' 
+        lbl质量.AutoSize = True
+        lbl质量.Location = New System.Drawing.Point(22, 492)
+        lbl质量.Margin = New Padding(4, 0, 4, 0)
+        lbl质量.Name = "lbl质量"
+        lbl质量.Size = New Size(89, 25)
+        lbl质量.TabIndex = 23
+        lbl质量.Text = "质    量："
+        ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.Location = New System.Drawing.Point(22, 169)
+        Label2.Margin = New Padding(4, 0, 4, 0)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(89, 25)
+        Label2.TabIndex = 27
+        Label2.Text = "数    量："
+        ' 
+        ' txt生产数量
+        ' 
+        txt生产数量.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        txt生产数量.FormattingEnabled = True
+        txt生产数量.Items.AddRange(New Object() {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"})
+        txt生产数量.Location = New System.Drawing.Point(133, 162)
+        txt生产数量.Margin = New Padding(4, 6, 4, 6)
+        txt生产数量.Name = "txt生产数量"
+        txt生产数量.Size = New Size(306, 33)
+        txt生产数量.TabIndex = 26
+        ' 
+        ' btn保存描述
+        ' 
+        btn保存描述.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btn保存描述.Location = New System.Drawing.Point(458, 229)
+        btn保存描述.Margin = New Padding(4, 6, 4, 6)
+        btn保存描述.Name = "btn保存描述"
+        btn保存描述.Size = New Size(43, 54)
+        btn保存描述.TabIndex = 20
+        btn保存描述.UseVisualStyleBackColor = True
+        ' 
+        ' FormiProperty
+        ' 
+        AcceptButton = btn确定
+        AutoScaleDimensions = New SizeF(10F, 25F)
+        AutoScaleMode = AutoScaleMode.Font
+        CancelButton = btn取消
+        ClientSize = New Size(536, 771)
+        Controls.Add(Label2)
+        Controls.Add(txt生产数量)
+        Controls.Add(txt质量)
+        Controls.Add(lbl质量)
+        Controls.Add(btn提取文件名)
+        Controls.Add(btn保存描述)
+        Controls.Add(txt位置)
+        Controls.Add(Label1)
+        Controls.Add(txt价格)
+        Controls.Add(lbl价格)
+        Controls.Add(cmb供应商)
+        Controls.Add(lbl供应商)
+        Controls.Add(btn查询)
+        Controls.Add(lbl材料)
+        Controls.Add(lbl描述)
+        Controls.Add(lbl文件名)
+        Controls.Add(cmb材料)
+        Controls.Add(cmb描述)
+        Controls.Add(btn确定)
+        Controls.Add(btn取消)
+        Controls.Add(btn向上2)
+        Controls.Add(btn向上1)
+        Controls.Add(txt文件名)
+        Controls.Add(txt图号)
+        Controls.Add(lbl图号)
+        FormBorderStyle = FormBorderStyle.FixedSingle
+        Margin = New Padding(4, 6, 4, 6)
+        MaximizeBox = False
+        Name = "FormiProperty"
+        StartPosition = FormStartPosition.CenterScreen
+        Text = "iProperty+"
+        TopMost = True
+        ResumeLayout(False)
+        PerformLayout()
 
     End Sub
     Friend WithEvents btn确定 As System.Windows.Forms.Button

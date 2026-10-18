@@ -271,7 +271,7 @@ Public Class FormMovesSpecifiedFile
         Dim oListViewItem As ListViewItem = Lvw文件列表.SelectedItems(0)
 
 
-        If e.Button = Windows.Forms.MouseButtons.Left Then
+        If e.Button = System.Windows.Forms.MouseButtons.Left Then
             Try
                 Dim strMethod As String = oListViewItem.SubItems(2).Text
 

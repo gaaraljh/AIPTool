@@ -179,8 +179,8 @@ Partial Class FormMovesSpecifiedFile
     Friend WithEvents ColumnHeader当前文件 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader目标文件 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ImageList1 As System.Windows.Forms.ImageList
-    Friend WithEvents 全部选择ToolStripButton As Windows.Forms.ToolStripButton
-    Friend WithEvents 全部取消ToolStripButton As Windows.Forms.ToolStripButton
-    Friend WithEvents 反向选择ToolStripButton As Windows.Forms.ToolStripButton
-    Friend WithEvents ColumnHeader方法 As Windows.Forms.ColumnHeader
+    Friend WithEvents 全部选择ToolStripButton As System.Windows.Forms.ToolStripButton
+    Friend WithEvents 全部取消ToolStripButton As System.Windows.Forms.ToolStripButton
+    Friend WithEvents 反向选择ToolStripButton As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ColumnHeader方法 As System.Windows.Forms.ColumnHeader
 End Class

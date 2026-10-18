@@ -227,6 +227,22 @@ Public Class clsBomTool
 		Public ChangedCols As New HashSet(Of String)
 	End Class
 
+	' =======================================================================
+	' 类名: ColDef
+	' 描述: 表示表格或网格控件中列的定义配置类。
+	'       用于封装列的各项属性，如名称、表头、只读状态、对齐方式等。
+	' 
+	' 字段说明:
+	'   ColName      - 列的唯一名称或标识符。
+	'   Header       - 列在表头显示的文本。
+	'   IsReadOnly   - 指示该列的数据是否为只读状态。
+	'   IsFixed      - 指示该列是否固定（冻结）在视图中。
+	'   IsCustom     - 指示该列是否为自定义类型的列。
+	'   IsImage      - 指示该列是否用于显示图像。
+	'   PropName     - 列所绑定的数据源属性名称。
+	'   InitWidth    - 列的初始显示宽度。
+	'   CenterAlign  - 指示列内的内容是否居中对齐。
+	' =======================================================================
 	Class ColDef
 		Public ColName As String
 		Public Header As String
@@ -239,29 +255,35 @@ Public Class clsBomTool
 		Public CenterAlign As Boolean
 	End Class
 
+	' ==============================================================================
+	' 模块/类级别的全局状态变量、UI控件引用、配置参数及布局尺寸定义。
+	' 用于管理BOM（物料清单）数据处理、装配体文档操作、DataGridView界面交互、
+	' 缩略图弹窗多线程控制以及Excel导出与监听等核心功能状态。
+	' ==============================================================================
+
+	' ------------------------------------------
+	' BOM数据与装配体文档核心数据
+	' ------------------------------------------
 	Dim g_rows As List(Of BomDataRow)
 	Dim g_occMap As Dictionary(Of String, List(Of ComponentOccurrence)) = Nothing
 	Dim g_occMapDirty As Boolean = True
 	Dim g_asmDoc As AssemblyDocument
+
+	' ------------------------------------------
+	' UI控件引用（数据网格、面板、输入框、复选框、按钮等）
+	' ------------------------------------------
 	Dim g_grid As DataGridView
 	Dim g_status As Label
 	Dim g_colDefs As List(Of ColDef)
 	Dim g_chkPanel As Panel
 	Dim g_chkFlow As FlowLayoutPanel
 	Dim g_txtProp As System.Windows.Forms.ComboBox
-	Dim g_customIdx As Integer = 0
 	Dim g_txtRowH As System.Windows.Forms.TextBox
 	Dim g_txtColW As System.Windows.Forms.TextBox
 	Dim g_frm As Form
-	Dim g_settingsFile As String = ""
-	Dim g_rightClickRowIdx As Integer = -1
 	Dim g_chkSkipCC As CheckBox
 	Dim g_chkSkipVirtual As CheckBox
 	Dim g_chkMergePno As CheckBox
-	Dim g_typeIcons As New Dictionary(Of String, System.Drawing.Image)
-	Dim g_clipboardList As New List(Of String)()
-	Dim g_clipboardColNames As New List(Of String)()
-	Dim g_pasteTargetCells As New List(Of DataGridViewCell)()
 	Dim g_chkOnlyPart As CheckBox
 	Dim g_chkOnlyAssy As CheckBox
 	Dim g_chkOnlySheet As CheckBox
@@ -271,11 +293,28 @@ Public Class clsBomTool
 	Dim g_btnExcelExport As System.Windows.Forms.Button
 	Dim g_btnRefresh As System.Windows.Forms.Button
 
+	' ------------------------------------------
+	' 状态、配置、剪贴板与辅助变量
+	' ------------------------------------------
+	Dim g_customIdx As Integer = 0
+	Dim g_settingsFile As String = ""
+	Dim g_rightClickRowIdx As Integer = -1
+	Dim g_typeIcons As New Dictionary(Of String, System.Drawing.Image)
+	Dim g_clipboardList As New List(Of String)()
+	Dim g_clipboardColNames As New List(Of String)()
+	Dim g_pasteTargetCells As New List(Of DataGridViewCell)()
+
+	' ------------------------------------------
+	' 缩略图弹窗与多线程控制
+	' ------------------------------------------
 	Dim g_thumbPopup As Form = Nothing
 	Dim g_thumbCancelFlag As Boolean = False
 	Dim g_thumbThread As System.Threading.Thread = Nothing
 	Dim g_thumbPopRow As Integer = -1
 
+	' ------------------------------------------
+	' 编辑状态、保存队列、刷新与监听控制
+	' ------------------------------------------
 	' ★ 修改标志：用户编辑过单元格内容则为 True
 	Dim g_isDirty As Boolean = False
 	Dim g_pendingSaveDocs As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
@@ -288,9 +327,14 @@ Public Class clsBomTool
 	Dim g_selectedChkRow As Panel = Nothing
 	' ★ 防止关闭时重入（写入后再次触发 FormClosing）
 	Dim g_isClosing As Boolean = False
-	Dim g_watchThread As System.Threading.Thread = Nothing  ' Excel编辑监听线程
-	Dim g_watchStopFlag As Boolean = False                    ' 停止监听标志
+	' Excel编辑监听线程
+	Dim g_watchThread As System.Threading.Thread = Nothing
+	' 停止监听标志
+	Dim g_watchStopFlag As Boolean = False
 
+	' ------------------------------------------
+	' 布局尺寸常量定义（默认/逻辑像素值）
+	' ------------------------------------------
 	Const L_RIGHT_W As Integer = 290
 	Const L_TOP_H As Integer = 38
 	Const L_BOT_H As Integer = 82
@@ -301,6 +345,9 @@ Public Class clsBomTool
 	Const L_PANEL_PAD As Integer = 20
 	Const L_SCROLL_W As Integer = 20
 
+	' ------------------------------------------
+	' 布局尺寸运行时变量（用于动态缩放或实际渲染）
+	' ------------------------------------------
 	Dim RIGHT_W As Integer
 	Dim TOP_H As Integer
 	Dim BOT_H As Integer
@@ -351,25 +398,59 @@ Public Class clsBomTool
 		Return System.Drawing.SystemFonts.DefaultFont.Name
 	End Function
 
+	''' <summary>
+	''' 全局常量与配置变量声明区域。
+	''' 包含文档属性GUID常量、全局字体与主题配置、自定义主题颜色参数，
+	''' 以及部分全局UI控件和动画定时器的引用。
+	''' </summary>
+
+	' 文档属性相关的GUID常量
 	Const GUID_DTP As String = "{32853F0F-3444-11D1-9E93-0060B03C1CA6}"
 	Const GUID_UDP As String = "{D5CDD505-2E9C-101B-9397-08002B2CF9AE}"
 	Const GUID_SUMMARY As String = "{F29F85E0-4FF9-1068-AB91-08002B27B3D9}"
 	Const GUID_DOCSUMMARY As String = "{D5CDD502-2E9C-101B-9397-08002B2CF9AE}"
+
+	' 全局文本与字体配置
 	Const MULTI_VAL As String = "*多种"
 	Const FONT_NAME As String = "Microsoft YaHei"
 	Dim g_fontName As String = "Microsoft YaHei"
-	Dim g_theme As Integer = 0  ' 0=紫 1=蓝 2=绿 3=红 4=橙 5=粉 6=呼吸灯彩虹 7=暗黑 8=自定义
+
+	' 0=紫 1=蓝 2=绿 3=红 4=橙 5=粉 6=呼吸灯彩虹 7=暗黑 8=自定义
+	Dim g_theme As Integer = 0
+
 	' ── 自定义主题颜色（g_theme = 8 时生效）──
-	Dim g_custTitleBar As System.Drawing.Color = System.Drawing.Color.FromArgb(108, 92, 231)   ' 上下标题（顶部栏/底部栏）
-	Dim g_custColHeader As System.Drawing.Color = System.Drawing.Color.FromArgb(108, 92, 231)  ' 表格列头
-	Dim g_custColMgr As System.Drawing.Color = System.Drawing.Color.FromArgb(243, 240, 255)    ' 右边列管理控件
-	Dim g_custFuncDrop As System.Drawing.Color = System.Drawing.Color.FromArgb(228, 222, 252)  ' 功能下拉
-	Dim g_custWinBg As System.Drawing.Color = System.Drawing.Color.FromArgb(245, 243, 255)     ' 窗口背景色
-	Dim g_custExcelBtn As System.Drawing.Color = System.Drawing.Color.FromArgb(159, 149, 239)  ' Excel导出按钮
-	Dim g_custRefresh As System.Drawing.Color = System.Drawing.Color.FromArgb(225, 112, 85)    ' 刷新按钮
-	Dim g_custRowAlt As System.Drawing.Color = System.Drawing.Color.FromArgb(253, 252, 255)    ' 间隔行颜色（隔行条纹）
-	Dim g_custRowWhite As System.Drawing.Color = System.Drawing.Color.FromArgb(255, 255, 255)  ' 白底行颜色（间隔白底）
-	Dim g_custCellText As System.Drawing.Color = System.Drawing.Color.FromArgb(0, 0, 0)        ' 表格文字颜色
+
+	' 上下标题（顶部栏/底部栏）
+	Dim g_custTitleBar As System.Drawing.Color = System.Drawing.Color.FromArgb(108, 92, 231)
+
+	' 表格列头
+	Dim g_custColHeader As System.Drawing.Color = System.Drawing.Color.FromArgb(108, 92, 231)
+
+	' 右边列管理控件
+	Dim g_custColMgr As System.Drawing.Color = System.Drawing.Color.FromArgb(243, 240, 255)
+
+	' 功能下拉
+	Dim g_custFuncDrop As System.Drawing.Color = System.Drawing.Color.FromArgb(228, 222, 252)
+
+	' 窗口背景色
+	Dim g_custWinBg As System.Drawing.Color = System.Drawing.Color.FromArgb(245, 243, 255)
+
+	' Excel导出按钮
+	Dim g_custExcelBtn As System.Drawing.Color = System.Drawing.Color.FromArgb(159, 149, 239)
+
+	' 刷新按钮
+	Dim g_custRefresh As System.Drawing.Color = System.Drawing.Color.FromArgb(225, 112, 85)
+
+	' 间隔行颜色（隔行条纹）
+	Dim g_custRowAlt As System.Drawing.Color = System.Drawing.Color.FromArgb(253, 252, 255)
+
+	' 白底行颜色（间隔白底）
+	Dim g_custRowWhite As System.Drawing.Color = System.Drawing.Color.FromArgb(255, 255, 255)
+
+	' 表格文字颜色
+	Dim g_custCellText As System.Drawing.Color = System.Drawing.Color.FromArgb(0, 0, 0)
+
+	' 全局UI面板与呼吸灯动画控制变量
 	Dim g_pnlTop As System.Windows.Forms.Panel = Nothing
 	Dim g_pnlBottom As System.Windows.Forms.Panel = Nothing
 	Dim breathTimer As System.Windows.Forms.Timer = Nothing
@@ -5993,10 +6074,15 @@ Public Class clsBomTool
 
 
 
-	Public Sub Run()
+	''' <summary>
+	''' 运行 BOM 工具。hostForm 为空时内部新建窗口（外部规则模式）；传入窗体时把界面直接构建到该窗体中
+	''' </summary>
+	''' <param name="hostForm">承载界面的窗体，为空则内部新建</param>
+	''' <returns>是否成功启动</returns>
+	Public Function Run(Optional ByVal hostForm As System.Windows.Forms.Form = Nothing) As Boolean
 
-		If Not CheckDocumentType() Then Return
-		If Not CheckEnvironment() Then Return
+		If Not CheckDocumentType() Then Return False
+		If Not CheckEnvironment() Then Return False
 
 		InitScaledConstants()
 
@@ -6029,12 +6115,22 @@ Public Class clsBomTool
 		AddBuiltinCol("cDwg", ChrW(24037) & ChrW(31243) & ChrW(22270) & ChrW(26159) & ChrW(21542) & ChrW(26377), True, False, Scaled(90), True, False)
 		AddBuiltinCol("cThumb", "缩略图", True, False, CalcThumbColWidth(), True, True)
 
-		Dim clientW As Integer = 2000 + L_RIGHT_W + L_GAP * 3
-		Dim clientH As Integer = 1200
-		' 防止窗口超出屏幕可用区域
-		Dim wa As System.Drawing.Rectangle = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea
-		If clientW > wa.Width - 60 Then clientW = wa.Width - 60
-		If clientH > wa.Height - 60 Then clientH = wa.Height - 60
+		Dim blnHosted As Boolean = hostForm IsNot Nothing
+		Dim clientW As Integer
+		Dim clientH As Integer
+
+		If blnHosted Then
+			' 使用宿主窗体自身的客户区尺寸布置界面
+			clientW = Math.Max(hostForm.ClientSize.Width, 600)
+			clientH = Math.Max(hostForm.ClientSize.Height, 400)
+		Else
+			clientW = 2000 + L_RIGHT_W + L_GAP * 3
+			clientH = 1200
+			' 防止窗口超出屏幕可用区域
+			Dim wa As System.Drawing.Rectangle = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea
+			If clientW > wa.Width - 60 Then clientW = wa.Width - 60
+			If clientH > wa.Height - 60 Then clientH = wa.Height - 60
+		End If
 
 		Dim gridX As Integer = 0
 		Dim gridY As Integer = TOP_H + GAP
@@ -6049,8 +6145,29 @@ Public Class clsBomTool
 		Dim botY As Integer = gridY + gridH + GAP
 		Dim botW As Integer = gridW
 
-		g_frm = New Form()
-		g_frm.Text = "BOM工具  -  " & g_asmDoc.DisplayName
+		If blnHosted Then
+			' 界面直接构建到宿主窗体：先清空窗体上已有控件
+			g_frm = hostForm
+			For i As Integer = g_frm.Controls.Count - 1 To 0 Step -1
+				g_frm.Controls(i).Dispose()
+			Next
+			g_frm.Text = "BOM工具  -  " & g_asmDoc.DisplayName
+			g_frm.BackColor = C(245, 243, 255)
+			g_frm.Font = MakeFont(CStr(g_fontName), 9.0!)
+			g_frm.KeyPreview = True
+		Else
+			g_frm = New Form()
+			g_frm.Text = "BOM工具  -  " & g_asmDoc.DisplayName
+			g_frm.AutoScaleMode = AutoScaleMode.Dpi
+			g_frm.ClientSize = New System.Drawing.Size(clientW, clientH)
+			g_frm.StartPosition = FormStartPosition.CenterScreen
+			g_frm.MinimizeBox = True
+			g_frm.MaximizeBox = True
+			g_frm.Font = MakeFont(CStr(g_fontName), 9.0!)
+			g_frm.BackColor = C(245, 243, 255)
+			g_frm.KeyPreview = True
+		End If
+
 		' 设置标题栏图标（从Inventor exe提取）
 		Try
 			Dim invExe As String = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName
@@ -6059,14 +6176,7 @@ Public Class clsBomTool
 				g_frm.Icon = g_appIcon
 			End If
 		Catch : End Try
-		g_frm.AutoScaleMode = AutoScaleMode.Dpi
-		g_frm.ClientSize = New System.Drawing.Size(clientW, clientH)
-		g_frm.StartPosition = FormStartPosition.CenterScreen
-		g_frm.MinimizeBox = True
-		g_frm.MaximizeBox = True
-		g_frm.Font = MakeFont(CStr(g_fontName), 9.0!)
-		g_frm.BackColor = C(245, 243, 255)
-		g_frm.KeyPreview = True
+
 		AddHandler g_frm.KeyDown, AddressOf OnFormKeyDown
 		' ★ 使用完整的 FormClosing 处理，替换原来的简单 SaveSettings 调用
 		AddHandler g_frm.FormClosing, AddressOf OnFormClosing
@@ -7143,13 +7253,17 @@ Public Class clsBomTool
 									End If
 								End Sub
 
+		' 宿主模式：窗体由调用方 Show，此处不再自建窗口、也不阻塞
+		If blnHosted Then Return True
+
 		g_frm.Show()  ' 非模态：打开BOM窗后仍可操作Inventor
 		Do While g_frm IsNot Nothing AndAlso Not g_frm.IsDisposed
 			System.Threading.Thread.Sleep(15)
 			System.Windows.Forms.Application.DoEvents()
 		Loop
 
-	End Sub
+		Return True
+	End Function
 
 	' ★ 单元格内容变化时标记 g_isDirty
 	Sub OnGridDataError(sender As Object, e As DataGridViewDataErrorEventArgs)

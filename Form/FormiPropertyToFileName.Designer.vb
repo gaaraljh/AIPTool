@@ -231,6 +231,6 @@ Partial Class FormiPropertyToFileName
     Friend WithEvents btn交换 As New System.Windows.Forms.Button
     Friend WithEvents lbl图号 As New System.Windows.Forms.Label
     Friend WithEvents 加载BOM As New System.Windows.Forms.Button
-    Friend WithEvents txt文件名 As Windows.Forms.TextBox
-    Friend WithEvents txt图号 As Windows.Forms.TextBox
+    Friend WithEvents txt文件名 As System.Windows.Forms.TextBox
+    Friend WithEvents txt图号 As System.Windows.Forms.TextBox
 End Class

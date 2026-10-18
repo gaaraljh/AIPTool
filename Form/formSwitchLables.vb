@@ -104,7 +104,8 @@ Public Class FormSwitchLables
                     .Image = img
                     .Name = strfilename
                     .Size = New Size(int图框宽度, int图框高度)
-                    .SizeMode = PictureBoxSizeMode.StretchImage
+                    '内置预览图尺寸较大，保持比例显示，避免拉伸变形
+                    .SizeMode = PictureBoxSizeMode.Zoom
 
                 End With
 

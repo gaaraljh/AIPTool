@@ -328,6 +328,6 @@ Partial Class FormDim2Object
     Friend WithEvents btn导出 As System.Windows.Forms.Button
     Friend WithEvents RadioButton角度 As System.Windows.Forms.RadioButton
     Friend WithEvents RadioButton距离 As System.Windows.Forms.RadioButton
-    Friend WithEvents btn最小值 As Windows.Forms.Button
-    Friend WithEvents btn最大值 As Windows.Forms.Button
+    Friend WithEvents btn最小值 As System.Windows.Forms.Button
+    Friend WithEvents btn最大值 As System.Windows.Forms.Button
 End Class

@@ -44,7 +44,12 @@ Module BasicFileSystem
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function IsFileExists(ByVal strFullFileName As String) As Boolean
-        IsFileExists = IO.File.Exists(strFullFileName)
+        Try
+            If String.IsNullOrEmpty(strFullFileName) Then Return False
+            Return IO.File.Exists(strFullFileName)
+        Catch __ex As Exception
+            Return False
+        End Try
     End Function
 
     ''' <summary>
@@ -54,7 +59,12 @@ Module BasicFileSystem
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function IsDirectoryExists(ByVal strDirectoryFullName As String) As Boolean
-        IsDirectoryExists = IO.Directory.Exists(strDirectoryFullName)
+        Try
+            If String.IsNullOrEmpty(strDirectoryFullName) Then Return False
+            Return IO.Directory.Exists(strDirectoryFullName)
+        Catch __ex As Exception
+            Return False
+        End Try
     End Function
 
     ''' <summary>

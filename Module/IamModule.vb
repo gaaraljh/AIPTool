@@ -2473,7 +2473,7 @@ Module IamModule
                     FileSystem.FileCopy(oOldIdwFullFileName, oNewIdwFullFileName)             '复制为新工程图
 
                     ' MessageBox.Show("找到有对应的旧工程图，生成新的工程图，将打开，请链接到文件：" & vbCrLf & NewFullFileName & vbCrLf & "该文件名已复制，粘贴到对话框即可。", MsgBoxStyle.Information)
-                    'Windows.Forms.Clipboard.SetText(NewFullFileName)
+                    'System.Windows.Forms.Clipboard.SetText(NewFullFileName)
                     'ThisApplication.Documents.Open(NewIdwFullFileName, False)      '打开新的工程图，使其手动链接零件或部件
                     'ThisApplication.Documents.ItemByName(NewIdwFullFileName).Save2() '保存链接并关闭工程图
                     'ThisApplication.Documents.ItemByName(NewIdwFullFileName).Close()

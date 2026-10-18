@@ -444,7 +444,7 @@ Public Class FormBatchPrint
             .ShowDialog()
         End With
 
-        If (frmInputBox.DialogResult = Windows.Forms.DialogResult.OK) And (frmInputBox.txt输入.Text <> "") Then
+        If (frmInputBox.DialogResult = System.Windows.Forms.DialogResult.OK) And (frmInputBox.txt输入.Text <> "") Then
             strFilter = frmInputBox.txt输入.Text
         Else
             Me.TopMost = True
@@ -481,7 +481,7 @@ Public Class FormBatchPrint
             .ShowDialog()
         End With
 
-        If (frmInputBox.DialogResult = Windows.Forms.DialogResult.OK) And (frmInputBox.txt输入.Text <> "") Then
+        If (frmInputBox.DialogResult = System.Windows.Forms.DialogResult.OK) And (frmInputBox.txt输入.Text <> "") Then
             strFilter = frmInputBox.txt输入.Text
         Else
             Me.TopMost = True

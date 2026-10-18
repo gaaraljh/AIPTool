@@ -188,7 +188,7 @@ Partial Class FormCloneComponent
 
     Friend WithEvents btn选择现有组件 As Button
     Friend WithEvents btn选择组件圆弧 As Button
-    Friend WithEvents txt偏移量 As Windows.Forms.TextBox
+    Friend WithEvents txt偏移量 As System.Windows.Forms.TextBox
     Friend WithEvents btn关闭 As Button
     Friend WithEvents btn插入组件圆弧 As Button
     Friend WithEvents lbl现有组件 As Label

@@ -22,547 +22,565 @@ Partial Class FormFormatConversion
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container()
+        components = New ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormFormatConversion))
-        Me.Lvw文件列表 = New System.Windows.Forms.ListView()
-        Me.ColumnHeader文件名 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.cms右键菜单 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.tsmi移出 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.tsmi清空 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStrip文档格式 = New System.Windows.Forms.ToolStrip()
-        Me.文档格式ToolStripButton = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripButton1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.工程图ToolStripButton = New System.Windows.Forms.ToolStripButton()
-        Me.零部件ToolStripButton = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
-        Me.静默转换ToolStripButton = New System.Windows.Forms.ToolStripButton()
-        Me.转换后关闭ToolStripButton = New System.Windows.Forms.ToolStripButton()
-        Me.替换ToolStripButton = New System.Windows.Forms.ToolStripButton()
-        Me.移出文件ToolStripButton = New System.Windows.Forms.ToolStripButton()
-        Me.清空列表ToolStripButton = New System.Windows.Forms.ToolStripButton()
-        Me.加载方式ToolStrip = New System.Windows.Forms.ToolStrip()
-        Me.加载方式ToolStripButton = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.添加文件ToolStripButton = New System.Windows.Forms.ToolStripButton()
-        Me.添加文件夹ToolStripButton = New System.Windows.Forms.ToolStripButton()
-        Me.从部件导入ToolStripButton = New System.Windows.Forms.ToolStripButton()
-        Me.导入当前部件ToolStripButton = New System.Windows.Forms.ToolStripButton()
-        Me.导入已打开的文件ToolStripButton = New System.Windows.Forms.ToolStripButton()
-        Me.转换格式ToolStrip = New System.Windows.Forms.ToolStrip()
-        Me.转换格式ToolStripLabel = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.DWGToolStripButton = New System.Windows.Forms.ToolStripButton()
-        Me.DXFToolStripButton = New System.Windows.Forms.ToolStripButton()
-        Me.PDFToolStripButton = New System.Windows.Forms.ToolStripButton()
-        Me.JPGToolStripButton = New System.Windows.Forms.ToolStripButton()
-        Me.STPToolStripButton = New System.Windows.Forms.ToolStripButton()
-        Me.XTToolStripButton = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
-        Me.目录设置ToolStripLabel = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
-        Me.格式分类ToolStripButton = New System.Windows.Forms.ToolStripButton()
-        Me.黑色PDFToolStripButton = New System.Windows.Forms.ToolStripButton()
-        Me.指定文件夹ToolStripButton = New System.Windows.Forms.ToolStripButton()
-        Me.浏览ToolStripButton = New System.Windows.Forms.ToolStripButton()
-        Me.指定文件夹ToolStripTextBox = New System.Windows.Forms.ToolStripTextBox()
-        Me.开始转换ToolStrip = New System.Windows.Forms.ToolStrip()
-        Me.开始转换ToolStripLabel = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
-        Me.进度ToolStripProgressBar = New System.Windows.Forms.ToolStripProgressBar()
-        Me.开始转换ToolStripButton2 = New System.Windows.Forms.ToolStripButton()
-        Me.关闭ToolStripButton = New System.Windows.Forms.ToolStripButton()
-        Me.cms右键菜单.SuspendLayout()
-        Me.ToolStrip文档格式.SuspendLayout()
-        Me.加载方式ToolStrip.SuspendLayout()
-        Me.转换格式ToolStrip.SuspendLayout()
-        Me.ToolStrip1.SuspendLayout()
-        Me.开始转换ToolStrip.SuspendLayout()
-        Me.SuspendLayout()
-        '
-        'Lvw文件列表
-        '
-        Me.Lvw文件列表.AllowColumnReorder = True
-        Me.Lvw文件列表.AllowDrop = True
-        Me.Lvw文件列表.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Lvw文件列表.AutoArrange = False
-        Me.Lvw文件列表.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader文件名})
-        Me.Lvw文件列表.ContextMenuStrip = Me.cms右键菜单
-        Me.Lvw文件列表.FullRowSelect = True
-        Me.Lvw文件列表.HideSelection = False
-        Me.Lvw文件列表.Location = New System.Drawing.Point(18, 363)
-        Me.Lvw文件列表.Margin = New System.Windows.Forms.Padding(4)
-        Me.Lvw文件列表.Name = "Lvw文件列表"
-        Me.Lvw文件列表.Size = New System.Drawing.Size(1162, 526)
-        Me.Lvw文件列表.Sorting = System.Windows.Forms.SortOrder.Ascending
-        Me.Lvw文件列表.TabIndex = 37
-        Me.Lvw文件列表.UseCompatibleStateImageBehavior = False
-        Me.Lvw文件列表.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader文件名
-        '
-        Me.ColumnHeader文件名.Text = "文件名"
-        Me.ColumnHeader文件名.Width = 753
-        '
-        'cms右键菜单
-        '
-        Me.cms右键菜单.ImageScalingSize = New System.Drawing.Size(24, 24)
-        Me.cms右键菜单.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsmi移出, Me.tsmi清空})
-        Me.cms右键菜单.Name = "cmsRemove"
-        Me.cms右键菜单.Size = New System.Drawing.Size(123, 68)
-        '
-        'tsmi移出
-        '
-        Me.tsmi移出.Name = "tsmi移出"
-        Me.tsmi移出.Size = New System.Drawing.Size(122, 32)
-        Me.tsmi移出.Text = "移出"
-        '
-        'tsmi清空
-        '
-        Me.tsmi清空.Name = "tsmi清空"
-        Me.tsmi清空.Size = New System.Drawing.Size(122, 32)
-        Me.tsmi清空.Text = "清空"
-        '
-        'ToolStrip文档格式
-        '
-        Me.ToolStrip文档格式.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
-        Me.ToolStrip文档格式.ImageScalingSize = New System.Drawing.Size(24, 24)
-        Me.ToolStrip文档格式.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.文档格式ToolStripButton, Me.ToolStripButton1, Me.工程图ToolStripButton, Me.零部件ToolStripButton, Me.ToolStripSeparator5, Me.静默转换ToolStripButton, Me.转换后关闭ToolStripButton, Me.替换ToolStripButton, Me.移出文件ToolStripButton, Me.清空列表ToolStripButton})
-        Me.ToolStrip文档格式.Location = New System.Drawing.Point(0, 0)
-        Me.ToolStrip文档格式.Name = "ToolStrip文档格式"
-        Me.ToolStrip文档格式.Padding = New System.Windows.Forms.Padding(0, 0, 3, 0)
-        Me.ToolStrip文档格式.Size = New System.Drawing.Size(1200, 58)
-        Me.ToolStrip文档格式.TabIndex = 38
-        Me.ToolStrip文档格式.Text = "ToolStrip1"
-        '
-        '文档格式ToolStripButton
-        '
-        Me.文档格式ToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.文档格式ToolStripButton.Image = CType(resources.GetObject("文档格式ToolStripButton.Image"), System.Drawing.Image)
-        Me.文档格式ToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.文档格式ToolStripButton.Name = "文档格式ToolStripButton"
-        Me.文档格式ToolStripButton.Size = New System.Drawing.Size(88, 53)
-        Me.文档格式ToolStripButton.Text = "文档格式"
-        '
-        'ToolStripButton1
-        '
-        Me.ToolStripButton1.Name = "ToolStripButton1"
-        Me.ToolStripButton1.Size = New System.Drawing.Size(6, 58)
-        '
-        '工程图ToolStripButton
-        '
-        Me.工程图ToolStripButton.CheckOnClick = True
-        Me.工程图ToolStripButton.Image = CType(resources.GetObject("工程图ToolStripButton.Image"), System.Drawing.Image)
-        Me.工程图ToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.工程图ToolStripButton.Name = "工程图ToolStripButton"
-        Me.工程图ToolStripButton.Size = New System.Drawing.Size(73, 53)
-        Me.工程图ToolStripButton.Text = "工程图"
-        Me.工程图ToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        '零部件ToolStripButton
-        '
-        Me.零部件ToolStripButton.CheckOnClick = True
-        Me.零部件ToolStripButton.Image = CType(resources.GetObject("零部件ToolStripButton.Image"), System.Drawing.Image)
-        Me.零部件ToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.零部件ToolStripButton.Name = "零部件ToolStripButton"
-        Me.零部件ToolStripButton.Size = New System.Drawing.Size(73, 53)
-        Me.零部件ToolStripButton.Text = "零部件"
-        Me.零部件ToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        'ToolStripSeparator5
-        '
-        Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
-        Me.ToolStripSeparator5.Size = New System.Drawing.Size(6, 58)
-        '
-        '静默转换ToolStripButton
-        '
-        Me.静默转换ToolStripButton.Checked = True
-        Me.静默转换ToolStripButton.CheckOnClick = True
-        Me.静默转换ToolStripButton.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.静默转换ToolStripButton.Image = CType(resources.GetObject("静默转换ToolStripButton.Image"), System.Drawing.Image)
-        Me.静默转换ToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.静默转换ToolStripButton.Name = "静默转换ToolStripButton"
-        Me.静默转换ToolStripButton.Size = New System.Drawing.Size(92, 53)
-        Me.静默转换ToolStripButton.Text = "静默转换"
-        Me.静默转换ToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        Me.静默转换ToolStripButton.ToolTipText = "不显示文件"
-        '
-        '转换后关闭ToolStripButton
-        '
-        Me.转换后关闭ToolStripButton.Checked = True
-        Me.转换后关闭ToolStripButton.CheckOnClick = True
-        Me.转换后关闭ToolStripButton.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.转换后关闭ToolStripButton.Image = CType(resources.GetObject("转换后关闭ToolStripButton.Image"), System.Drawing.Image)
-        Me.转换后关闭ToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.转换后关闭ToolStripButton.Name = "转换后关闭ToolStripButton"
-        Me.转换后关闭ToolStripButton.Size = New System.Drawing.Size(111, 53)
-        Me.转换后关闭ToolStripButton.Text = "转换后关闭"
-        Me.转换后关闭ToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        Me.转换后关闭ToolStripButton.ToolTipText = "转换后关闭文件"
-        '
-        '替换ToolStripButton
-        '
-        Me.替换ToolStripButton.CheckOnClick = True
-        Me.替换ToolStripButton.Image = CType(resources.GetObject("替换ToolStripButton.Image"), System.Drawing.Image)
-        Me.替换ToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.替换ToolStripButton.Name = "替换ToolStripButton"
-        Me.替换ToolStripButton.Size = New System.Drawing.Size(54, 53)
-        Me.替换ToolStripButton.Text = "替换"
-        Me.替换ToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        Me.替换ToolStripButton.ToolTipText = "替换现有文件"
-        '
-        '移出文件ToolStripButton
-        '
-        Me.移出文件ToolStripButton.Image = CType(resources.GetObject("移出文件ToolStripButton.Image"), System.Drawing.Image)
-        Me.移出文件ToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.移出文件ToolStripButton.Name = "移出文件ToolStripButton"
-        Me.移出文件ToolStripButton.Size = New System.Drawing.Size(92, 53)
-        Me.移出文件ToolStripButton.Text = "移出文件"
-        Me.移出文件ToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        Me.移出文件ToolStripButton.ToolTipText = "移出选择的文件"
-        Me.移出文件ToolStripButton.Visible = False
-        '
-        '清空列表ToolStripButton
-        '
-        Me.清空列表ToolStripButton.Image = CType(resources.GetObject("清空列表ToolStripButton.Image"), System.Drawing.Image)
-        Me.清空列表ToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.清空列表ToolStripButton.Name = "清空列表ToolStripButton"
-        Me.清空列表ToolStripButton.Size = New System.Drawing.Size(92, 53)
-        Me.清空列表ToolStripButton.Text = "清空列表"
-        Me.清空列表ToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        Me.清空列表ToolStripButton.Visible = False
-        '
-        '加载方式ToolStrip
-        '
-        Me.加载方式ToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
-        Me.加载方式ToolStrip.ImageScalingSize = New System.Drawing.Size(24, 24)
-        Me.加载方式ToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.加载方式ToolStripButton, Me.ToolStripSeparator1, Me.添加文件ToolStripButton, Me.添加文件夹ToolStripButton, Me.从部件导入ToolStripButton, Me.导入当前部件ToolStripButton, Me.导入已打开的文件ToolStripButton})
-        Me.加载方式ToolStrip.Location = New System.Drawing.Point(0, 58)
-        Me.加载方式ToolStrip.Name = "加载方式ToolStrip"
-        Me.加载方式ToolStrip.Padding = New System.Windows.Forms.Padding(0, 0, 3, 0)
-        Me.加载方式ToolStrip.Size = New System.Drawing.Size(1200, 58)
-        Me.加载方式ToolStrip.TabIndex = 39
-        Me.加载方式ToolStrip.Text = "加载方式"
-        '
-        '加载方式ToolStripButton
-        '
-        Me.加载方式ToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.加载方式ToolStripButton.Image = CType(resources.GetObject("加载方式ToolStripButton.Image"), System.Drawing.Image)
-        Me.加载方式ToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.加载方式ToolStripButton.Name = "加载方式ToolStripButton"
-        Me.加载方式ToolStripButton.Size = New System.Drawing.Size(88, 53)
-        Me.加载方式ToolStripButton.Text = "加载方式"
-        '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 58)
-        '
-        '添加文件ToolStripButton
-        '
-        Me.添加文件ToolStripButton.Enabled = False
-        Me.添加文件ToolStripButton.Image = CType(resources.GetObject("添加文件ToolStripButton.Image"), System.Drawing.Image)
-        Me.添加文件ToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.添加文件ToolStripButton.Name = "添加文件ToolStripButton"
-        Me.添加文件ToolStripButton.Size = New System.Drawing.Size(92, 53)
-        Me.添加文件ToolStripButton.Text = "添加文件"
-        Me.添加文件ToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        '添加文件夹ToolStripButton
-        '
-        Me.添加文件夹ToolStripButton.Enabled = False
-        Me.添加文件夹ToolStripButton.Image = CType(resources.GetObject("添加文件夹ToolStripButton.Image"), System.Drawing.Image)
-        Me.添加文件夹ToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.添加文件夹ToolStripButton.Name = "添加文件夹ToolStripButton"
-        Me.添加文件夹ToolStripButton.Size = New System.Drawing.Size(111, 53)
-        Me.添加文件夹ToolStripButton.Text = "添加文件夹"
-        Me.添加文件夹ToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        '从部件导入ToolStripButton
-        '
-        Me.从部件导入ToolStripButton.Enabled = False
-        Me.从部件导入ToolStripButton.Image = CType(resources.GetObject("从部件导入ToolStripButton.Image"), System.Drawing.Image)
-        Me.从部件导入ToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.从部件导入ToolStripButton.Name = "从部件导入ToolStripButton"
-        Me.从部件导入ToolStripButton.Size = New System.Drawing.Size(111, 53)
-        Me.从部件导入ToolStripButton.Text = "从部件导入"
-        Me.从部件导入ToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        '导入当前部件ToolStripButton
-        '
-        Me.导入当前部件ToolStripButton.Enabled = False
-        Me.导入当前部件ToolStripButton.Image = CType(resources.GetObject("导入当前部件ToolStripButton.Image"), System.Drawing.Image)
-        Me.导入当前部件ToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.导入当前部件ToolStripButton.Name = "导入当前部件ToolStripButton"
-        Me.导入当前部件ToolStripButton.Size = New System.Drawing.Size(130, 53)
-        Me.导入当前部件ToolStripButton.Text = "导入当前部件"
-        Me.导入当前部件ToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        '导入已打开的文件ToolStripButton
-        '
-        Me.导入已打开的文件ToolStripButton.Enabled = False
-        Me.导入已打开的文件ToolStripButton.Image = CType(resources.GetObject("导入已打开的文件ToolStripButton.Image"), System.Drawing.Image)
-        Me.导入已打开的文件ToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.导入已打开的文件ToolStripButton.Name = "导入已打开的文件ToolStripButton"
-        Me.导入已打开的文件ToolStripButton.Size = New System.Drawing.Size(168, 53)
-        Me.导入已打开的文件ToolStripButton.Text = "导入已打开的文件"
-        Me.导入已打开的文件ToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        '转换格式ToolStrip
-        '
-        Me.转换格式ToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
-        Me.转换格式ToolStrip.ImageScalingSize = New System.Drawing.Size(24, 24)
-        Me.转换格式ToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.转换格式ToolStripLabel, Me.ToolStripSeparator2, Me.DWGToolStripButton, Me.DXFToolStripButton, Me.PDFToolStripButton, Me.JPGToolStripButton, Me.STPToolStripButton, Me.XTToolStripButton})
-        Me.转换格式ToolStrip.Location = New System.Drawing.Point(0, 116)
-        Me.转换格式ToolStrip.Name = "转换格式ToolStrip"
-        Me.转换格式ToolStrip.Padding = New System.Windows.Forms.Padding(0, 0, 3, 0)
-        Me.转换格式ToolStrip.Size = New System.Drawing.Size(1200, 58)
-        Me.转换格式ToolStrip.TabIndex = 40
-        Me.转换格式ToolStrip.Text = "转换格式"
-        '
-        '转换格式ToolStripLabel
-        '
-        Me.转换格式ToolStripLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.转换格式ToolStripLabel.Image = CType(resources.GetObject("转换格式ToolStripLabel.Image"), System.Drawing.Image)
-        Me.转换格式ToolStripLabel.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.转换格式ToolStripLabel.Name = "转换格式ToolStripLabel"
-        Me.转换格式ToolStripLabel.Size = New System.Drawing.Size(88, 53)
-        Me.转换格式ToolStripLabel.Text = "转换格式"
-        '
-        'ToolStripSeparator2
-        '
-        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 58)
-        '
-        'DWGToolStripButton
-        '
-        Me.DWGToolStripButton.CheckOnClick = True
-        Me.DWGToolStripButton.Enabled = False
-        Me.DWGToolStripButton.Image = CType(resources.GetObject("DWGToolStripButton.Image"), System.Drawing.Image)
-        Me.DWGToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.DWGToolStripButton.Name = "DWGToolStripButton"
-        Me.DWGToolStripButton.Size = New System.Drawing.Size(58, 53)
-        Me.DWGToolStripButton.Text = "DWG"
-        Me.DWGToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        'DXFToolStripButton
-        '
-        Me.DXFToolStripButton.CheckOnClick = True
-        Me.DXFToolStripButton.Enabled = False
-        Me.DXFToolStripButton.Image = CType(resources.GetObject("DXFToolStripButton.Image"), System.Drawing.Image)
-        Me.DXFToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.DXFToolStripButton.Name = "DXFToolStripButton"
-        Me.DXFToolStripButton.Size = New System.Drawing.Size(48, 53)
-        Me.DXFToolStripButton.Text = "DXF"
-        Me.DXFToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        'PDFToolStripButton
-        '
-        Me.PDFToolStripButton.CheckOnClick = True
-        Me.PDFToolStripButton.Enabled = False
-        Me.PDFToolStripButton.Image = CType(resources.GetObject("PDFToolStripButton.Image"), System.Drawing.Image)
-        Me.PDFToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.PDFToolStripButton.Name = "PDFToolStripButton"
-        Me.PDFToolStripButton.Size = New System.Drawing.Size(48, 53)
-        Me.PDFToolStripButton.Text = "PDF"
-        Me.PDFToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        'JPGToolStripButton
-        '
-        Me.JPGToolStripButton.CheckOnClick = True
-        Me.JPGToolStripButton.Enabled = False
-        Me.JPGToolStripButton.Image = CType(resources.GetObject("JPGToolStripButton.Image"), System.Drawing.Image)
-        Me.JPGToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.JPGToolStripButton.Name = "JPGToolStripButton"
-        Me.JPGToolStripButton.Size = New System.Drawing.Size(44, 53)
-        Me.JPGToolStripButton.Text = "JPG"
-        Me.JPGToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        'STPToolStripButton
-        '
-        Me.STPToolStripButton.CheckOnClick = True
-        Me.STPToolStripButton.Enabled = False
-        Me.STPToolStripButton.Image = CType(resources.GetObject("STPToolStripButton.Image"), System.Drawing.Image)
-        Me.STPToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.STPToolStripButton.Name = "STPToolStripButton"
-        Me.STPToolStripButton.Size = New System.Drawing.Size(45, 53)
-        Me.STPToolStripButton.Text = "STP"
-        Me.STPToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        'XTToolStripButton
-        '
-        Me.XTToolStripButton.CheckOnClick = True
-        Me.XTToolStripButton.Enabled = False
-        Me.XTToolStripButton.Image = CType(resources.GetObject("XTToolStripButton.Image"), System.Drawing.Image)
-        Me.XTToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.XTToolStripButton.Name = "XTToolStripButton"
-        Me.XTToolStripButton.Size = New System.Drawing.Size(43, 53)
-        Me.XTToolStripButton.Text = "X_T"
-        Me.XTToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        'ToolStrip1
-        '
-        Me.ToolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
-        Me.ToolStrip1.ImageScalingSize = New System.Drawing.Size(24, 24)
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.目录设置ToolStripLabel, Me.ToolStripSeparator4, Me.格式分类ToolStripButton, Me.黑色PDFToolStripButton, Me.指定文件夹ToolStripButton, Me.浏览ToolStripButton, Me.指定文件夹ToolStripTextBox})
-        Me.ToolStrip1.Location = New System.Drawing.Point(0, 174)
-        Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Padding = New System.Windows.Forms.Padding(0, 0, 3, 0)
-        Me.ToolStrip1.Size = New System.Drawing.Size(1200, 58)
-        Me.ToolStrip1.TabIndex = 41
-        Me.ToolStrip1.Text = "ToolStrip1"
-        '
-        '目录设置ToolStripLabel
-        '
-        Me.目录设置ToolStripLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.目录设置ToolStripLabel.Image = CType(resources.GetObject("目录设置ToolStripLabel.Image"), System.Drawing.Image)
-        Me.目录设置ToolStripLabel.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.目录设置ToolStripLabel.Name = "目录设置ToolStripLabel"
-        Me.目录设置ToolStripLabel.Size = New System.Drawing.Size(88, 53)
-        Me.目录设置ToolStripLabel.Text = "目录设置"
-        '
-        'ToolStripSeparator4
-        '
-        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
-        Me.ToolStripSeparator4.Size = New System.Drawing.Size(6, 58)
-        '
-        '格式分类ToolStripButton
-        '
-        Me.格式分类ToolStripButton.Checked = True
-        Me.格式分类ToolStripButton.CheckOnClick = True
-        Me.格式分类ToolStripButton.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.格式分类ToolStripButton.Image = CType(resources.GetObject("格式分类ToolStripButton.Image"), System.Drawing.Image)
-        Me.格式分类ToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.格式分类ToolStripButton.Name = "格式分类ToolStripButton"
-        Me.格式分类ToolStripButton.Size = New System.Drawing.Size(92, 53)
-        Me.格式分类ToolStripButton.Text = "格式分类"
-        Me.格式分类ToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        Me.格式分类ToolStripButton.ToolTipText = "按格式分类到子文件夹"
-        '
-        '黑色PDFToolStripButton
-        '
-        Me.黑色PDFToolStripButton.Checked = True
-        Me.黑色PDFToolStripButton.CheckOnClick = True
-        Me.黑色PDFToolStripButton.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.黑色PDFToolStripButton.Image = CType(resources.GetObject("黑色PDFToolStripButton.Image"), System.Drawing.Image)
-        Me.黑色PDFToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.黑色PDFToolStripButton.Name = "黑色PDFToolStripButton"
-        Me.黑色PDFToolStripButton.Size = New System.Drawing.Size(86, 53)
-        Me.黑色PDFToolStripButton.Text = "黑色PDF"
-        Me.黑色PDFToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        Me.黑色PDFToolStripButton.ToolTipText = "输出PDF为黑色"
-        '
-        '指定文件夹ToolStripButton
-        '
-        Me.指定文件夹ToolStripButton.CheckOnClick = True
-        Me.指定文件夹ToolStripButton.Image = CType(resources.GetObject("指定文件夹ToolStripButton.Image"), System.Drawing.Image)
-        Me.指定文件夹ToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.指定文件夹ToolStripButton.Name = "指定文件夹ToolStripButton"
-        Me.指定文件夹ToolStripButton.Size = New System.Drawing.Size(111, 53)
-        Me.指定文件夹ToolStripButton.Text = "指定文件夹"
-        Me.指定文件夹ToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        '浏览ToolStripButton
-        '
-        Me.浏览ToolStripButton.Enabled = False
-        Me.浏览ToolStripButton.Image = CType(resources.GetObject("浏览ToolStripButton.Image"), System.Drawing.Image)
-        Me.浏览ToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.浏览ToolStripButton.Name = "浏览ToolStripButton"
-        Me.浏览ToolStripButton.Size = New System.Drawing.Size(54, 53)
-        Me.浏览ToolStripButton.Text = "浏览"
-        Me.浏览ToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        Me.浏览ToolStripButton.ToolTipText = "浏览指定文件夹"
-        '
-        '指定文件夹ToolStripTextBox
-        '
-        Me.指定文件夹ToolStripTextBox.Enabled = False
-        Me.指定文件夹ToolStripTextBox.Font = New System.Drawing.Font("Microsoft YaHei UI", 9.0!)
-        Me.指定文件夹ToolStripTextBox.Name = "指定文件夹ToolStripTextBox"
-        Me.指定文件夹ToolStripTextBox.Size = New System.Drawing.Size(550, 58)
-        '
-        '开始转换ToolStrip
-        '
-        Me.开始转换ToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
-        Me.开始转换ToolStrip.ImageScalingSize = New System.Drawing.Size(24, 24)
-        Me.开始转换ToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.开始转换ToolStripLabel, Me.ToolStripSeparator3, Me.进度ToolStripProgressBar, Me.开始转换ToolStripButton2, Me.关闭ToolStripButton})
-        Me.开始转换ToolStrip.Location = New System.Drawing.Point(0, 232)
-        Me.开始转换ToolStrip.Name = "开始转换ToolStrip"
-        Me.开始转换ToolStrip.Padding = New System.Windows.Forms.Padding(0, 0, 3, 0)
-        Me.开始转换ToolStrip.Size = New System.Drawing.Size(1200, 58)
-        Me.开始转换ToolStrip.TabIndex = 42
-        Me.开始转换ToolStrip.Text = "开始转换"
-        '
-        '开始转换ToolStripLabel
-        '
-        Me.开始转换ToolStripLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.开始转换ToolStripLabel.Image = CType(resources.GetObject("开始转换ToolStripLabel.Image"), System.Drawing.Image)
-        Me.开始转换ToolStripLabel.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.开始转换ToolStripLabel.Name = "开始转换ToolStripLabel"
-        Me.开始转换ToolStripLabel.Size = New System.Drawing.Size(88, 53)
-        Me.开始转换ToolStripLabel.Text = "开始转换"
-        '
-        'ToolStripSeparator3
-        '
-        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(6, 58)
-        '
-        '进度ToolStripProgressBar
-        '
-        Me.进度ToolStripProgressBar.AutoSize = False
-        Me.进度ToolStripProgressBar.Name = "进度ToolStripProgressBar"
-        Me.进度ToolStripProgressBar.Size = New System.Drawing.Size(825, 42)
-        Me.进度ToolStripProgressBar.Step = 1
-        Me.进度ToolStripProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous
-        '
-        '开始转换ToolStripButton2
-        '
-        Me.开始转换ToolStripButton2.Image = CType(resources.GetObject("开始转换ToolStripButton2.Image"), System.Drawing.Image)
-        Me.开始转换ToolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.开始转换ToolStripButton2.Name = "开始转换ToolStripButton2"
-        Me.开始转换ToolStripButton2.Size = New System.Drawing.Size(92, 53)
-        Me.开始转换ToolStripButton2.Text = "开始转换"
-        Me.开始转换ToolStripButton2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        Me.开始转换ToolStripButton2.ToolTipText = "开始转换"
-        '
-        '关闭ToolStripButton
-        '
-        Me.关闭ToolStripButton.CheckOnClick = True
-        Me.关闭ToolStripButton.Image = CType(resources.GetObject("关闭ToolStripButton.Image"), System.Drawing.Image)
-        Me.关闭ToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.关闭ToolStripButton.Name = "关闭ToolStripButton"
-        Me.关闭ToolStripButton.Size = New System.Drawing.Size(54, 53)
-        Me.关闭ToolStripButton.Text = "关闭"
-        Me.关闭ToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        'FormFormatConversion
-        '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1200, 911)
-        Me.Controls.Add(Me.开始转换ToolStrip)
-        Me.Controls.Add(Me.ToolStrip1)
-        Me.Controls.Add(Me.转换格式ToolStrip)
-        Me.Controls.Add(Me.加载方式ToolStrip)
-        Me.Controls.Add(Me.ToolStrip文档格式)
-        Me.Controls.Add(Me.Lvw文件列表)
-        Me.Margin = New System.Windows.Forms.Padding(4)
-        Me.Name = "FormFormatConversion"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "格式转换"
-        Me.cms右键菜单.ResumeLayout(False)
-        Me.ToolStrip文档格式.ResumeLayout(False)
-        Me.ToolStrip文档格式.PerformLayout()
-        Me.加载方式ToolStrip.ResumeLayout(False)
-        Me.加载方式ToolStrip.PerformLayout()
-        Me.转换格式ToolStrip.ResumeLayout(False)
-        Me.转换格式ToolStrip.PerformLayout()
-        Me.ToolStrip1.ResumeLayout(False)
-        Me.ToolStrip1.PerformLayout()
-        Me.开始转换ToolStrip.ResumeLayout(False)
-        Me.开始转换ToolStrip.PerformLayout()
-        Me.ResumeLayout(False)
-        Me.PerformLayout()
+        Lvw文件列表 = New ListView()
+        ColumnHeader文件名 = New ColumnHeader()
+        cms右键菜单 = New ContextMenuStrip(components)
+        tsmi移出 = New ToolStripMenuItem()
+        tsmi清空 = New ToolStripMenuItem()
+        ToolStrip文档格式 = New ToolStrip()
+        文档格式ToolStripButton = New ToolStripLabel()
+        ToolStripButton1 = New ToolStripSeparator()
+        工程图ToolStripButton = New ToolStripButton()
+        零部件ToolStripButton = New ToolStripButton()
+        ToolStripSeparator5 = New ToolStripSeparator()
+        静默转换ToolStripButton = New ToolStripButton()
+        转换后关闭ToolStripButton = New ToolStripButton()
+        替换ToolStripButton = New ToolStripButton()
+        移出文件ToolStripButton = New ToolStripButton()
+        清空列表ToolStripButton = New ToolStripButton()
+        加载方式ToolStrip = New ToolStrip()
+        加载方式ToolStripButton = New ToolStripLabel()
+        ToolStripSeparator1 = New ToolStripSeparator()
+        添加文件ToolStripButton = New ToolStripButton()
+        添加文件夹ToolStripButton = New ToolStripButton()
+        从部件导入ToolStripButton = New ToolStripButton()
+        导入当前部件ToolStripButton = New ToolStripButton()
+        导入已打开的文件ToolStripButton = New ToolStripButton()
+        转换格式ToolStrip = New ToolStrip()
+        转换格式ToolStripLabel = New ToolStripLabel()
+        ToolStripSeparator2 = New ToolStripSeparator()
+        DWGToolStripButton = New ToolStripButton()
+        DXFToolStripButton = New ToolStripButton()
+        PDFToolStripButton = New ToolStripButton()
+        JPGToolStripButton = New ToolStripButton()
+        STPToolStripButton = New ToolStripButton()
+        XTToolStripButton = New ToolStripButton()
+        ToolStrip1 = New ToolStrip()
+        目录设置ToolStripLabel = New ToolStripLabel()
+        ToolStripSeparator4 = New ToolStripSeparator()
+        格式分类ToolStripButton = New ToolStripButton()
+        黑色PDFToolStripButton = New ToolStripButton()
+        指定文件夹ToolStripButton = New ToolStripButton()
+        浏览ToolStripButton = New ToolStripButton()
+        指定文件夹ToolStripTextBox = New ToolStripTextBox()
+        开始转换ToolStrip = New ToolStrip()
+        开始转换ToolStripLabel = New ToolStripLabel()
+        ToolStripSeparator3 = New ToolStripSeparator()
+        进度ToolStripProgressBar = New ToolStripProgressBar()
+        开始转换ToolStripButton2 = New ToolStripButton()
+        关闭ToolStripButton = New ToolStripButton()
+        TableLayoutPanel1 = New TableLayoutPanel()
+        cms右键菜单.SuspendLayout()
+        ToolStrip文档格式.SuspendLayout()
+        加载方式ToolStrip.SuspendLayout()
+        转换格式ToolStrip.SuspendLayout()
+        ToolStrip1.SuspendLayout()
+        开始转换ToolStrip.SuspendLayout()
+        TableLayoutPanel1.SuspendLayout()
+        SuspendLayout()
+        ' 
+        ' Lvw文件列表
+        ' 
+        Lvw文件列表.AllowColumnReorder = True
+        Lvw文件列表.AllowDrop = True
+        Lvw文件列表.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        Lvw文件列表.AutoArrange = False
+        Lvw文件列表.Columns.AddRange(New ColumnHeader() {ColumnHeader文件名})
+        Lvw文件列表.ContextMenuStrip = cms右键菜单
+        Lvw文件列表.FullRowSelect = True
+        Lvw文件列表.Location = New System.Drawing.Point(4, 355)
+        Lvw文件列表.Margin = New Padding(4, 5, 4, 5)
+        Lvw文件列表.Name = "Lvw文件列表"
+        Lvw文件列表.Size = New Size(1214, 779)
+        Lvw文件列表.Sorting = SortOrder.Ascending
+        Lvw文件列表.TabIndex = 37
+        Lvw文件列表.UseCompatibleStateImageBehavior = False
+        Lvw文件列表.View = System.Windows.Forms.View.Details
+        ' 
+        ' ColumnHeader文件名
+        ' 
+        ColumnHeader文件名.Text = "文件名"
+        ColumnHeader文件名.Width = 753
+        ' 
+        ' cms右键菜单
+        ' 
+        cms右键菜单.ImageScalingSize = New Size(24, 24)
+        cms右键菜单.Items.AddRange(New ToolStripItem() {tsmi移出, tsmi清空})
+        cms右键菜单.Name = "cmsRemove"
+        cms右键菜单.Size = New Size(123, 68)
+        ' 
+        ' tsmi移出
+        ' 
+        tsmi移出.Name = "tsmi移出"
+        tsmi移出.Size = New Size(122, 32)
+        tsmi移出.Text = "移出"
+        ' 
+        ' tsmi清空
+        ' 
+        tsmi清空.Name = "tsmi清空"
+        tsmi清空.Size = New Size(122, 32)
+        tsmi清空.Text = "清空"
+        ' 
+        ' ToolStrip文档格式
+        ' 
+        ToolStrip文档格式.GripStyle = ToolStripGripStyle.Hidden
+        ToolStrip文档格式.ImageScalingSize = New Size(24, 24)
+        ToolStrip文档格式.Items.AddRange(New ToolStripItem() {文档格式ToolStripButton, ToolStripButton1, 工程图ToolStripButton, 零部件ToolStripButton, ToolStripSeparator5, 静默转换ToolStripButton, 转换后关闭ToolStripButton, 替换ToolStripButton, 移出文件ToolStripButton, 清空列表ToolStripButton})
+        ToolStrip文档格式.Location = New System.Drawing.Point(0, 232)
+        ToolStrip文档格式.Name = "ToolStrip文档格式"
+        ToolStrip文档格式.Padding = New Padding(0, 0, 3, 0)
+        ToolStrip文档格式.Size = New Size(1222, 58)
+        ToolStrip文档格式.TabIndex = 38
+        ToolStrip文档格式.Text = "ToolStrip1"
+        ' 
+        ' 文档格式ToolStripButton
+        ' 
+        文档格式ToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Text
+        文档格式ToolStripButton.Image = CType(resources.GetObject("文档格式ToolStripButton.Image"), Image)
+        文档格式ToolStripButton.ImageTransparentColor = Drawing.Color.Magenta
+        文档格式ToolStripButton.Name = "文档格式ToolStripButton"
+        文档格式ToolStripButton.Size = New Size(88, 53)
+        文档格式ToolStripButton.Text = "文档格式"
+        ' 
+        ' ToolStripButton1
+        ' 
+        ToolStripButton1.Name = "ToolStripButton1"
+        ToolStripButton1.Size = New Size(6, 58)
+        ' 
+        ' 工程图ToolStripButton
+        ' 
+        工程图ToolStripButton.CheckOnClick = True
+        工程图ToolStripButton.Image = CType(resources.GetObject("工程图ToolStripButton.Image"), Image)
+        工程图ToolStripButton.ImageTransparentColor = Drawing.Color.Magenta
+        工程图ToolStripButton.Name = "工程图ToolStripButton"
+        工程图ToolStripButton.Size = New Size(73, 53)
+        工程图ToolStripButton.Text = "工程图"
+        工程图ToolStripButton.TextImageRelation = TextImageRelation.ImageAboveText
+        ' 
+        ' 零部件ToolStripButton
+        ' 
+        零部件ToolStripButton.CheckOnClick = True
+        零部件ToolStripButton.Image = CType(resources.GetObject("零部件ToolStripButton.Image"), Image)
+        零部件ToolStripButton.ImageTransparentColor = Drawing.Color.Magenta
+        零部件ToolStripButton.Name = "零部件ToolStripButton"
+        零部件ToolStripButton.Size = New Size(73, 53)
+        零部件ToolStripButton.Text = "零部件"
+        零部件ToolStripButton.TextImageRelation = TextImageRelation.ImageAboveText
+        ' 
+        ' ToolStripSeparator5
+        ' 
+        ToolStripSeparator5.Name = "ToolStripSeparator5"
+        ToolStripSeparator5.Size = New Size(6, 58)
+        ' 
+        ' 静默转换ToolStripButton
+        ' 
+        静默转换ToolStripButton.Checked = True
+        静默转换ToolStripButton.CheckOnClick = True
+        静默转换ToolStripButton.CheckState = CheckState.Checked
+        静默转换ToolStripButton.Image = CType(resources.GetObject("静默转换ToolStripButton.Image"), Image)
+        静默转换ToolStripButton.ImageTransparentColor = Drawing.Color.Magenta
+        静默转换ToolStripButton.Name = "静默转换ToolStripButton"
+        静默转换ToolStripButton.Size = New Size(92, 53)
+        静默转换ToolStripButton.Text = "静默转换"
+        静默转换ToolStripButton.TextImageRelation = TextImageRelation.ImageAboveText
+        静默转换ToolStripButton.ToolTipText = "不显示文件"
+        ' 
+        ' 转换后关闭ToolStripButton
+        ' 
+        转换后关闭ToolStripButton.Checked = True
+        转换后关闭ToolStripButton.CheckOnClick = True
+        转换后关闭ToolStripButton.CheckState = CheckState.Checked
+        转换后关闭ToolStripButton.Image = CType(resources.GetObject("转换后关闭ToolStripButton.Image"), Image)
+        转换后关闭ToolStripButton.ImageTransparentColor = Drawing.Color.Magenta
+        转换后关闭ToolStripButton.Name = "转换后关闭ToolStripButton"
+        转换后关闭ToolStripButton.Size = New Size(111, 53)
+        转换后关闭ToolStripButton.Text = "转换后关闭"
+        转换后关闭ToolStripButton.TextImageRelation = TextImageRelation.ImageAboveText
+        转换后关闭ToolStripButton.ToolTipText = "转换后关闭文件"
+        ' 
+        ' 替换ToolStripButton
+        ' 
+        替换ToolStripButton.CheckOnClick = True
+        替换ToolStripButton.Image = CType(resources.GetObject("替换ToolStripButton.Image"), Image)
+        替换ToolStripButton.ImageTransparentColor = Drawing.Color.Magenta
+        替换ToolStripButton.Name = "替换ToolStripButton"
+        替换ToolStripButton.Size = New Size(54, 53)
+        替换ToolStripButton.Text = "替换"
+        替换ToolStripButton.TextImageRelation = TextImageRelation.ImageAboveText
+        替换ToolStripButton.ToolTipText = "替换现有文件"
+        ' 
+        ' 移出文件ToolStripButton
+        ' 
+        移出文件ToolStripButton.Image = CType(resources.GetObject("移出文件ToolStripButton.Image"), Image)
+        移出文件ToolStripButton.ImageTransparentColor = Drawing.Color.Magenta
+        移出文件ToolStripButton.Name = "移出文件ToolStripButton"
+        移出文件ToolStripButton.Size = New Size(92, 53)
+        移出文件ToolStripButton.Text = "移出文件"
+        移出文件ToolStripButton.TextImageRelation = TextImageRelation.ImageAboveText
+        移出文件ToolStripButton.ToolTipText = "移出选择的文件"
+        移出文件ToolStripButton.Visible = False
+        ' 
+        ' 清空列表ToolStripButton
+        ' 
+        清空列表ToolStripButton.Image = CType(resources.GetObject("清空列表ToolStripButton.Image"), Image)
+        清空列表ToolStripButton.ImageTransparentColor = Drawing.Color.Magenta
+        清空列表ToolStripButton.Name = "清空列表ToolStripButton"
+        清空列表ToolStripButton.Size = New Size(92, 53)
+        清空列表ToolStripButton.Text = "清空列表"
+        清空列表ToolStripButton.TextImageRelation = TextImageRelation.ImageAboveText
+        清空列表ToolStripButton.Visible = False
+        ' 
+        ' 加载方式ToolStrip
+        ' 
+        加载方式ToolStrip.GripStyle = ToolStripGripStyle.Hidden
+        加载方式ToolStrip.ImageScalingSize = New Size(24, 24)
+        加载方式ToolStrip.Items.AddRange(New ToolStripItem() {加载方式ToolStripButton, ToolStripSeparator1, 添加文件ToolStripButton, 添加文件夹ToolStripButton, 从部件导入ToolStripButton, 导入当前部件ToolStripButton, 导入已打开的文件ToolStripButton})
+        加载方式ToolStrip.Location = New System.Drawing.Point(0, 174)
+        加载方式ToolStrip.Name = "加载方式ToolStrip"
+        加载方式ToolStrip.Padding = New Padding(0, 0, 3, 0)
+        加载方式ToolStrip.Size = New Size(1222, 58)
+        加载方式ToolStrip.TabIndex = 39
+        加载方式ToolStrip.Text = "加载方式"
+        ' 
+        ' 加载方式ToolStripButton
+        ' 
+        加载方式ToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Text
+        加载方式ToolStripButton.Image = CType(resources.GetObject("加载方式ToolStripButton.Image"), Image)
+        加载方式ToolStripButton.ImageTransparentColor = Drawing.Color.Magenta
+        加载方式ToolStripButton.Name = "加载方式ToolStripButton"
+        加载方式ToolStripButton.Size = New Size(88, 53)
+        加载方式ToolStripButton.Text = "加载方式"
+        ' 
+        ' ToolStripSeparator1
+        ' 
+        ToolStripSeparator1.Name = "ToolStripSeparator1"
+        ToolStripSeparator1.Size = New Size(6, 58)
+        ' 
+        ' 添加文件ToolStripButton
+        ' 
+        添加文件ToolStripButton.Enabled = False
+        添加文件ToolStripButton.Image = CType(resources.GetObject("添加文件ToolStripButton.Image"), Image)
+        添加文件ToolStripButton.ImageTransparentColor = Drawing.Color.Magenta
+        添加文件ToolStripButton.Name = "添加文件ToolStripButton"
+        添加文件ToolStripButton.Size = New Size(92, 53)
+        添加文件ToolStripButton.Text = "添加文件"
+        添加文件ToolStripButton.TextImageRelation = TextImageRelation.ImageAboveText
+        ' 
+        ' 添加文件夹ToolStripButton
+        ' 
+        添加文件夹ToolStripButton.Enabled = False
+        添加文件夹ToolStripButton.Image = CType(resources.GetObject("添加文件夹ToolStripButton.Image"), Image)
+        添加文件夹ToolStripButton.ImageTransparentColor = Drawing.Color.Magenta
+        添加文件夹ToolStripButton.Name = "添加文件夹ToolStripButton"
+        添加文件夹ToolStripButton.Size = New Size(111, 53)
+        添加文件夹ToolStripButton.Text = "添加文件夹"
+        添加文件夹ToolStripButton.TextImageRelation = TextImageRelation.ImageAboveText
+        ' 
+        ' 从部件导入ToolStripButton
+        ' 
+        从部件导入ToolStripButton.Enabled = False
+        从部件导入ToolStripButton.Image = CType(resources.GetObject("从部件导入ToolStripButton.Image"), Image)
+        从部件导入ToolStripButton.ImageTransparentColor = Drawing.Color.Magenta
+        从部件导入ToolStripButton.Name = "从部件导入ToolStripButton"
+        从部件导入ToolStripButton.Size = New Size(111, 53)
+        从部件导入ToolStripButton.Text = "从部件导入"
+        从部件导入ToolStripButton.TextImageRelation = TextImageRelation.ImageAboveText
+        ' 
+        ' 导入当前部件ToolStripButton
+        ' 
+        导入当前部件ToolStripButton.Enabled = False
+        导入当前部件ToolStripButton.Image = CType(resources.GetObject("导入当前部件ToolStripButton.Image"), Image)
+        导入当前部件ToolStripButton.ImageTransparentColor = Drawing.Color.Magenta
+        导入当前部件ToolStripButton.Name = "导入当前部件ToolStripButton"
+        导入当前部件ToolStripButton.Size = New Size(130, 53)
+        导入当前部件ToolStripButton.Text = "导入当前部件"
+        导入当前部件ToolStripButton.TextImageRelation = TextImageRelation.ImageAboveText
+        ' 
+        ' 导入已打开的文件ToolStripButton
+        ' 
+        导入已打开的文件ToolStripButton.Enabled = False
+        导入已打开的文件ToolStripButton.Image = CType(resources.GetObject("导入已打开的文件ToolStripButton.Image"), Image)
+        导入已打开的文件ToolStripButton.ImageTransparentColor = Drawing.Color.Magenta
+        导入已打开的文件ToolStripButton.Name = "导入已打开的文件ToolStripButton"
+        导入已打开的文件ToolStripButton.Size = New Size(168, 53)
+        导入已打开的文件ToolStripButton.Text = "导入已打开的文件"
+        导入已打开的文件ToolStripButton.TextImageRelation = TextImageRelation.ImageAboveText
+        ' 
+        ' 转换格式ToolStrip
+        ' 
+        转换格式ToolStrip.GripStyle = ToolStripGripStyle.Hidden
+        转换格式ToolStrip.ImageScalingSize = New Size(24, 24)
+        转换格式ToolStrip.Items.AddRange(New ToolStripItem() {转换格式ToolStripLabel, ToolStripSeparator2, DWGToolStripButton, DXFToolStripButton, PDFToolStripButton, JPGToolStripButton, STPToolStripButton, XTToolStripButton})
+        转换格式ToolStrip.Location = New System.Drawing.Point(0, 116)
+        转换格式ToolStrip.Name = "转换格式ToolStrip"
+        转换格式ToolStrip.Padding = New Padding(0, 0, 3, 0)
+        转换格式ToolStrip.Size = New Size(1222, 58)
+        转换格式ToolStrip.TabIndex = 40
+        转换格式ToolStrip.Text = "转换格式"
+        ' 
+        ' 转换格式ToolStripLabel
+        ' 
+        转换格式ToolStripLabel.DisplayStyle = ToolStripItemDisplayStyle.Text
+        转换格式ToolStripLabel.Image = CType(resources.GetObject("转换格式ToolStripLabel.Image"), Image)
+        转换格式ToolStripLabel.ImageTransparentColor = Drawing.Color.Magenta
+        转换格式ToolStripLabel.Name = "转换格式ToolStripLabel"
+        转换格式ToolStripLabel.Size = New Size(88, 53)
+        转换格式ToolStripLabel.Text = "转换格式"
+        ' 
+        ' ToolStripSeparator2
+        ' 
+        ToolStripSeparator2.Name = "ToolStripSeparator2"
+        ToolStripSeparator2.Size = New Size(6, 58)
+        ' 
+        ' DWGToolStripButton
+        ' 
+        DWGToolStripButton.CheckOnClick = True
+        DWGToolStripButton.Enabled = False
+        DWGToolStripButton.Image = CType(resources.GetObject("DWGToolStripButton.Image"), Image)
+        DWGToolStripButton.ImageTransparentColor = Drawing.Color.Magenta
+        DWGToolStripButton.Name = "DWGToolStripButton"
+        DWGToolStripButton.Size = New Size(58, 53)
+        DWGToolStripButton.Text = "DWG"
+        DWGToolStripButton.TextImageRelation = TextImageRelation.ImageAboveText
+        ' 
+        ' DXFToolStripButton
+        ' 
+        DXFToolStripButton.CheckOnClick = True
+        DXFToolStripButton.Enabled = False
+        DXFToolStripButton.Image = CType(resources.GetObject("DXFToolStripButton.Image"), Image)
+        DXFToolStripButton.ImageTransparentColor = Drawing.Color.Magenta
+        DXFToolStripButton.Name = "DXFToolStripButton"
+        DXFToolStripButton.Size = New Size(48, 53)
+        DXFToolStripButton.Text = "DXF"
+        DXFToolStripButton.TextImageRelation = TextImageRelation.ImageAboveText
+        ' 
+        ' PDFToolStripButton
+        ' 
+        PDFToolStripButton.CheckOnClick = True
+        PDFToolStripButton.Enabled = False
+        PDFToolStripButton.Image = CType(resources.GetObject("PDFToolStripButton.Image"), Image)
+        PDFToolStripButton.ImageTransparentColor = Drawing.Color.Magenta
+        PDFToolStripButton.Name = "PDFToolStripButton"
+        PDFToolStripButton.Size = New Size(48, 53)
+        PDFToolStripButton.Text = "PDF"
+        PDFToolStripButton.TextImageRelation = TextImageRelation.ImageAboveText
+        ' 
+        ' JPGToolStripButton
+        ' 
+        JPGToolStripButton.CheckOnClick = True
+        JPGToolStripButton.Enabled = False
+        JPGToolStripButton.Image = CType(resources.GetObject("JPGToolStripButton.Image"), Image)
+        JPGToolStripButton.ImageTransparentColor = Drawing.Color.Magenta
+        JPGToolStripButton.Name = "JPGToolStripButton"
+        JPGToolStripButton.Size = New Size(44, 53)
+        JPGToolStripButton.Text = "JPG"
+        JPGToolStripButton.TextImageRelation = TextImageRelation.ImageAboveText
+        ' 
+        ' STPToolStripButton
+        ' 
+        STPToolStripButton.CheckOnClick = True
+        STPToolStripButton.Enabled = False
+        STPToolStripButton.Image = CType(resources.GetObject("STPToolStripButton.Image"), Image)
+        STPToolStripButton.ImageTransparentColor = Drawing.Color.Magenta
+        STPToolStripButton.Name = "STPToolStripButton"
+        STPToolStripButton.Size = New Size(45, 53)
+        STPToolStripButton.Text = "STP"
+        STPToolStripButton.TextImageRelation = TextImageRelation.ImageAboveText
+        ' 
+        ' XTToolStripButton
+        ' 
+        XTToolStripButton.CheckOnClick = True
+        XTToolStripButton.Enabled = False
+        XTToolStripButton.Image = CType(resources.GetObject("XTToolStripButton.Image"), Image)
+        XTToolStripButton.ImageTransparentColor = Drawing.Color.Magenta
+        XTToolStripButton.Name = "XTToolStripButton"
+        XTToolStripButton.Size = New Size(43, 53)
+        XTToolStripButton.Text = "X_T"
+        XTToolStripButton.TextImageRelation = TextImageRelation.ImageAboveText
+        ' 
+        ' ToolStrip1
+        ' 
+        ToolStrip1.GripStyle = ToolStripGripStyle.Hidden
+        ToolStrip1.ImageScalingSize = New Size(24, 24)
+        ToolStrip1.Items.AddRange(New ToolStripItem() {目录设置ToolStripLabel, ToolStripSeparator4, 格式分类ToolStripButton, 黑色PDFToolStripButton, 指定文件夹ToolStripButton, 浏览ToolStripButton, 指定文件夹ToolStripTextBox})
+        ToolStrip1.Location = New System.Drawing.Point(0, 58)
+        ToolStrip1.Name = "ToolStrip1"
+        ToolStrip1.Padding = New Padding(0, 0, 3, 0)
+        ToolStrip1.Size = New Size(1222, 58)
+        ToolStrip1.TabIndex = 41
+        ToolStrip1.Text = "ToolStrip1"
+        ' 
+        ' 目录设置ToolStripLabel
+        ' 
+        目录设置ToolStripLabel.DisplayStyle = ToolStripItemDisplayStyle.Text
+        目录设置ToolStripLabel.Image = CType(resources.GetObject("目录设置ToolStripLabel.Image"), Image)
+        目录设置ToolStripLabel.ImageTransparentColor = Drawing.Color.Magenta
+        目录设置ToolStripLabel.Name = "目录设置ToolStripLabel"
+        目录设置ToolStripLabel.Size = New Size(88, 53)
+        目录设置ToolStripLabel.Text = "目录设置"
+        ' 
+        ' ToolStripSeparator4
+        ' 
+        ToolStripSeparator4.Name = "ToolStripSeparator4"
+        ToolStripSeparator4.Size = New Size(6, 58)
+        ' 
+        ' 格式分类ToolStripButton
+        ' 
+        格式分类ToolStripButton.Checked = True
+        格式分类ToolStripButton.CheckOnClick = True
+        格式分类ToolStripButton.CheckState = CheckState.Checked
+        格式分类ToolStripButton.Image = CType(resources.GetObject("格式分类ToolStripButton.Image"), Image)
+        格式分类ToolStripButton.ImageTransparentColor = Drawing.Color.Magenta
+        格式分类ToolStripButton.Name = "格式分类ToolStripButton"
+        格式分类ToolStripButton.Size = New Size(92, 53)
+        格式分类ToolStripButton.Text = "格式分类"
+        格式分类ToolStripButton.TextImageRelation = TextImageRelation.ImageAboveText
+        格式分类ToolStripButton.ToolTipText = "按格式分类到子文件夹"
+        ' 
+        ' 黑色PDFToolStripButton
+        ' 
+        黑色PDFToolStripButton.Checked = True
+        黑色PDFToolStripButton.CheckOnClick = True
+        黑色PDFToolStripButton.CheckState = CheckState.Checked
+        黑色PDFToolStripButton.Image = CType(resources.GetObject("黑色PDFToolStripButton.Image"), Image)
+        黑色PDFToolStripButton.ImageTransparentColor = Drawing.Color.Magenta
+        黑色PDFToolStripButton.Name = "黑色PDFToolStripButton"
+        黑色PDFToolStripButton.Size = New Size(86, 53)
+        黑色PDFToolStripButton.Text = "黑色PDF"
+        黑色PDFToolStripButton.TextImageRelation = TextImageRelation.ImageAboveText
+        黑色PDFToolStripButton.ToolTipText = "输出PDF为黑色"
+        ' 
+        ' 指定文件夹ToolStripButton
+        ' 
+        指定文件夹ToolStripButton.CheckOnClick = True
+        指定文件夹ToolStripButton.Image = CType(resources.GetObject("指定文件夹ToolStripButton.Image"), Image)
+        指定文件夹ToolStripButton.ImageTransparentColor = Drawing.Color.Magenta
+        指定文件夹ToolStripButton.Name = "指定文件夹ToolStripButton"
+        指定文件夹ToolStripButton.Size = New Size(111, 53)
+        指定文件夹ToolStripButton.Text = "指定文件夹"
+        指定文件夹ToolStripButton.TextImageRelation = TextImageRelation.ImageAboveText
+        ' 
+        ' 浏览ToolStripButton
+        ' 
+        浏览ToolStripButton.Enabled = False
+        浏览ToolStripButton.Image = CType(resources.GetObject("浏览ToolStripButton.Image"), Image)
+        浏览ToolStripButton.ImageTransparentColor = Drawing.Color.Magenta
+        浏览ToolStripButton.Name = "浏览ToolStripButton"
+        浏览ToolStripButton.Size = New Size(54, 53)
+        浏览ToolStripButton.Text = "浏览"
+        浏览ToolStripButton.TextImageRelation = TextImageRelation.ImageAboveText
+        浏览ToolStripButton.ToolTipText = "浏览指定文件夹"
+        ' 
+        ' 指定文件夹ToolStripTextBox
+        ' 
+        指定文件夹ToolStripTextBox.Enabled = False
+        指定文件夹ToolStripTextBox.Font = New Font("Microsoft YaHei UI", 9F)
+        指定文件夹ToolStripTextBox.Name = "指定文件夹ToolStripTextBox"
+        指定文件夹ToolStripTextBox.Size = New Size(611, 58)
+        ' 
+        ' 开始转换ToolStrip
+        ' 
+        开始转换ToolStrip.GripStyle = ToolStripGripStyle.Hidden
+        开始转换ToolStrip.ImageScalingSize = New Size(24, 24)
+        开始转换ToolStrip.Items.AddRange(New ToolStripItem() {开始转换ToolStripLabel, ToolStripSeparator3, 进度ToolStripProgressBar, 开始转换ToolStripButton2, 关闭ToolStripButton})
+        开始转换ToolStrip.Location = New System.Drawing.Point(0, 0)
+        开始转换ToolStrip.Name = "开始转换ToolStrip"
+        开始转换ToolStrip.Padding = New Padding(0, 0, 3, 0)
+        开始转换ToolStrip.Size = New Size(1222, 58)
+        开始转换ToolStrip.TabIndex = 42
+        开始转换ToolStrip.Text = "开始转换"
+        ' 
+        ' 开始转换ToolStripLabel
+        ' 
+        开始转换ToolStripLabel.DisplayStyle = ToolStripItemDisplayStyle.Text
+        开始转换ToolStripLabel.Image = CType(resources.GetObject("开始转换ToolStripLabel.Image"), Image)
+        开始转换ToolStripLabel.ImageTransparentColor = Drawing.Color.Magenta
+        开始转换ToolStripLabel.Name = "开始转换ToolStripLabel"
+        开始转换ToolStripLabel.Size = New Size(88, 53)
+        开始转换ToolStripLabel.Text = "开始转换"
+        ' 
+        ' ToolStripSeparator3
+        ' 
+        ToolStripSeparator3.Name = "ToolStripSeparator3"
+        ToolStripSeparator3.Size = New Size(6, 58)
+        ' 
+        ' 进度ToolStripProgressBar
+        ' 
+        进度ToolStripProgressBar.AutoSize = False
+        进度ToolStripProgressBar.Name = "进度ToolStripProgressBar"
+        进度ToolStripProgressBar.Size = New Size(917, 52)
+        进度ToolStripProgressBar.Step = 1
+        进度ToolStripProgressBar.Style = ProgressBarStyle.Continuous
+        ' 
+        ' 开始转换ToolStripButton2
+        ' 
+        开始转换ToolStripButton2.Image = CType(resources.GetObject("开始转换ToolStripButton2.Image"), Image)
+        开始转换ToolStripButton2.ImageTransparentColor = Drawing.Color.Magenta
+        开始转换ToolStripButton2.Name = "开始转换ToolStripButton2"
+        开始转换ToolStripButton2.Size = New Size(92, 53)
+        开始转换ToolStripButton2.Text = "开始转换"
+        开始转换ToolStripButton2.TextImageRelation = TextImageRelation.ImageAboveText
+        开始转换ToolStripButton2.ToolTipText = "开始转换"
+        ' 
+        ' 关闭ToolStripButton
+        ' 
+        关闭ToolStripButton.CheckOnClick = True
+        关闭ToolStripButton.Image = CType(resources.GetObject("关闭ToolStripButton.Image"), Image)
+        关闭ToolStripButton.ImageTransparentColor = Drawing.Color.Magenta
+        关闭ToolStripButton.Name = "关闭ToolStripButton"
+        关闭ToolStripButton.Size = New Size(54, 53)
+        关闭ToolStripButton.Text = "关闭"
+        关闭ToolStripButton.TextImageRelation = TextImageRelation.ImageAboveText
+        ' 
+        ' TableLayoutPanel1
+        ' 
+        TableLayoutPanel1.ColumnCount = 1
+        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100F))
+        TableLayoutPanel1.Controls.Add(Lvw文件列表, 0, 5)
+        TableLayoutPanel1.Dock = DockStyle.Fill
+        TableLayoutPanel1.Location = New System.Drawing.Point(0, 0)
+        TableLayoutPanel1.Name = "TableLayoutPanel1"
+        TableLayoutPanel1.RowCount = 6
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 70F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 70F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 70F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 70F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 70F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
+        TableLayoutPanel1.Size = New Size(1222, 1139)
+        TableLayoutPanel1.TabIndex = 43
+        ' 
+        ' FormFormatConversion
+        ' 
+        AutoScaleDimensions = New SizeF(10F, 25F)
+        AutoScaleMode = AutoScaleMode.Font
+        ClientSize = New Size(1222, 1139)
+        Controls.Add(ToolStrip文档格式)
+        Controls.Add(加载方式ToolStrip)
+        Controls.Add(转换格式ToolStrip)
+        Controls.Add(ToolStrip1)
+        Controls.Add(开始转换ToolStrip)
+        Controls.Add(TableLayoutPanel1)
+        Margin = New Padding(4, 5, 4, 5)
+        Name = "FormFormatConversion"
+        StartPosition = FormStartPosition.CenterScreen
+        Text = "格式转换"
+        cms右键菜单.ResumeLayout(False)
+        ToolStrip文档格式.ResumeLayout(False)
+        ToolStrip文档格式.PerformLayout()
+        加载方式ToolStrip.ResumeLayout(False)
+        加载方式ToolStrip.PerformLayout()
+        转换格式ToolStrip.ResumeLayout(False)
+        转换格式ToolStrip.PerformLayout()
+        ToolStrip1.ResumeLayout(False)
+        ToolStrip1.PerformLayout()
+        开始转换ToolStrip.ResumeLayout(False)
+        开始转换ToolStrip.PerformLayout()
+        TableLayoutPanel1.ResumeLayout(False)
+        ResumeLayout(False)
+        PerformLayout()
 
     End Sub
     Friend WithEvents Lvw文件列表 As System.Windows.Forms.ListView
@@ -612,4 +630,5 @@ Partial Class FormFormatConversion
     Friend WithEvents 关闭ToolStripButton As System.Windows.Forms.ToolStripButton
     Friend WithEvents 替换ToolStripButton As ToolStripButton
     Friend WithEvents 黑色PDFToolStripButton As ToolStripButton
+    Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
 End Class

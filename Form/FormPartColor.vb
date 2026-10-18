@@ -17,7 +17,7 @@ Public Class FormPartColor
 
     Private Sub Btn_Part_Click(sender As Object, E As EventArgs) Handles Btn_Select.Click, Btn_Part.Click, Btn_Face.Click, Btn_Body.Click
         ColorType = sender.tag
-        Me.DialogResult = Windows.Forms.DialogResult.OK
+        Me.DialogResult = System.Windows.Forms.DialogResult.OK
         Me.Close()
     End Sub
 End Class

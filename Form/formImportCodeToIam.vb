@@ -384,7 +384,7 @@ Public Class FormImportCodeToIam
     End Sub
 
     Private Sub Lvw文件列表_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvw文件列表.MouseDoubleClick
-        If e.Button = Windows.Forms.MouseButtons.Left Then
+        If e.Button = System.Windows.Forms.MouseButtons.Left Then
             Dim strInventorFullFileName As String
             strInventorFullFileName = lvw文件列表.SelectedItems(0).SubItems(4).Text
             ThisApplication.Documents.Open(strInventorFullFileName)

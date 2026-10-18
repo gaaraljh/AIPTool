@@ -203,13 +203,7 @@ Public Class FormOption
         str零件图框 = txt零件图框.Text
 
 
-        strLargeSmallIconSets = “”
-        For Each item As ListViewItem In lvw设置图标大小.Items
-            strLargeSmallIconSets = strLargeSmallIconSets & item.SubItems(1).Text.ToString & ","
-        Next
 
-        intPitcureWidth = txt宽度.Text
-        intPitcureHeight = txt高度.Text
 
         '自动保存
         str启用自动保存 = IIf(chk启用自动保存.Checked, "1", "-1")
@@ -224,10 +218,10 @@ Public Class FormOption
             m_timer.Stop()
         End If
 
-        WrIni.InAISettingIniWriteSetting()
+        WrIni.ConfigFileIniWriteSetting()
 
 
-        'WrXml.InAISettingXmlWriteSetting()
+        'WrXml.ConfigFileXmlWriteSetting()
 
         FormManager.CloseAndDisposeForm(Of FormOption)()
 
@@ -277,17 +271,7 @@ Public Class FormOption
     Private Sub FrmOption_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Me.Icon = My.Resources.AIPTool48
 
-        Dim strArryLargeSmallIconNames As String() = strLargeSmallIconNames.Split(","c)
 
-        Dim strArryLargeSmallIconSets As String() = strLargeSmallIconSets.Split(","c)
-        Dim i As Integer = 0
-
-        For Each strLargeSmallIconName As String In strArryLargeSmallIconNames
-            Dim oListViewItem As ListViewItem
-            oListViewItem = lvw设置图标大小.Items.Add(strLargeSmallIconName)
-            oListViewItem.SubItems.Add(strArryLargeSmallIconSets(i)）
-            i = i + 1
-        Next
 
         '加载配置文件
         Dim strComboBoxs As String
@@ -495,7 +479,7 @@ Public Class FormOption
 
 
         '==================================================================
-        Dim toolTip As New Windows.Forms.ToolTip With {
+        Dim toolTip As New System.Windows.Forms.ToolTip With {
             .AutoPopDelay = 0,
             .InitialDelay = 0,
             .ReshowDelay = 500
@@ -512,7 +496,6 @@ Public Class FormOption
         toolTip.SetToolTip(lbl去除后缀, "提取文件名时，去除后缀，用‘,’分割")
         toolTip.SetToolTip(lbl标记孔径上限, "标记螺纹的最大值，保留2位小数")
         toolTip.SetToolTip(chk钣金厚度检查, "打开零件为钣金时，检查钣金厚度值与材料厚度是否一致，在列表中添加材质")
-        toolTip.SetToolTip(lvw设置图标大小, "双击列表行切换图标大小")
         toolTip.SetToolTip(chk强制横向, "强制生成的工程图图框为横向")
 
 
@@ -630,7 +613,7 @@ Public Class FormOption
 
 
     Private Sub ToolStripMenuItem全局_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem全局.Click
-        Dim FPath As String = IO.Path.Combine(My.Application.Info.DirectoryPath, "InAISetting.ini")
+        Dim FPath As String = IO.Path.Combine(My.Application.Info.DirectoryPath, "ConfigFile.ini")
 
         ProcessStart(FPath)
     End Sub
@@ -649,7 +632,7 @@ Public Class FormOption
     End Sub
 
     Private Sub Btn配置文件_MouseClick(sender As Object, e As MouseEventArgs) Handles btn配置文件.MouseClick
-        If e.Button = Windows.Forms.MouseButtons.Left Then
+        If e.Button = System.Windows.Forms.MouseButtons.Left Then
             ' 计算按钮的左下角位置
             Dim buttonLocation As Drawing.Point = btn配置文件.PointToScreen(New Drawing.Point(0, btn配置文件.Height))
             ' 显示 ContextMenuStrip
@@ -657,23 +640,10 @@ Public Class FormOption
         End If
     End Sub
 
-    Private Sub Lvw设置图标大小_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles lvw设置图标大小.MouseDoubleClick
-        Dim oListViewItem As ListViewItem
-        If lvw设置图标大小.SelectedItems.Count > 0 Then
-            oListViewItem = lvw设置图标大小.SelectedItems(0)
-            If oListViewItem.SubItems(1).Text = "大" Then
-                oListViewItem.SubItems(1).Text = "小"
-            Else
-                oListViewItem.SubItems(1).Text = "大"
-            End If
 
-        End If
-    End Sub
     Private Sub Btn关闭_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn关闭.Click
         FormManager.CloseAndDisposeForm(Of FormOption)()
     End Sub
 
-    Private Sub lvw设置图标大小_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lvw设置图标大小.SelectedIndexChanged
 
-    End Sub
 End Class

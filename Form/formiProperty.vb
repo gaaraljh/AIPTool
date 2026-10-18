@@ -93,23 +93,29 @@ Public Class FormiProperty
         For Each oPropertySet In oPropertySets
             For Each propitem In oPropertySet
                 Select Case propitem.DisplayName
-                    Case Map_DrawingNnumber
+                    Case Map_DrawingNnumber, "库存编号", "图号", "Stock Number"
                         txt图号.Text = propitem.Value
-                    Case Map_PartName
+                    Case Map_PartName, "文件名", "零件名称", "零件代号", "Part Number", "File Name"
                         txt文件名.Text = propitem.Value
-                    Case Map_Describe
+                    Case Map_Describe, "描述", "Description"
                         cmb描述.Text = propitem.Value
-                    Case "生产数量"
-                        txt生产数量.Text = propitem.Value
-                    Case Map_Vendor
+                    Case Map_Vendor, "供应商", "Vendor"
                         cmb供应商.Text = propitem.Value
-                    Case Map_Price
+                    Case Map_Price, "成本", "价格", "Cost"
                         txt价格.Text = propitem.Value
-                    Case "质量"
+                    Case "质量", "重量", "Mass"
                         txt质量.Text = FourFive(propitem.Value * 0.001, Mass_Accuracy) & "Kg"
                 End Select
             Next
         Next
+
+        ' 生产数量：专门读取自定义（用户定义）属性集中的该项，存在则显示于 txt生产数量
+        Try
+            Dim oVal As Object = oInventorDocument.PropertySets.Item("User Defined Properties").Item("生产数量").Value
+            txt生产数量.Text = If(oVal Is Nothing, "", oVal.ToString())
+        Catch
+            txt生产数量.Text = ""
+        End Try
 
         If oInventorDocument.DocumentType = Inventor.DocumentTypeEnum.kPartDocumentObject Then
             Dim oInventorPartDocument As Inventor.PartDocument = oInventorDocument

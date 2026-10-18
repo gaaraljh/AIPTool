@@ -464,27 +464,27 @@ Partial Class FormExplorer
 
     End Sub
 
-    Friend WithEvents Lvw文件列表 As Windows.Forms.ListView
-    Friend WithEvents 文件名ColumnHeader As Windows.Forms.ColumnHeader
-    Friend WithEvents 修改日期ColumnHeader As Windows.Forms.ColumnHeader
-    Friend WithEvents 大小ColumnHeader As Windows.Forms.ColumnHeader
-    Friend WithEvents Txt过滤栏 As Windows.Forms.TextBox
-    Friend WithEvents Cmb过滤 As Windows.Forms.ComboBox
-    Friend WithEvents 文件扩展名ColumnHeader As Windows.Forms.ColumnHeader
-    Friend WithEvents Btn向上 As Windows.Forms.Button
-    Friend WithEvents 类型ColumnHeader As Windows.Forms.ColumnHeader
-    Friend WithEvents 项目文件夹ToolStripButton As Windows.Forms.ToolStripButton
-    Friend WithEvents 新建文件夹ToolStripButton As Windows.Forms.ToolStripButton
-    Friend WithEvents 打开ToolStripButton As Windows.Forms.ToolStripButton
-    Friend WithEvents 删除ToolStripDropDownButton As Windows.Forms.ToolStripDropDownButton
-    Friend WithEvents 回收ToolStripMenuItem As Windows.Forms.ToolStripMenuItem
-    Friend WithEvents 永久删除ToolStripMenuItem As Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripSeparator1 As Windows.Forms.ToolStripSeparator
-    Friend WithEvents 插入ToolStripButton As Windows.Forms.ToolStripButton
-    Friend WithEvents ToolStrip快捷管理 As Windows.Forms.ToolStrip
-    Friend WithEvents Cmb当前文件夹 As Windows.Forms.ComboBox
-    Friend WithEvents 当前文件夹ToolStripButton As Windows.Forms.ToolStripButton
-    Friend WithEvents ToolStripSeparator2 As Windows.Forms.ToolStripSeparator
+    Friend WithEvents Lvw文件列表 As System.Windows.Forms.ListView
+    Friend WithEvents 文件名ColumnHeader As System.Windows.Forms.ColumnHeader
+    Friend WithEvents 修改日期ColumnHeader As System.Windows.Forms.ColumnHeader
+    Friend WithEvents 大小ColumnHeader As System.Windows.Forms.ColumnHeader
+    Friend WithEvents Txt过滤栏 As System.Windows.Forms.TextBox
+    Friend WithEvents Cmb过滤 As System.Windows.Forms.ComboBox
+    Friend WithEvents 文件扩展名ColumnHeader As System.Windows.Forms.ColumnHeader
+    Friend WithEvents Btn向上 As System.Windows.Forms.Button
+    Friend WithEvents 类型ColumnHeader As System.Windows.Forms.ColumnHeader
+    Friend WithEvents 项目文件夹ToolStripButton As System.Windows.Forms.ToolStripButton
+    Friend WithEvents 新建文件夹ToolStripButton As System.Windows.Forms.ToolStripButton
+    Friend WithEvents 打开ToolStripButton As System.Windows.Forms.ToolStripButton
+    Friend WithEvents 删除ToolStripDropDownButton As System.Windows.Forms.ToolStripDropDownButton
+    Friend WithEvents 回收ToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents 永久删除ToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents 插入ToolStripButton As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStrip快捷管理 As System.Windows.Forms.ToolStrip
+    Friend WithEvents Cmb当前文件夹 As System.Windows.Forms.ComboBox
+    Friend WithEvents 当前文件夹ToolStripButton As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents 旧版ToolStripDropDownButton As ToolStripDropDownButton
     Friend WithEvents 设置旧版ToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents 还原旧版ToolStripMenuItem As ToolStripMenuItem

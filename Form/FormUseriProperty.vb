@@ -17,6 +17,8 @@ Public Class FormUseriProperty
         Dim oInventorDocument As Inventor.Document
         oInventorDocument = ThisApplication.ActiveEditDocument
 
+        If Me.textBoxes Is Nothing Then Exit Sub
+
         For i = 0 To Me.textBoxes.Length - 1
             If Me.textBoxes(i).Text = "" Then
 
@@ -35,6 +37,8 @@ Public Class FormUseriProperty
     Private Sub 重新读取_Click(sender As Object, e As EventArgs) Handles 重新读取.Click
         Dim oInventorDocument As Inventor.Document
         oInventorDocument = ThisApplication.ActiveEditDocument
+
+        If Me.textBoxes Is Nothing Then Exit Sub
 
         For intControl = 0 To Me.textBoxes.Length - 1
             Me.comboBoxes(intControl).Text = GetUserPropitem(oInventorDocument, Me.textBoxes(intControl).Text)
@@ -55,8 +59,35 @@ Public Class FormUseriProperty
 
         btn配置文件.Image = My.Resources.文件txt16.ToBitmap
 
-        LoadiPropertyData()
+        ReloadData()
 
+    End Sub
+
+    Private Sub FormUseriProperty_VisibleChanged(sender As Object, e As EventArgs) Handles Me.VisibleChanged
+        ' 本窗体经 FormManager 以单例方式缓存：点 X 关闭仅隐藏不销毁，
+        ' 重开时 Load 不再触发，故每次变为可见时都重新加载配置，避免停留在旧的空白实例。
+        If Me.Visible Then ReloadData()
+    End Sub
+
+    ''' <summary>
+    ''' 重新加载自定义 iProperty 配置（先清空旧控件再重建，支持窗体重开刷新）
+    ''' </summary>
+    Private Sub ReloadData()
+        If textBoxes IsNot Nothing Then
+            For Each c As Control In textBoxes
+                Me.Controls.Remove(c)
+                c.Dispose()
+            Next
+            textBoxes = Nothing
+        End If
+        If comboBoxes IsNot Nothing Then
+            For Each c As Control In comboBoxes
+                Me.Controls.Remove(c)
+                c.Dispose()
+            Next
+            comboBoxes = Nothing
+        End If
+        LoadiPropertyData()
     End Sub
 
 
@@ -98,8 +129,25 @@ Public Class FormUseriProperty
     ''' </summary>
     ''' <remarks></remarks>
     Private Sub LoadiPropertyData()
-        Dim strUseriPropertyIniFile As String
-        strUseriPropertyIniFile = IO.Path.Combine(My.Application.Info.DirectoryPath, "UseriProperty.ini")
+        ' 解析配置文件路径：优先执行程序集目录（COM 插件更可靠），其次 My.Application.Info.DirectoryPath
+        Dim strDirs() As String = {
+            System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location),
+            My.Application.Info.DirectoryPath
+        }
+        Dim strUseriPropertyIniFile As String = Nothing
+        For Each d As String In strDirs
+            If String.IsNullOrEmpty(d) Then Continue For
+            Dim p As String = IO.Path.Combine(d, "UseriProperty.ini")
+            If IsFileExists(p) Then
+                strUseriPropertyIniFile = p
+                Exit For
+            End If
+        Next
+        If strUseriPropertyIniFile Is Nothing Then
+            strUseriPropertyIniFile = IO.Path.Combine(strDirs(0), "UseriProperty.ini")
+        End If
+
+        DbgLog("[FormUseriProperty] ini路径=" & strUseriPropertyIniFile & " 存在=" & IsFileExists(strUseriPropertyIniFile).ToString())
 
         If IsFileExists(strUseriPropertyIniFile) = False Then
             MessageBox.Show("无配置文件,请手动配置！", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
@@ -117,70 +165,59 @@ Public Class FormUseriProperty
         Dim oInventorDocument As Inventor.Document
         oInventorDocument = ThisApplication.ActiveEditDocument
 
-        Dim intFreeFile As Integer
-        intFreeFile = FreeFile()
+        ' 一次性读取所有行：先解析“数量=”（与“自定义=”行的先后顺序无关），再据此创建控件并填充
+        Dim lines() As String = System.IO.File.ReadAllLines(strUseriPropertyIniFile, Encoding.Default)
 
-        Dim strLine As String
+        ' 第一遍：解析自定义控件数量（数量= 优先；若缺失或为 0，则按“自定义=”行数推断，避免窗口空白）
+        Dim intControlCount As Integer = 0
+        Dim intCustomLineCount As Integer = 0
+        For Each strLine In lines
+            If strLine.StartsWith("数量=") Then
+                Integer.TryParse(strLine.Replace("数量=", "").Trim(), intControlCount)
+            ElseIf strLine.StartsWith("自定义=") Then
+                intCustomLineCount += 1
+            End If
+        Next
 
-        Dim strNewTitleBlockName As String = Nothing
-        Dim strOldTitleBlockName As String = Nothing
+        If intControlCount <= 0 Then intControlCount = intCustomLineCount
+        If intControlCount <= 0 Then
+            DbgLog("[FormUseriProperty] 控件数为0（未找到 数量= 或 自定义= 行），窗口将空白。首行=" & If(lines.Length > 0, lines(0), "(空文件)"))
+            Exit Sub
+        End If
 
-        Using oStreamReader As New System.IO.StreamReader(strUseriPropertyIniFile, Encoding.Default)
-            ' 定义控件的数量
-            Dim intControlCount As Integer
-            '当前控件指针
-            Dim intControl As Integer = 0
+        DbgLog("[FormUseriProperty] intControlCount=" & intControlCount & " intCustomLineCount=" & intCustomLineCount)
 
-            While oStreamReader.Peek() >= 0
-                strLine = oStreamReader.ReadLine()
+        ' 仅创建一次控件（数量已确定，避免 ReDim(-1) 越界）
+        CreateControls(intControlCount)
 
-                '跳过注释
-                If strLine.StartsWith("#") Then
-                    Continue While
-                End If
+        ' 第二遍：填充自定义数据（受数量上限约束，避免索引越界）
+        Dim intControl As Integer = 0
+        For Each strLine In lines
+            If strLine.StartsWith("#") Then Continue For
+            If strLine.StartsWith("数量=") Then Continue For
 
-                '获取自定义数量
-                If strLine.StartsWith("数量=") Then
-                    Integer.TryParse(strLine.Replace("数量=", ""), intControlCount)
-                    If intControlCount = 0 Then
-                        Exit Sub
-                    Else
-                        Continue While
-                    End If
-                End If
+            If strLine.StartsWith("自定义=") Then
+                If intControl >= intControlCount Then Exit For
 
-                If textBoxes Is Nothing Then
-                    CreateControls(intControlCount)
-                End If
+                Dim InputString As String = strLine.Replace("自定义=", "")
 
-                '获取自定义数据
-                If strLine.StartsWith("自定义=") Then
-                    Dim InputString As String = strLine.Replace("自定义=", "")
+                ' 提取 {} 之前的字符串
+                Dim striPropertyName As String = ExtractPrefix(InputString)
 
-                    ' 提取 {} 之前的字符串
-                    Dim striPropertyName As String = ExtractPrefix(InputString)
+                ' 提取 {} 里面的字符串并按逗号分割成数组
+                Dim striPropertyVales As String() = ExtractItems(InputString)
 
-                    ' 提取 {} 里面的字符串并按逗号分割成数组
-                    Dim striPropertyVales As String() = ExtractItems(InputString)
+                Me.textBoxes(intControl).Text = striPropertyName
 
-                    Me.textBoxes(intControl).Text = striPropertyName
+                For Each striPropertyVale As String In striPropertyVales
+                    Me.comboBoxes(intControl).Items.Add(striPropertyVale)
+                Next
 
-                    For Each striPropertyVale As String In striPropertyVales
-                        Me.comboBoxes(intControl).Items.Add(striPropertyVale)
-                    Next
+                Me.comboBoxes(intControl).Text = GetUserPropitem(oInventorDocument, Me.textBoxes(intControl).Text)
 
-                    Me.comboBoxes(intControl).Text = GetUserPropitem(oInventorDocument, Me.textBoxes(intControl).Text)
-
-                    intControl += 1
-
-                    If intControl = intControlCount Then
-                        Exit While
-                    End If
-
-                    Continue While
-                End If
-            End While
-        End Using
+                intControl += 1
+            End If
+        Next
     End Sub
 
 

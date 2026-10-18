@@ -262,66 +262,70 @@ Autodesk Inventor 表达视图(*.ipn)|*.ipn|"
                                   ByRef HandlingCode As Inventor.HandlingCodeEnum) Handles ThisApplicationEvents.OnOpenDocument
 
 
-        '视图全部缩放，这个功能有问题，取消
-        'ThisApplication.CommandManager.ControlDefinitions.Item("AppZoomAllCmd").Execute()
+        Try
+            '视图全部缩放，这个功能有问题，取消
+            'ThisApplication.CommandManager.ControlDefinitions.Item("AppZoomAllCmd").Execute()
 
-        If BeforeOrAfter = EventTimingEnum.kBefore Then
-            ' MessageBox.Show("before")
-            'str模型匹配检查标记 = 1
-        Else
+            If BeforeOrAfter = EventTimingEnum.kBefore Then
+                ' MessageBox.Show("before")
+                'str模型匹配检查标记 = 1
+            Else
 
-            If oInventorDocument.DocumentType = kPartDocumentObject Then
-                If str钣金厚度检查 = 1 Then
+                If oInventorDocument.DocumentType = kPartDocumentObject Then
+                    If str钣金厚度检查 = 1 Then
 
-                    Dim IsMatching As Boolean
-                    ' MessageBox.Show(oInventorDocument.FullDocumentName)
+                        Dim IsMatching As Boolean
+                        ' MessageBox.Show(oInventorDocument.FullDocumentName)
 
-                    IsMatching = CheckSteelThicknessSub(oInventorDocument)
+                        IsMatching = CheckSteelThicknessSub(oInventorDocument)
 
-                    Select Case IsMatching
-                        Case True
+                        Select Case IsMatching
+                            Case True
 
-                        Case False
-                            ' MessageBox.Show(FullDocumentName & "  材料与厚度不匹配。", MsgBoxStyle.Information)
-                            ThisApplication.Documents.Open(FullDocumentName, True)
-                    End Select
+                            Case False
+                                ' MessageBox.Show(FullDocumentName & "  材料与厚度不匹配。", MsgBoxStyle.Information)
+                                ThisApplication.Documents.Open(FullDocumentName, True)
+                        End Select
 
 
+                    End If
                 End If
-            End If
 
-            '当打开文件为工程图()
-            If oInventorDocument.DocumentType = kDrawingDocumentObject Then
-                '写入主视图比例
-                'if IsSetDrawingScale = 1 Then
-                SetDrawingScale(oInventorDocument)
-                'End if
+                '当打开文件为工程图()
+                If oInventorDocument.DocumentType = kDrawingDocumentObject Then
+                    '写入主视图比例
+                    'if IsSetDrawingScale = 1 Then
+                    SetDrawingScale(oInventorDocument)
+                    'End if
 
-                '写入零部件质量
-                'if IsSetMass = 1 Then
-                SetMass(oInventorDocument)
-                'End if
+                    '写入零部件质量
+                    'if IsSetMass = 1 Then
+                    SetMass(oInventorDocument)
+                    'End if
 
-                If str模型匹配检查 = 1 Then
-                    Select Case str模型匹配检查标记
-                        Case 1
-                            If BeforeOrAfter = EventTimingEnum.kAfter Then
-                                If CheckDrawingDocumentNameToReferencedDocument(oInventorDocument) = False Then
-                                    MessageBox.Show("本文件名与模型参考不匹配。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                    If str模型匹配检查 = 1 Then
+                        Select Case str模型匹配检查标记
+                            Case 1
+                                If BeforeOrAfter = EventTimingEnum.kAfter Then
+                                    If CheckDrawingDocumentNameToReferencedDocument(oInventorDocument) = False Then
+                                        MessageBox.Show("本文件名与模型参考不匹配。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                                    End If
                                 End If
-                            End If
-                            str模型匹配检查标记 = 2
-                        Case 2
-                            str模型匹配检查标记 = 1
-                        Case 3
+                                str模型匹配检查标记 = 2
+                            Case 2
+                                str模型匹配检查标记 = 1
+                            Case 3
 
-                    End Select
+                        End Select
+                    End If
+
                 End If
 
             End If
 
-        End If
-
+        Catch __ex As Exception
+            DbgLog("[Public_ThisApplicationEvents_OnOpenDocument] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
+        End Try
     End Sub
 
     '激活一个文档时的事件
@@ -329,21 +333,25 @@ Autodesk Inventor 表达视图(*.ipn)|*.ipn|"
                                                         ByVal BeforeOrAfter As Inventor.EventTimingEnum,
                                                         ByVal Context As Inventor.NameValueMap,
                                                         ByRef HandlingCode As Inventor.HandlingCodeEnum) Handles ThisApplicationEvents.OnActivateDocument
-        If BeforeOrAfter = EventTimingEnum.kAfter Then
+        Try
+            If BeforeOrAfter = EventTimingEnum.kAfter Then
 
-            '在标题栏中显示当前文档路径()
-            ThisApplication.Caption = GetFileNameInfo(oInventorDocument.FullDocumentName).Folder & "\"
+                '在标题栏中显示当前文档路径()
+                ThisApplication.Caption = GetFileNameInfo(oInventorDocument.FullDocumentName).Folder & "\"
 
 
-            '获取文件只读属性
-            Dim oDef1 As ButtonDefinition
-            oDef1 = ThisApplication.CommandManager.ControlDefinitions.Item("AIPToolInName文件只读")
+                '获取文件只读属性
+                Dim oDef1 As ButtonDefinition
+                oDef1 = ThisApplication.CommandManager.ControlDefinitions.Item("AIPToolInName文件只读")
 
-            oDef1.Pressed = GetFileReadOnly(oInventorDocument.FullDocumentName)
-        Else
+                oDef1.Pressed = GetFileReadOnly(oInventorDocument.FullDocumentName)
+            Else
 
-        End If
+            End If
 
+        Catch __ex As Exception
+            DbgLog("[Public_ThisApplicationEvents_OnActivateDocument] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
+        End Try
     End Sub
 
     ''' <summary>
@@ -354,18 +362,25 @@ Autodesk Inventor 表达视图(*.ipn)|*.ipn|"
     ''' <param name="Context"></param>
     ''' <param name="HandlingCode"></param>
     ''' <remarks></remarks>
-    Public Sub ThisApplicationEvents_OnSaveDocument(ByVal oInventorDocument As Inventor.Document, _
-                                                           ByVal BeforeOrAfter As Inventor.EventTimingEnum, _
-                                                           ByVal Context As Inventor.NameValueMap, _
+    Public Sub ThisApplicationEvents_OnSaveDocument(ByVal oInventorDocument As Inventor.Document,
+                                                           ByVal BeforeOrAfter As Inventor.EventTimingEnum,
+                                                           ByVal Context As Inventor.NameValueMap,
                                                            ByRef HandlingCode As Inventor.HandlingCodeEnum) Handles ThisApplicationEvents.OnSaveDocument
-        If BeforeOrAfter = EventTimingEnum.kBefore Then
+        Try
+            If BeforeOrAfter = EventTimingEnum.kBefore Then
 
-        Else
+            Else
+                '文件已保存，清除其缩略图缓存，下次重新生成
+                RemoveImageCache(oInventorDocument.FullDocumentName)
+
             'If str钣金厚度检查 = 1 Then
             '    CheckSteelThickness()
             'End If
         End If
 
+        Catch __ex As Exception
+            DbgLog("[Public_ThisApplicationEvents_OnSaveDocument] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
+        End Try
     End Sub
 
     ''' <summary>
@@ -447,75 +462,286 @@ Autodesk Inventor 表达视图(*.ipn)|*.ipn|"
         End If
     End Function
 
+    ' 缩略图缓存：Key = 文件全名|宽x高，避免同一文档重复渲染
+    Private ReadOnly ImageCache As New Generic.Dictionary(Of String, Drawing.Bitmap)
+    Private Const ImageCacheMaxCount As Integer = 40
+
     ''' <summary>
-    ''' 获取文档的缩略图（自动缩放，适应图框大小）
+    ''' 清除指定文档的缩略图缓存（保存文件后调用，避免显示旧缩略图）
+    ''' </summary>
+    ''' <param name="strFullFileName">文件全名</param>
+    Public Sub RemoveImageCache(ByVal strFullFileName As String)
+        If String.IsNullOrEmpty(strFullFileName) Then Exit Sub
+
+        Dim listKeys As New Generic.List(Of String)
+
+        For Each strKey As String In ImageCache.Keys
+            If strKey.StartsWith(strFullFileName & "|", StringComparison.OrdinalIgnoreCase) Then
+                listKeys.Add(strKey)
+            End If
+        Next
+
+        For Each strKey As String In listKeys
+            ImageCache(strKey).Dispose()
+            ImageCache.Remove(strKey)
+        Next
+    End Sub
+
+    ''' <summary>
+    ''' 清空全部缩略图缓存
+    ''' </summary>
+    Public Sub ClearImageCache()
+        For Each oBitmap As Drawing.Bitmap In ImageCache.Values
+            oBitmap.Dispose()
+        Next
+        ImageCache.Clear()
+    End Sub
+
+    ' 内置预览图磁盘缓存目录
+    Private ReadOnly ThumbnailCacheFolder As String = IO.Path.Combine(IO.Path.GetTempPath(), "AIPToolThumbCache")
+
+    ''' <summary>
+    ''' 从 Inventor 文件二进制流中直接提取内置的预览图（PNG），无需打开或渲染文档，取到的是文件中最大的一张
+    ''' </summary>
+    ''' <param name="strFullFileName">文件全名</param>
+    ''' <returns>预览图，取不到返回Nothing</returns>
+    ''' <remarks></remarks>
+    Public Function GetEmbeddedThumbnail(ByVal strFullFileName As String) As Drawing.Bitmap
+        Try
+            If String.IsNullOrEmpty(strFullFileName) OrElse Not IO.File.Exists(strFullFileName) Then Return Nothing
+
+            '磁盘缓存，避免每次重新解析文件
+            If Not IO.Directory.Exists(ThumbnailCacheFolder) Then IO.Directory.CreateDirectory(ThumbnailCacheFolder)
+
+            Dim strCacheKey As String = IO.Path.GetFileNameWithoutExtension(strFullFileName) & "_" &
+                                        New IO.FileInfo(strFullFileName).LastWriteTime.Ticks.ToString() & ".png"
+            Dim strCachePath As String = IO.Path.Combine(ThumbnailCacheFolder, strCacheKey)
+
+            If IO.File.Exists(strCachePath) Then
+                Try
+                    Using oCacheStream As New IO.MemoryStream(IO.File.ReadAllBytes(strCachePath))
+                        Using oCacheImage As Drawing.Image = Drawing.Image.FromStream(oCacheStream)
+                            Return New Drawing.Bitmap(oCacheImage)
+                        End Using
+                    End Using
+                Catch ex As Exception
+                End Try
+            End If
+
+            '读取文件全部字节
+            Dim allBytes() As Byte
+
+            Using oFileStream As New IO.FileStream(strFullFileName, IO.FileMode.Open, IO.FileAccess.Read, IO.FileShare.ReadWrite)
+                If oFileStream.Length <= 0 Then Return Nothing
+
+                allBytes = New Byte(CInt(oFileStream.Length) - 1) {}
+                Dim intOffset As Integer = 0
+
+                Do
+                    Dim intRead As Integer = oFileStream.Read(allBytes, intOffset, allBytes.Length - intOffset)
+                    If intRead <= 0 Then Exit Do
+                    intOffset += intRead
+                Loop While intOffset < allBytes.Length
+            End Using
+
+            '查找文件中所有PNG数据块，取体积最大的一个（即分辨率最高的预览图）
+            Dim intBestStart As Integer = -1
+            Dim intBestSize As Integer = 0
+            Dim intPos As Integer = 0
+
+            Do
+                Dim intFound As Integer = -1
+
+                For i As Integer = intPos To allBytes.Length - 8
+                    If allBytes(i) = &H89 AndAlso allBytes(i + 1) = &H50 AndAlso
+                       allBytes(i + 2) = &H4E AndAlso allBytes(i + 3) = &H47 AndAlso
+                       allBytes(i + 4) = &HD AndAlso allBytes(i + 5) = &HA AndAlso
+                       allBytes(i + 6) = &H1A AndAlso allBytes(i + 7) = &HA Then
+                        intFound = i
+                        Exit For
+                    End If
+                Next
+
+                If intFound < 0 Then Exit Do
+
+                '遍历PNG数据块，找到IEND结束位置
+                Dim intCursor As Integer = intFound + 8
+                Dim intPngEnd As Integer = -1
+                Dim intCount As Integer = 0
+
+                Do While intCursor + 8 < allBytes.Length AndAlso intCount < 500
+                    Dim intChunkLength As Integer = (CInt(allBytes(intCursor)) << 24) Or
+                                                    (CInt(allBytes(intCursor + 1)) << 16) Or
+                                                    (CInt(allBytes(intCursor + 2)) << 8) Or
+                                                     CInt(allBytes(intCursor + 3))
+
+                    If intChunkLength < 0 OrElse intChunkLength > 20 * 1024 * 1024 Then Exit Do
+
+                    Dim strChunkType As String = System.Text.Encoding.ASCII.GetString(allBytes, intCursor + 4, 4)
+
+                    If strChunkType = "IEND" Then
+                        intPngEnd = intCursor + 12
+                        Exit Do
+                    End If
+
+                    intCursor += 12 + intChunkLength
+                    intCount += 1
+                Loop
+
+                If intPngEnd > intFound Then
+                    Dim intSize As Integer = intPngEnd - intFound
+
+                    If intSize > intBestSize Then
+                        intBestSize = intSize
+                        intBestStart = intFound
+                    End If
+
+                    intPos = intPngEnd
+                Else
+                    intPos = intFound + 8
+                End If
+            Loop
+
+            If intBestStart < 0 OrElse intBestSize < 100 Then Return Nothing
+
+            Dim pngBytes(intBestSize - 1) As Byte
+            Array.Copy(allBytes, intBestStart, pngBytes, 0, intBestSize)
+
+            Dim oBitmap As Drawing.Bitmap = Nothing
+
+            Using oStream As New IO.MemoryStream(pngBytes)
+                Using oTempImage As Drawing.Image = Drawing.Image.FromStream(oStream)
+                    oBitmap = New Drawing.Bitmap(oTempImage)
+                End Using
+            End Using
+
+            '写入磁盘缓存
+            If oBitmap IsNot Nothing Then
+                Try
+                    oBitmap.Save(strCachePath, System.Drawing.Imaging.ImageFormat.Png)
+                Catch ex As Exception
+                End Try
+            End If
+
+            Return oBitmap
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' 用文档视图渲染缩略图（缩放至适应图框，无内置预览图时作兜底）
     ''' </summary>
     ''' <param name="oInventorDocument">文件对象</param>
-    ''' <param name="intWidth">缩略图宽度，默认400</param>
-    ''' <param name="intHeight">缩略图高度，默认300</param>
+    ''' <param name="intWidth">宽度</param>
+    ''' <param name="intHeight">高度</param>
+    ''' <returns>缩略图</returns>
+    ''' <remarks></remarks>
+    Public Function RenderDocumentThumbnail(ByVal oInventorDocument As Inventor.Document,
+                                            ByVal intWidth As Integer,
+                                            ByVal intHeight As Integer) As Drawing.Bitmap
+        Try
+            '使用固定名称的 bmp 临时文件，避免 jpg 压缩与解码的开销
+            Dim tempFile As String = IO.Path.Combine(IO.Path.GetTempPath(),
+                                                     "AIPToolThumbnail" & intWidth & "x" & intHeight & ".bmp")
+
+            Dim oActiveView As Inventor.View
+            oActiveView = oInventorDocument.Views.Item(1)
+
+            Dim oCamera As Camera
+            oCamera = oActiveView.Camera
+
+            '保存当前视图相机位置，生成缩略图后恢复，避免改变用户当前视图
+            Dim oOldEye As Inventor.Point = Nothing
+            Dim oOldTarget As Inventor.Point = Nothing
+            Dim oOldUpVector As UnitVector = Nothing
+
+            Try
+                Dim oTransientGeometry As TransientGeometry = ThisApplication.TransientGeometry
+                oOldEye = oTransientGeometry.CreatePoint(oCamera.Eye.X, oCamera.Eye.Y, oCamera.Eye.Z)
+                oOldTarget = oTransientGeometry.CreatePoint(oCamera.Target.X, oCamera.Target.Y, oCamera.Target.Z)
+                oOldUpVector = oTransientGeometry.CreateUnitVector(oCamera.UpVector.X, oCamera.UpVector.Y, oCamera.UpVector.Z)
+            Catch ex As Exception
+            End Try
+
+            Try
+                '缩放至适应图框大小，使用无动画过渡，比 Apply 快得多
+                oCamera.Fit()
+                oCamera.ApplyWithoutTransition()
+
+                oCamera.SaveAsBitmap(tempFile, intWidth, intHeight)
+
+                '恢复原视图
+                If oOldEye IsNot Nothing Then
+                    oCamera.Eye = oOldEye
+                    oCamera.Target = oOldTarget
+                    oCamera.UpVector = oOldUpVector
+                    oCamera.ApplyWithoutTransition()
+                End If
+            Catch ex As Exception
+            End Try
+
+            '一次解码并复制，解除对临时文件的占用
+            Dim oBitmap As Drawing.Bitmap = Nothing
+
+            Try
+                Using oTempImage As Drawing.Image = Drawing.Image.FromFile(tempFile)
+                    oBitmap = New Drawing.Bitmap(oTempImage)
+                End Using
+            Catch ex As Exception
+                oBitmap = Nothing
+            End Try
+
+            Try
+                IO.File.Delete(tempFile)
+            Catch ex As Exception
+            End Try
+
+            Return oBitmap
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' 获取文档的缩略图（优先读取文件内置的最大预览图，带缓存）
+    ''' </summary>
+    ''' <param name="oInventorDocument">文件对象</param>
+    ''' <param name="intWidth">兜底渲染时使用的宽度，默认400</param>
+    ''' <param name="intHeight">兜底渲染时使用的高度，默认300</param>
     ''' <returns>缩略图</returns>
     ''' <remarks></remarks>
     Public Function GetImageFromView(ByVal oInventorDocument As Inventor.Document,
                                      Optional ByVal intWidth As Integer = 400,
                                      Optional ByVal intHeight As Integer = 300) As Drawing.Image
 
+        If oInventorDocument Is Nothing Then Return Nothing
+
         If intWidth <= 0 Then intWidth = 400
         If intHeight <= 0 Then intHeight = 300
 
-        Dim tempFile As String = IO.Path.GetTempFileName()
-        tempFile = IO.Path.ChangeExtension(tempFile, ".jpg")
+        Dim strKey As String = oInventorDocument.FullDocumentName & "|" & intWidth & "x" & intHeight
 
-        Dim oActiveView As Inventor.View
-        oActiveView = oInventorDocument.Views.Item(1)
+        '命中缓存直接返回副本，省去渲染时间
+        If ImageCache.ContainsKey(strKey) Then
+            Return New Drawing.Bitmap(ImageCache(strKey))
+        End If
 
-        Dim oCamera As Camera
-        oCamera = oActiveView.Camera
+        '1、优先读取文件内置预览图：不需渲染、速度最快，且是文件中尺寸最大的一张
+        Dim oBitmap As Drawing.Bitmap = GetEmbeddedThumbnail(oInventorDocument.FullDocumentName)
 
-        '保存当前视图相机位置，生成缩略图后恢复，避免改变用户当前视图
-        Dim oOldEye As Inventor.Point = Nothing
-        Dim oOldTarget As Inventor.Point = Nothing
-        Dim oOldUpVector As UnitVector = Nothing
+        '2、兜底：文件没有内置预览图时，用文档视图渲染
+        If oBitmap Is Nothing Then
+            oBitmap = RenderDocumentThumbnail(oInventorDocument, intWidth, intHeight)
+        End If
 
-        Try
-            Dim oTransientGeometry As TransientGeometry = ThisApplication.TransientGeometry
-            oOldEye = oTransientGeometry.CreatePoint(oCamera.Eye.X, oCamera.Eye.Y, oCamera.Eye.Z)
-            oOldTarget = oTransientGeometry.CreatePoint(oCamera.Target.X, oCamera.Target.Y, oCamera.Target.Z)
-            oOldUpVector = oTransientGeometry.CreateUnitVector(oCamera.UpVector.X, oCamera.UpVector.Y, oCamera.UpVector.Z)
-        Catch ex As Exception
-        End Try
+        If oBitmap Is Nothing Then Return Nothing
 
-        Try
-            '缩放至适应图框大小
-            oCamera.Fit()
-            oCamera.Apply()
-        Catch ex As Exception
-        End Try
+        '写入缓存，返回副本，调用方释放不影响缓存
+        If ImageCache.Count >= ImageCacheMaxCount Then ClearImageCache()
+        ImageCache(strKey) = oBitmap
 
-        oCamera.SaveAsBitmap(tempFile, intWidth, intHeight)
-
-        '恢复原视图
-        Try
-            If oOldEye IsNot Nothing Then
-                oCamera.Eye = oOldEye
-                oCamera.Target = oOldTarget
-                oCamera.UpVector = oOldUpVector
-                oCamera.Apply()
-            End If
-        Catch ex As Exception
-        End Try
-
-        '复制图像到内存，解除对临时文件的占用并删除临时文件
-        Using oStream As New IO.MemoryStream(IO.File.ReadAllBytes(tempFile))
-            Using oTempImage As Drawing.Image = Drawing.Image.FromStream(oStream)
-                GetImageFromView = New Drawing.Bitmap(oTempImage)
-            End Using
-        End Using
-
-        Try
-            IO.File.Delete(tempFile)
-        Catch ex As Exception
-        End Try
-
+        Return New Drawing.Bitmap(oBitmap)
     End Function
 
 
@@ -524,8 +750,38 @@ Autodesk Inventor 表达视图(*.ipn)|*.ipn|"
     ''' </summary>
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
+
+    ''' <summary>
+    ''' 诊断日志（.NET 8 迁移排障用，定位完成后可删除）。
+    ''' .NET 8 下任何线程上的未处理异常都会直接终止进程，因此所有回调都必须包 Try/Catch 并记日志。
+    ''' </summary>
+    Private m_logHeaderDone As Boolean = False
+
+    Public Sub DbgLog(ByVal msg As String)
+        Try
+            Dim logPath As String = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "AIPTool_debug.log")
+            If Not m_logHeaderDone Then
+                m_logHeaderDone = True
+                Dim head As String = "==== PID " & System.Diagnostics.Process.GetCurrentProcess().Id.ToString() &
+                                     "  " & DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") & " =====" & vbCrLf
+                Dim hb() As Byte = System.Text.Encoding.UTF8.GetBytes(head)
+                Using hfs As New System.IO.FileStream(logPath, System.IO.FileMode.Append, System.IO.FileAccess.Write, System.IO.FileShare.ReadWrite)
+                    hfs.Write(hb, 0, hb.Length)
+                End Using
+            End If
+            Dim line As String = DateTime.Now.ToString("HH:mm:ss.fff") & " " & msg & vbCrLf
+            Dim buf() As Byte = System.Text.Encoding.UTF8.GetBytes(line)
+            Using fs As New System.IO.FileStream(logPath, System.IO.FileMode.Append, System.IO.FileAccess.Write, System.IO.FileShare.ReadWrite)
+                fs.Write(buf, 0, buf.Length)
+            End Using
+        Catch : End Try
+    End Sub
     Public Sub m_timer_Elapsed(sender As Object, e As ElapsedEventArgs) Handles m_timer.Elapsed
+        Try
         AutoSaveDocument()
+        Catch __ex As Exception
+            DbgLog("[Public_m_timer_Elapsed] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
+        End Try
     End Sub
 
 End Module
