@@ -429,13 +429,13 @@ Public Class FormSpecification
         ProcessStart(strSpecificationIni)
     End Sub
 
-    Private Sub 上移ToolStripButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles 上移ToolStripButton.Click
+    Private Sub 上移ToolStripButton_Click(ByVal sender As Object, ByVal e As EventArgs) Handles 上移ToolStripButton.Click
         If ListBoxUp(lst技术要求文本) = True Then
             boolIsUserChange = True
         End If
     End Sub
 
-    Private Sub 下移ToolStripButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles 下移ToolStripButton.Click
+    Private Sub 下移ToolStripButton_Click(ByVal sender As Object, ByVal e As EventArgs) Handles 下移ToolStripButton.Click
         If ListBoxDown(lst技术要求文本) = True Then
             boolIsUserChange = True
         End If
@@ -444,6 +444,8 @@ Public Class FormSpecification
     Private Sub 导入文本ToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles 导输入文本ToolStripMenuItem.Click
         txt导入文本.Clear()
         GroupBox导入自定义.Visible = True
+        btn确定导入.Visible = True
+        btn取消导入.Visible = True
     End Sub
 
     Private Sub 导入文件ToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles 导入文件ToolStripMenuItem.Click
@@ -486,11 +488,15 @@ Public Class FormSpecification
 
         txt导入文本.Clear()
         GroupBox导入自定义.Visible = False
+        btn确定导入.Visible = False
+        btn取消导入.Visible = False
     End Sub
 
     Private Sub Btn取消导入_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn取消导入.Click
         txt导入文本.Clear()
         GroupBox导入自定义.Visible = False
+        btn确定导入.Visible = False
+        btn取消导入.Visible = False
     End Sub
     Private Sub lst基础数据列表_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lst基础数据列表.DoubleClick
 
