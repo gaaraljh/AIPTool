@@ -2026,6 +2026,7 @@ Module IdwModule
             If MessageBox.Show("确定打开已存在IDW工程图：" & strInventorDrawingDocumentFullFileName, AIPTool，
                                MessageBoxButtons.YesNo， MessageBoxIcon.Question） = DialogResult.Yes Then
                 ThisApplication.Documents.Open(strInventorDrawingDocumentFullFileName)
+                Exit Sub
 
             End If
         ElseIf IsFileExists(strInventorDWGDrawingDocumentFullFileName) = True Then
@@ -2156,19 +2157,19 @@ Module IdwModule
         '根据宽比高，大于2为A3，否则为A4
 
         Select Case douDrawingViewWidthDividedHeight
-                Case Is > 2         '设置为a3，横向
-                    If MessageBox.Show("是否将图框设置为 A3-横向？", AIPTool，
+            Case Is > 2         '设置为a3，横向
+                If MessageBox.Show("是否将图框设置为 A3-横向？", AIPTool，
                                        MessageBoxButtons.YesNo， MessageBoxIcon.Question） = DialogResult.Yes Then   '询问是否将图框改为横向
-                        oSheet.Size = DrawingSheetSizeEnum.kA3DrawingSheetSize
-                        oSheet.Orientation = PageOrientationTypeEnum.kLandscapePageOrientation
-                    Else
-                        oSheet.Size = DrawingSheetSizeEnum.kA4DrawingSheetSize
-                        oSheet.Orientation = PageOrientationTypeEnum.kPortraitPageOrientation
-                    End If
-                Case Else
+                    oSheet.Size = DrawingSheetSizeEnum.kA3DrawingSheetSize
+                    oSheet.Orientation = PageOrientationTypeEnum.kLandscapePageOrientation
+                Else
                     oSheet.Size = DrawingSheetSizeEnum.kA4DrawingSheetSize
                     oSheet.Orientation = PageOrientationTypeEnum.kPortraitPageOrientation
-            End Select
+                End If
+            Case Else
+                oSheet.Size = DrawingSheetSizeEnum.kA4DrawingSheetSize
+                oSheet.Orientation = PageOrientationTypeEnum.kPortraitPageOrientation
+        End Select
 
         '强制横向
         If str强制横向 = 1 Then
@@ -2316,7 +2317,6 @@ Module IdwModule
                 Case DialogResult.Yes
                     'DelFile(strInventorDrawingDocumentFullFileName, FileIO.RecycleOption.SendToRecycleBin)
                     oInventorDrawingDocument.SaveAs(strInventorDrawingDocumentFullFileName, False)
-                    oInventorDrawingDocument.Save2()
                 Case DialogResult.No
                     Dim oSaveFileDialog As New SaveFileDialog
 
@@ -2348,7 +2348,7 @@ Module IdwModule
                     '    End If
                     'End With
 
-                    oInventorDrawingDocument.Save2()
+                    oInventorDrawingDocument.SaveAs(strInventorDrawingDocumentFullFileName, False)
 
                     'oInventorDrawingDocument.SaveAs(strInventorDWGDrawingDocumentFullFileName, True)
 
@@ -2356,10 +2356,10 @@ Module IdwModule
 
             End Select
         Else
-            oInventorDrawingDocument.Save2()
-            If IsFileExists(strInventorDWGDrawingDocumentFullFileName) = False Then
+            oInventorDrawingDocument.SaveAs(strInventorDrawingDocumentFullFileName, False)
+            If False Then ' 已用 SaveAs 直接落盘，此提示无意义（SaveAs 失败会抛异常，不会走到这里）
 
-                MsgBox(“文件保存已取消，请注意!")
+                MsgBox("文件保存已取消，请注意!")
             End If
             'oInventorDrawingDocument.SaveAs(strInventorDWGDrawingDocumentFullFileName, True)
 
@@ -2375,7 +2375,6 @@ Module IdwModule
                 Case DialogResult.Yes
                     'DelFile(strInventorDrawingDocumentFullFileName, FileIO.RecycleOption.SendToRecycleBin)
                     oInventorDrawingDocument.SaveAs(strInventorDWGDrawingDocumentFullFileName, False)
-                    oInventorDrawingDocument.Save2()
                 Case DialogResult.No
                     Dim oSaveFileDialog As New SaveFileDialog
 
@@ -2408,7 +2407,7 @@ Module IdwModule
                     'End With
 
 
-                    oInventorDrawingDocument.Save2()
+                    oInventorDrawingDocument.SaveAs(strInventorDWGDrawingDocumentFullFileName, False)
 
 
                     'oInventorDrawingDocument.SaveAs(strInventorDWGDrawingDocumentFullFileName, True)
@@ -2418,10 +2417,10 @@ Module IdwModule
             End Select
         Else
 
-            oInventorDrawingDocument.Save2()
-            If IsFileExists(strInventorDWGDrawingDocumentFullFileName) = False Then
+            oInventorDrawingDocument.SaveAs(strInventorDWGDrawingDocumentFullFileName, False)
+            If False Then ' 已用 SaveAs 直接落盘，此提示无意义（SaveAs 失败会抛异常，不会走到这里）
 
-                MsgBox(“文件保存已取消，请注意!")
+                MsgBox("文件保存已取消，请注意!")
             End If
             'oInventorDrawingDocument.SaveAs(strInventorDWGDrawingDocumentFullFileName, True)
         End If
