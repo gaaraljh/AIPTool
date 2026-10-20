@@ -2,7 +2,7 @@
 AIPTool是Autodesk Inventor 插件，基于原Leaky114开源的XHTool插件（现已闭源）修改使用。
 
 # AIPTool支持哪些版本?
-目前测试支持到Inventor2016-2025版。 
+目前测试支持到Inventor2016-2026版。 
 
 # AIPTool有哪些功能?
 - iProperty自动填写
