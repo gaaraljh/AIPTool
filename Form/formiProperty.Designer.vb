@@ -124,7 +124,7 @@ Partial Class FormiProperty
         cmb描述.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         cmb描述.FormattingEnabled = True
         cmb描述.Items.AddRange(New Object() {"", "见本图", "无图", "无图,×", "无图,L="})
-        cmb描述.Location = New System.Drawing.Point(133, 229)
+        cmb描述.Location = New System.Drawing.Point(130, 357)
         cmb描述.Margin = New Padding(4, 6, 4, 6)
         cmb描述.Name = "cmb描述"
         cmb描述.Size = New Size(306, 33)
@@ -134,7 +134,7 @@ Partial Class FormiProperty
         ' 
         cmb材料.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         cmb材料.FormattingEnabled = True
-        cmb材料.Location = New System.Drawing.Point(133, 288)
+        cmb材料.Location = New System.Drawing.Point(130, 163)
         cmb材料.Margin = New Padding(4, 6, 4, 6)
         cmb材料.Name = "cmb材料"
         cmb材料.Size = New Size(306, 33)
@@ -147,14 +147,14 @@ Partial Class FormiProperty
         lbl文件名.Location = New System.Drawing.Point(20, 111)
         lbl文件名.Margin = New Padding(4, 0, 4, 0)
         lbl文件名.Name = "lbl文件名"
-        lbl文件名.Size = New Size(79, 25)
+        lbl文件名.Size = New Size(89, 25)
         lbl文件名.TabIndex = 9
-        lbl文件名.Text = "名  称："
+        lbl文件名.Text = "名    称："
         ' 
         ' lbl描述
         ' 
         lbl描述.AutoSize = True
-        lbl描述.Location = New System.Drawing.Point(22, 237)
+        lbl描述.Location = New System.Drawing.Point(20, 360)
         lbl描述.Margin = New Padding(4, 0, 4, 0)
         lbl描述.Name = "lbl描述"
         lbl描述.Size = New Size(89, 25)
@@ -164,7 +164,7 @@ Partial Class FormiProperty
         ' lbl材料
         ' 
         lbl材料.AutoSize = True
-        lbl材料.Location = New System.Drawing.Point(22, 296)
+        lbl材料.Location = New System.Drawing.Point(20, 171)
         lbl材料.Margin = New Padding(4, 0, 4, 0)
         lbl材料.Name = "lbl材料"
         lbl材料.Size = New Size(89, 25)
@@ -185,7 +185,7 @@ Partial Class FormiProperty
         ' lbl供应商
         ' 
         lbl供应商.AutoSize = True
-        lbl供应商.Location = New System.Drawing.Point(20, 356)
+        lbl供应商.Location = New System.Drawing.Point(22, 434)
         lbl供应商.Margin = New Padding(4, 0, 4, 0)
         lbl供应商.Name = "lbl供应商"
         lbl供应商.Size = New Size(98, 25)
@@ -198,7 +198,7 @@ Partial Class FormiProperty
         cmb供应商.DropDownStyle = ComboBoxStyle.DropDownList
         cmb供应商.FormattingEnabled = True
         cmb供应商.Items.AddRange(New Object() {"", "标准件", "看板件", "外购件", "外协件", "自制件"})
-        cmb供应商.Location = New System.Drawing.Point(133, 347)
+        cmb供应商.Location = New System.Drawing.Point(131, 426)
         cmb供应商.Margin = New Padding(4, 6, 4, 6)
         cmb供应商.Name = "cmb供应商"
         cmb供应商.Size = New Size(302, 33)
@@ -207,7 +207,7 @@ Partial Class FormiProperty
         ' txt价格
         ' 
         txt价格.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
-        txt价格.Location = New System.Drawing.Point(133, 417)
+        txt价格.Location = New System.Drawing.Point(130, 489)
         txt价格.Margin = New Padding(4, 6, 4, 6)
         txt价格.Name = "txt价格"
         txt价格.Size = New Size(306, 31)
@@ -216,7 +216,7 @@ Partial Class FormiProperty
         ' lbl价格
         ' 
         lbl价格.AutoSize = True
-        lbl价格.Location = New System.Drawing.Point(22, 425)
+        lbl价格.Location = New System.Drawing.Point(20, 495)
         lbl价格.Margin = New Padding(4, 0, 4, 0)
         lbl价格.Name = "lbl价格"
         lbl价格.Size = New Size(89, 25)
@@ -237,12 +237,12 @@ Partial Class FormiProperty
         ' txt位置
         ' 
         txt位置.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
-        txt位置.Location = New System.Drawing.Point(130, 556)
+        txt位置.Location = New System.Drawing.Point(130, 564)
         txt位置.Margin = New Padding(4, 6, 4, 6)
         txt位置.Multiline = True
         txt位置.Name = "txt位置"
         txt位置.ReadOnly = True
-        txt位置.Size = New Size(382, 116)
+        txt位置.Size = New Size(382, 108)
         txt位置.TabIndex = 19
         txt位置.TabStop = False
         ' 
@@ -259,7 +259,7 @@ Partial Class FormiProperty
         ' txt质量
         ' 
         txt质量.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
-        txt质量.Location = New System.Drawing.Point(133, 483)
+        txt质量.Location = New System.Drawing.Point(130, 229)
         txt质量.Margin = New Padding(4, 6, 4, 6)
         txt质量.Name = "txt质量"
         txt质量.ReadOnly = True
@@ -269,7 +269,7 @@ Partial Class FormiProperty
         ' lbl质量
         ' 
         lbl质量.AutoSize = True
-        lbl质量.Location = New System.Drawing.Point(22, 492)
+        lbl质量.Location = New System.Drawing.Point(20, 229)
         lbl质量.Margin = New Padding(4, 0, 4, 0)
         lbl质量.Name = "lbl质量"
         lbl质量.Size = New Size(89, 25)
@@ -279,7 +279,7 @@ Partial Class FormiProperty
         ' Label2
         ' 
         Label2.AutoSize = True
-        Label2.Location = New System.Drawing.Point(22, 169)
+        Label2.Location = New System.Drawing.Point(20, 293)
         Label2.Margin = New Padding(4, 0, 4, 0)
         Label2.Name = "Label2"
         Label2.Size = New Size(89, 25)
@@ -291,7 +291,7 @@ Partial Class FormiProperty
         txt生产数量.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         txt生产数量.FormattingEnabled = True
         txt生产数量.Items.AddRange(New Object() {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"})
-        txt生产数量.Location = New System.Drawing.Point(133, 162)
+        txt生产数量.Location = New System.Drawing.Point(131, 285)
         txt生产数量.Margin = New Padding(4, 6, 4, 6)
         txt生产数量.Name = "txt生产数量"
         txt生产数量.Size = New Size(306, 33)
@@ -300,7 +300,7 @@ Partial Class FormiProperty
         ' btn保存描述
         ' 
         btn保存描述.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        btn保存描述.Location = New System.Drawing.Point(458, 229)
+        btn保存描述.Location = New System.Drawing.Point(458, 345)
         btn保存描述.Margin = New Padding(4, 6, 4, 6)
         btn保存描述.Name = "btn保存描述"
         btn保存描述.Size = New Size(43, 54)

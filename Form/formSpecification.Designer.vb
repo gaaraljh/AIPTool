@@ -203,7 +203,7 @@ Partial Class FormSpecification
         ' 
         GroupBox导入自定义.Controls.Add(txt导入文本)
         GroupBox导入自定义.Font = New Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        GroupBox导入自定义.Location = New System.Drawing.Point(22, 107)
+        GroupBox导入自定义.Location = New System.Drawing.Point(18, 94)
         GroupBox导入自定义.Margin = New Padding(4, 6, 4, 6)
         GroupBox导入自定义.Name = "GroupBox导入自定义"
         GroupBox导入自定义.Padding = New Padding(4, 6, 4, 6)
@@ -227,9 +227,10 @@ Partial Class FormSpecification
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Location = New System.Drawing.Point(33, 104)
+        Label1.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label1.Location = New System.Drawing.Point(29, 99)
         Label1.Name = "Label1"
-        Label1.Size = New Size(82, 30)
+        Label1.Size = New Size(89, 32)
         Label1.TabIndex = 18
         Label1.Text = "模板："
         ' 

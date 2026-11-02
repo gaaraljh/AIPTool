@@ -178,6 +178,9 @@ Namespace InventorAddIn
                 '创建右键菜单-打开父部件
                 Dim buttonRightMouseOpenParentAssembly As New ClsRightMouseOpenParentAssembly
 
+                '创建右键菜单-打开工程图（零部件中未选中打开当前、选中则打开选中的）
+                Dim buttonRightMouseOpenDrawing As New ClsRightMouseOpenDrawing
+
                 '创建右键菜单-选择线全选零件
                 Dim buttonSelectPartCurveInDrawing As New ClsRightMouseSelectPartCurveInDrawing
 

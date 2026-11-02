@@ -104,8 +104,7 @@ Public Class FormiProperty
                         SetComboValue(cmb供应商, propitem.Value)
                     Case Map_Price, "成本", "价格", "Cost"
                         txt价格.Text = propitem.Value
-                    Case "质量", "重量", "Mass"
-                        txt质量.Text = FourFive(propitem.Value * 0.001, Mass_Accuracy) & "Kg"
+                        ' 重量/质量：不再读可能陈旧的 iProperty，改为从模型物理属性实时计算（见下方）
                 End Select
             Next
         Next
@@ -117,6 +116,15 @@ Public Class FormiProperty
         ' 供应商：同描述，显式从标准“Design Tracking Properties”读取 Vendor（内部名，跨语言一致）。
         '         用 SetComboValue 显示（cmb供应商 是 DropDownList，值不在预设项时需加入再选中）
         SetComboValue(cmb供应商, GetVendor(oInventorDocument))
+
+        ' 重量/质量：从模型物理属性实时计算（权威、单位 kg），确保显示当前零件/部件的真实重量，
+        '           避免读取到陈旧或单位换算出错的 iProperty（*0.001 会把已是 kg 的值误缩小）
+        Try
+            Dim dblMass As Double = oInventorDocument.ComponentDefinition.MassProperties.Mass
+            txt质量.Text = FourFive(dblMass, CInt(Val(Mass_Accuracy))).ToString() & "Kg"
+        Catch
+            txt质量.Text = ""
+        End Try
 
         ' 生产数量：专门读取自定义（用户定义）属性集中的该项，存在则显示于 txt生产数量
         Try

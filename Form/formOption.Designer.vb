@@ -112,6 +112,7 @@ Partial Class FormOption
         txt工程图模板 = New TextBox()
         lbl模板工程图 = New Label()
         TabPage模型 = New TabPage()
+        Btn添加2 = New Button()
         txtBOM显示列 = New TextBox()
         txt钣金厚度前缀 = New TextBox()
         Label5 = New Label()
@@ -186,7 +187,6 @@ Partial Class FormOption
         lbl图号 = New Label()
         cmb图号 = New ComboBox()
         TabControl = New TabControl()
-        Btn添加2 = New Button()
         ContextMenuStrip配置文件.SuspendLayout()
         TabPage其他.SuspendLayout()
         GroupBox自动保存.SuspendLayout()
@@ -320,7 +320,7 @@ Partial Class FormOption
         ' Label4
         ' 
         Label4.AutoSize = True
-        Label4.Location = New System.Drawing.Point(527, 601)
+        Label4.Location = New System.Drawing.Point(527, 595)
         Label4.Name = "Label4"
         Label4.Size = New Size(204, 25)
         Label4.TabIndex = 50
@@ -330,7 +330,7 @@ Partial Class FormOption
         ' 
         cbx中间符号.FormattingEnabled = True
         cbx中间符号.Items.AddRange(New Object() {""" """, "-", " "})
-        cbx中间符号.Location = New System.Drawing.Point(737, 601)
+        cbx中间符号.Location = New System.Drawing.Point(737, 592)
         cbx中间符号.Margin = New Padding(3, 4, 3, 4)
         cbx中间符号.Name = "cbx中间符号"
         cbx中间符号.Size = New Size(126, 33)
@@ -1183,6 +1183,16 @@ Partial Class FormOption
         TabPage模型.Text = "模型"
         TabPage模型.UseVisualStyleBackColor = True
         ' 
+        ' Btn添加2
+        ' 
+        Btn添加2.Location = New System.Drawing.Point(886, 573)
+        Btn添加2.Margin = New Padding(4, 5, 4, 5)
+        Btn添加2.Name = "Btn添加2"
+        Btn添加2.Size = New Size(89, 52)
+        Btn添加2.TabIndex = 39
+        Btn添加2.Text = "添加"
+        Btn添加2.UseVisualStyleBackColor = True
+        ' 
         ' txtBOM显示列
         ' 
         txtBOM显示列.Location = New System.Drawing.Point(151, 594)
@@ -2006,16 +2016,6 @@ Partial Class FormOption
         TabControl.SelectedIndex = 0
         TabControl.Size = New Size(1040, 678)
         TabControl.TabIndex = 0
-        ' 
-        ' Btn添加2
-        ' 
-        Btn添加2.Location = New System.Drawing.Point(886, 573)
-        Btn添加2.Margin = New Padding(4, 5, 4, 5)
-        Btn添加2.Name = "Btn添加2"
-        Btn添加2.Size = New Size(89, 52)
-        Btn添加2.TabIndex = 39
-        Btn添加2.Text = "添加"
-        Btn添加2.UseVisualStyleBackColor = True
         ' 
         ' FormOption
         ' 

@@ -570,4 +570,8 @@ Public Class FormSpecification
             boolIsUserChange = True
         End If
     End Sub
+
+    Private Sub txt标题文本_TextChanged(sender As Object, e As EventArgs) Handles txt标题文本.TextChanged
+
+    End Sub
 End Class

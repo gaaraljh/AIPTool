@@ -6,11 +6,12 @@ Public Class ClsRightMouseSelectPartInBrowser
     Public Sub New()
 
         Dim smallPicture As IPictureDisp
+        Dim largePicture As IPictureDisp
 
         'Dim largePicture As stdole.IPictureDisp
 
-        smallPicture = clsPictureConverter.ImageToPictureDisp(My.Resources.在浏览器中查找16.ToBitmap)
-        'largePicture = clsPictureConverter.ImageToPictureDisp(My.Resources.编辑尺寸32.ToBitmap)
+        smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.工程图16.ToBitmap)
+        largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.工程图32.ToBitmap)
 
         m_在浏览器中查找_Buttondef = ThisApplication.CommandManager.ControlDefinitions.AddButtonDefinition(
            "在浏览器中查找", "InNameRightMouse在浏览器中查找", CommandTypesEnum.kFileOperationsCmdType,

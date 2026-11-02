@@ -38,6 +38,7 @@
 - 布局控件集中在设计器（FormBomTool 等），运行时代码只做数据/事件，不要 New 控件。
 - `ThisApplication` 是 `Module\PublicParameters.vb` 里的全局变量。
 - 工程内 `library\`：Inventor/Excel/stdole 互操作副本。**Inventor 互操作引用现为 `EmbedInteropTypes=False` + `Private=True`**（随插件部署 `Autodesk.Inventor.Interop.dll` 真实程序集——.NET 8 下嵌入式互操作类型会导致 Activate 参数封送 E_FAIL）；Excel/stdole 仍 `EmbedInteropTypes=True` 嵌入。
+- **添加新资源图标必须同时改 3 处**（否则 BC30456 "不是 My.Resources 的成员"）：① `Resources\xxx.ico` 文件；② `My Project\Resources.resx` 加 `<data>` 条目（ICO 用 `System.Drawing.Icon` 类型，代码 `.ToBitmap()` 才能用）；③ `My Project\Resources.Designer.vb` 加 `Friend ReadOnly Property Xxx() As System.Drawing.Icon`。本工程 My.Resources 是手写强类型类（vbproj:145 注释），SDK 不会自动生成属性；resx 里资源名重复也会导致后续属性生成失败。
 
 ## 当前功能状态
 - BOM 按钮 → `clsBomTool.Run()`（代码自建界面，伪模态：自建窗体 Show 后 DoEvents 循环直到关闭；依赖全局 `ThisApplication`，内部用 `ThisApplication.ActiveEditDocument`）。`FormBomTool` 设计器窗体仍在工程但已不被按钮调用。

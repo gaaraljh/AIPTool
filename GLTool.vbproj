@@ -150,13 +150,15 @@
     <None Update="My Project\Settings.settings" />
     <None Remove="app.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\采购件16.ico" />
+  </ItemGroup>
 
   <!-- Excel 互程序集会连带解析出 VS 互程序集（本工程未直接使用，且互操作类型已嵌入），
        从输出目录剔除，保持与 .NET Framework 版一致的产物清单 -->
   <Target Name="RemoveUnusedVsInteropFromOutput" AfterTargets="ResolveAssemblyReferences">
     <ItemGroup>
-      <ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)"
-        Condition="'%(FileName)%(Extension)' == 'Microsoft.VisualStudio.Interop.dll' Or '%(FileName)%(Extension)' == 'Microsoft.VisualStudio.Imaging.Interop.14.0.DesignTime.dll'" />
+      <ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)" Condition="'%(FileName)%(Extension)' == 'Microsoft.VisualStudio.Interop.dll' Or '%(FileName)%(Extension)' == 'Microsoft.VisualStudio.Imaging.Interop.14.0.DesignTime.dll'" />
     </ItemGroup>
   </Target>
 

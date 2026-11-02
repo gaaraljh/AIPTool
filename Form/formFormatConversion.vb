@@ -12,6 +12,17 @@ Imports System.Collections.Generic
 
 Public Class FormFormatConversion
     Dim boolRun As Boolean = True
+    Dim intConverted As Integer = 0   '已转换完成数（用于 TLS剩余数量 显示）
+
+    ''' <summary>
+    ''' 更新“TLS剩余数量”标签：格式为 剩余值/总数（如 7/8）。
+    ''' 总数取文件列表项数，剩余值 = 总数 - 已转换完成数。
+    ''' </summary>
+    Private Sub Update剩余数量()
+        Dim intTotal As Integer = Lvw文件列表.Items.Count
+        Dim intDone As Integer = Math.Min(intConverted, intTotal)
+        TLS剩余数量.Text = (intTotal - intDone).ToString() & "/" & intTotal.ToString()
+    End Sub
 
     ''' <summary>
     ''' 加载文件列表到Listview
@@ -38,7 +49,20 @@ Public Class FormFormatConversion
                 Continue For
             End If
 
-            If InStr(strInventorDocumentFullFileName, ContentCenterFiles) > 0 Then    '跳过零件库文件
+            '排除标准件：Content Center Files + 设计加速器 + Tube and Pipe
+            If 排除标准件ToolStripButton2.Checked = True AndAlso
+               ((ContentCenterFiles <> "" AndAlso InStr(strInventorDocumentFullFileName, ContentCenterFiles) > 0) OrElse
+                InStr(strInventorDocumentFullFileName, "设计加速器") > 0 OrElse
+                LCase(strInventorDocumentFullFileName).Contains("design accelerator") OrElse
+                LCase(strInventorDocumentFullFileName).Contains("tube and pipe")) Then
+                Continue For
+            End If
+
+            '排除库文件：路径含“外购件库”“库文件”“零件库”关键字
+            If 排除库文件ToolStripButton2.Checked = True AndAlso
+               (InStr(strInventorDocumentFullFileName, "外购件库") > 0 OrElse
+                InStr(strInventorDocumentFullFileName, "库文件") > 0 OrElse
+                InStr(strInventorDocumentFullFileName, "零件库") > 0) Then
                 Continue For
             End If
 
@@ -87,6 +111,8 @@ Public Class FormFormatConversion
 
         AddFilesInListView(Lvw文件列表, oFileList, 工程图ToolStripButton.Checked, 工程图ToolStripButton.Checked, 零部件ToolStripButton.Checked)
 
+        intConverted = 0
+        Update剩余数量()
     End Sub
 
     '添加文件夹
@@ -129,6 +155,9 @@ Public Class FormFormatConversion
             AddFilesInListView(Lvw文件列表, oFileList, 工程图ToolStripButton.Checked, 工程图ToolStripButton.Checked, 零部件ToolStripButton.Checked)
 
         End If
+
+        intConverted = 0
+        Update剩余数量()
     End Sub
 
     '选择文件夹
@@ -176,7 +205,7 @@ Public Class FormFormatConversion
         添加文件夹ToolStripButton.Image = My.Resources.打开文件夹16.ToBitmap
         从部件导入ToolStripButton.Image = My.Resources.部件16.ToBitmap
         导入当前部件ToolStripButton.Image = My.Resources.当前部件16.ToBitmap
-        导入已打开的文件ToolStripButton.Image = My.Resources.内存文件16.ToBitmap
+        排除结构件ToolStripButton.Image = My.Resources.内存文件16.ToBitmap
 
         DWGToolStripButton.Image = My.Resources.文件Dwg16.ToBitmap
         DXFToolStripButton.Image = My.Resources.文件Dxf16.ToBitmap
@@ -190,19 +219,31 @@ Public Class FormFormatConversion
         黑色PDFToolStripButton.Image = My.Resources.清除随机颜色16.ToBitmap
         指定文件夹ToolStripButton.Image = My.Resources.打开文件夹16.ToBitmap
         浏览ToolStripButton.Image = My.Resources.查询16.ToBitmap
+        添加排除项ToolStripButton3.Image = My.Resources.清除日期16.ToBitmap
+        排除库文件ToolStripButton2.Image = My.Resources.采购件16.ToBitmap
+        排除标准件ToolStripButton2.Image = My.Resources.标准件16.ToBitmap
+        排除结构件ToolStripButton.Image = My.Resources.结构件16.ToBitmap
+
 
         开始转换ToolStripButton2.Image = My.Resources.格式转换16.ToBitmap
         关闭ToolStripButton.Image = My.Resources.关闭16.ToBitmap
+
+
+        '排除项按钮可用性（与添加文件等按钮一致）
+        添加排除项ToolStripButton3.Enabled = 零部件ToolStripButton.Checked OrElse 工程图ToolStripButton.Checked
 
         Lvw文件列表.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize)
 
         SetWindowSizeAndCenter(Me)
 
+        Update剩余数量()
     End Sub
 
     '移除选择列
     Private Sub 移出文件ToolStripButton_Click(sender As Object, e As EventArgs) Handles 移出文件ToolStripButton.Click, tsmi移出.Click
         ListViewDel(Lvw文件列表)
+        intConverted = 0
+        Update剩余数量()
     End Sub
 
 
@@ -285,6 +326,18 @@ Public Class FormFormatConversion
                     Continue For
                 End If
 
+                '排除标准件：Content Center Files + 设计加速器 + Tube and Pipe
+                If 排除标准件ToolStripButton2.Checked = True AndAlso
+                   ((ContentCenterFiles <> "" AndAlso InStr(strDestinationFileFolder, ContentCenterFiles) > 0) OrElse
+                    InStr(strDestinationFileFolder, "设计加速器") > 0 OrElse
+                    LCase(strDestinationFileFolder).Contains("design accelerator") OrElse
+                    LCase(strDestinationFileFolder).Contains("tube and pipe")) Then Continue For
+                '排除库文件：路径含“外购件库”“库文件”“零件库”关键字
+                If 排除库文件ToolStripButton2.Checked = True AndAlso
+                   (InStr(strDestinationFileFolder, "外购件库") > 0 OrElse
+                    InStr(strDestinationFileFolder, "库文件") > 0 OrElse
+                    InStr(strDestinationFileFolder, "零件库") > 0) Then Continue For
+
                 If IsItemInListView(Lvw文件列表, strDestinationFileFolder) = False Then
 
                     strExtension = GetFileExtensionLCase(strDestinationFileFolder)
@@ -311,6 +364,8 @@ Public Class FormFormatConversion
 
         Next
 
+        intConverted = 0
+        Update剩余数量()
     End Sub
 
     Private Sub Lvw文件列表_DragEnter(sender As Object, e As DragEventArgs) Handles Lvw文件列表.DragEnter
@@ -329,6 +384,8 @@ Public Class FormFormatConversion
     '清空文件列表
     Private Sub 清空列表ToolStripButton_Click(sender As Object, e As EventArgs) Handles 清空列表ToolStripButton.Click, tsmi清空.Click
         Lvw文件列表.Items.Clear()
+        intConverted = 0
+        Update剩余数量()
     End Sub
 
     Private Sub 工程图ToolStripButton_Click(sender As Object, e As EventArgs) Handles 工程图ToolStripButton.Click
@@ -343,7 +400,8 @@ Public Class FormFormatConversion
 
             从部件导入ToolStripButton.Enabled = True
             导入当前部件ToolStripButton.Enabled = True
-            导入已打开的文件ToolStripButton.Enabled = True
+            添加排除项ToolStripButton3.Enabled = True
+            排除结构件ToolStripButton.Enabled = True
 
         Else
             DWGToolStripButton.Checked = False
@@ -361,7 +419,8 @@ Public Class FormFormatConversion
 
             从部件导入ToolStripButton.Enabled = 零部件ToolStripButton.Checked
             导入当前部件ToolStripButton.Enabled = 零部件ToolStripButton.Checked
-            导入已打开的文件ToolStripButton.Enabled = 零部件ToolStripButton.Checked
+            添加排除项ToolStripButton3.Enabled = 零部件ToolStripButton.Checked
+            排除结构件ToolStripButton.Enabled = 零部件ToolStripButton.Checked
         End If
     End Sub
 
@@ -376,7 +435,8 @@ Public Class FormFormatConversion
 
             从部件导入ToolStripButton.Enabled = True
             导入当前部件ToolStripButton.Enabled = True
-            导入已打开的文件ToolStripButton.Enabled = True
+            添加排除项ToolStripButton3.Enabled = True
+            排除结构件ToolStripButton.Enabled = True
 
         Else
             JPGToolStripButton.Checked = False
@@ -391,7 +451,8 @@ Public Class FormFormatConversion
 
             从部件导入ToolStripButton.Enabled = 工程图ToolStripButton.Checked
             导入当前部件ToolStripButton.Enabled = 工程图ToolStripButton.Checked
-            导入已打开的文件ToolStripButton.Enabled = 工程图ToolStripButton.Checked
+            添加排除项ToolStripButton3.Enabled = 工程图ToolStripButton.Checked
+            排除结构件ToolStripButton.Enabled = 工程图ToolStripButton.Checked
         End If
     End Sub
 
@@ -399,8 +460,21 @@ Public Class FormFormatConversion
         浏览ToolStripButton.Enabled = 指定文件夹ToolStripButton.Checked
     End Sub
 
-    Private Sub 导入已打开的文件ToolStripButton_Click(sender As Object, e As EventArgs) Handles 导入已打开的文件ToolStripButton.Click
-        Dim oInventorDocument As Inventor.Document
+    '排除项：点击后显示/隐藏 标准件、库文件、结构件 三个排除按钮
+    Private Sub 添加排除项ToolStripButton3_Click(sender As Object, e As EventArgs) Handles 添加排除项ToolStripButton3.Click
+        Dim blnVisible = 添加排除项ToolStripButton3.Checked
+        排除标准件ToolStripButton2.Visible = blnVisible
+        排除库文件ToolStripButton2.Visible = blnVisible
+        排除结构件ToolStripButton.Visible = blnVisible
+
+        '设计器中三个按钮默认 Enabled=False，显示时必须同步启用，否则灰色不可点
+        排除标准件ToolStripButton2.Enabled = blnVisible
+        排除库文件ToolStripButton2.Enabled = blnVisible
+        排除结构件ToolStripButton.Enabled = blnVisible
+    End Sub
+
+    Private Sub 导入已打开的文件ToolStripButton_Click(sender As Object, e As EventArgs) Handles ToolStripButton4.Click
+        Dim oInventorDocument As Document
         Dim strInventorDocumentFullFileName As String
 
         If ThisApplication.Documents.VisibleDocuments.Count = 0 Then
@@ -409,6 +483,19 @@ Public Class FormFormatConversion
 
         For Each oInventorDocument In ThisApplication.Documents.VisibleDocuments
             strInventorDocumentFullFileName = oInventorDocument.FullFileName
+
+            '排除标准件：Content Center Files + 设计加速器 + Tube and Pipe
+            If 排除标准件ToolStripButton2.Checked = True AndAlso
+               ((ContentCenterFiles <> "" AndAlso InStr(strInventorDocumentFullFileName, ContentCenterFiles) > 0) OrElse
+                InStr(strInventorDocumentFullFileName, "设计加速器") > 0 OrElse
+                LCase(strInventorDocumentFullFileName).Contains("design accelerator") OrElse
+                LCase(strInventorDocumentFullFileName).Contains("tube and pipe")) Then Continue For
+            '排除库文件：路径含“外购件库”“库文件”“零件库”关键字
+            If 排除库文件ToolStripButton2.Checked = True AndAlso
+               (InStr(strInventorDocumentFullFileName, "外购件库") > 0 OrElse
+                InStr(strInventorDocumentFullFileName, "库文件") > 0 OrElse
+                InStr(strInventorDocumentFullFileName, "零件库") > 0) Then Continue For
+
             If IsItemInListView(Lvw文件列表, strInventorDocumentFullFileName) = False Then
 
                 If GetFileExtensionLCase(strInventorDocumentFullFileName) = IDW And 工程图ToolStripButton.Checked = True Then
@@ -430,6 +517,8 @@ Public Class FormFormatConversion
 
         Next
 
+        intConverted = 0
+        Update剩余数量()
     End Sub
 
     Private Sub 导入当前部件ToolStripButton_Click(sender As Object, e As EventArgs) Handles 导入当前部件ToolStripButton.Click
@@ -453,6 +542,9 @@ Public Class FormFormatConversion
 
         LoadBOM(oInventorAssemblyDocument, Lvw文件列表, 工程图ToolStripButton.Checked, 工程图ToolStripButton.Checked, 零部件ToolStripButton.Checked)
 
+        intConverted = 0
+        Update剩余数量()
+
         Me.TopMost = True
         Me.TopMost = False
     End Sub
@@ -472,28 +564,117 @@ Public Class FormFormatConversion
         OInteractionEvents.SetCursor(CursorTypeEnum.kCursorTypeWindows, 32514)
 
         ThisApplication.UserInterfaceManager.DoEvents()
-        '===================================
-        '基于bom结构化数据，可跳过参考的文件
-        Dim oBOM As BOM
-        oBOM = oInventorAssemblyDocument.ComponentDefinition.BOM
-        oBOM.StructuredViewEnabled = True
 
         Lvw文件列表.BeginUpdate()
 
-        '获取结构化的bom页面
-        For Each oBOMView As BOMView In oBOM.BOMViews
-            If oBOMView.ViewType = BOMViewTypeEnum.kStructuredBOMViewType Then
-                '遍历这个bom页面
-                LoadBOMSub(oBOMView.BOMRows, olistiview, IsContainIdw, IsContaindwg, IsContainIpt)
-                Exit For
-            End If
-        Next
+        '按装配树遍历 Occurrences（比 BOM 视图可靠，能读取到所有层级的子零部件）
+        Dim oOccs As ComponentOccurrences = oInventorAssemblyDocument.ComponentDefinition.Occurrences
+        If 按装配顺序ToolStripButton2.Checked = True Then
+            '按装配顺序：深度优先，每个部件的子件紧跟其后，按层级添加
+            LoadAssemblyTreeDFS(oOccs, olistiview, IsContainIdw, IsContaindwg, IsContainIpt)
+        Else
+            '默认：按层级广度遍历（先所有顶层，再逐层子件）
+            LoadAssemblyTreeBFS(oOccs, olistiview, IsContainIdw, IsContaindwg, IsContainIpt)
+        End If
 
         Lvw文件列表.EndUpdate()
 
         OInteractionEvents.SetCursor(CursorTypeEnum.kCursorTypeDefault)
         OInteractionEvents.Stop()
 
+    End Sub
+
+    ''' <summary>
+    ''' 把一个零部件（含其对应工程图）的文件名加入列表，供装配树遍历复用。
+    ''' </summary>
+    Private Sub AddOccurrenceFiles(ByVal olistiview As ListView, ByVal strFullFileName As String,
+                                   ByVal IsContainIdw As Boolean, ByVal IsContaindwg As Boolean, ByVal IsContainIpt As Boolean)
+        Dim oFileList As New List(Of String)()
+
+        If IsContainIpt = True Then
+            oFileList.Add(strFullFileName)
+        End If
+        If IsContainIdw = True Then
+            Dim strDrawingFullName As String = GetChangeExtensionDocument(strFullFileName, IDW)
+            If strDrawingFullName <> "" Then oFileList.Add(strDrawingFullName)
+        End If
+        If IsContaindwg = True Then
+            Dim strdwgDrawingFullName As String = GetChangeExtensionDocument(strFullFileName, DWG)
+            If strdwgDrawingFullName <> "" Then oFileList.Add(strdwgDrawingFullName)
+        End If
+
+        AddFilesInListView(olistiview, oFileList, IsContainIdw, IsContaindwg, IsContainIpt)
+    End Sub
+
+    ''' <summary>
+    ''' 判断某个部件的“子件”是否要跳过（排除结构件：FileName 含 Frame 的部件自身保留，
+    ''' 但其子零件不再添加）。标准件/库文件由 AddFilesInListView 统一处理。
+    ''' </summary>
+    Private Function IsSkipChildOccurrences(ByVal strFullFileName As String) As Boolean
+        If 排除结构件ToolStripButton.Checked = True AndAlso InStr(LCase(strFullFileName), "frame") > 0 Then
+            Return True
+        End If
+        Return False
+    End Function
+
+    ''' <summary>
+    ''' 按装配顺序（深度优先）遍历装配树：每个部件加入后立即递归其子件，
+    ''' 使每个部件的子零部件紧跟在其后，按层级顺序添加到列表。
+    ''' </summary>
+    Private Sub LoadAssemblyTreeDFS(ByVal oOccurrences As ComponentOccurrences, ByVal olistiview As ListView,
+                                    ByVal IsContainIdw As Boolean, ByVal IsContaindwg As Boolean, ByVal IsContainIpt As Boolean)
+        If oOccurrences Is Nothing Then Exit Sub
+
+        For Each oOcc As ComponentOccurrence In oOccurrences
+            Try
+                Dim strFullFileName As String = oOcc.ReferencedDocumentDescriptor.FullDocumentName
+
+                AddOccurrenceFiles(olistiview, strFullFileName, IsContainIdw, IsContaindwg, IsContainIpt)
+
+                '递归下一级：子件紧跟父件之后；排除结构件时跳过 Frame 部件的子件
+                If IsSkipChildOccurrences(strFullFileName) = False AndAlso
+                   oOcc.SubOccurrences IsNot Nothing AndAlso oOcc.SubOccurrences.Count > 0 Then
+                    LoadAssemblyTreeDFS(oOcc.SubOccurrences, olistiview, IsContainIdw, IsContaindwg, IsContainIpt)
+                End If
+            Catch
+            End Try
+        Next
+    End Sub
+
+    ''' <summary>
+    ''' 按层级广度遍历装配树：先加入所有顶层部件，再逐层加入子件。
+    ''' </summary>
+    Private Sub LoadAssemblyTreeBFS(ByVal oOccurrences As ComponentOccurrences, ByVal olistiview As ListView,
+                                    ByVal IsContainIdw As Boolean, ByVal IsContaindwg As Boolean, ByVal IsContainIpt As Boolean)
+        If oOccurrences Is Nothing Then Exit Sub
+
+        Dim oCurrentLevel As New List(Of ComponentOccurrence)()
+        For Each oOcc As ComponentOccurrence In oOccurrences
+            oCurrentLevel.Add(oOcc)
+        Next
+
+        Do While oCurrentLevel.Count > 0
+            Dim oNextLevel As New List(Of ComponentOccurrence)()
+
+            For Each oOcc As ComponentOccurrence In oCurrentLevel
+                Try
+                    Dim strFullFileName As String = oOcc.ReferencedDocumentDescriptor.FullDocumentName
+
+                    AddOccurrenceFiles(olistiview, strFullFileName, IsContainIdw, IsContaindwg, IsContainIpt)
+
+                    '收集下一级，供下一轮按层添加；排除结构件时跳过 Frame 部件的子件
+                    If IsSkipChildOccurrences(strFullFileName) = False AndAlso
+                       oOcc.SubOccurrences IsNot Nothing AndAlso oOcc.SubOccurrences.Count > 0 Then
+                        For Each oSubOcc As ComponentOccurrence In oOcc.SubOccurrences
+                            oNextLevel.Add(oSubOcc)
+                        Next
+                    End If
+                Catch
+                End Try
+            Next
+
+            oCurrentLevel = oNextLevel
+        Loop
     End Sub
 
     ''' <summary>
@@ -543,6 +724,15 @@ Public Class FormFormatConversion
         AddFilesInListView(olistiview, strInventorDocumentFullFileNames, IsContainIdw, IsContaindwg, IsContainIpt)
 
         For Each oBomrow As BOMRow In oBOMRows
+            '排除结构件：Frame（框架）文件中的子零件不再添加到列表
+            If 排除结构件ToolStripButton.Checked = True Then
+                Try
+                    Dim strParentFullName As String = oBomrow.ComponentDefinitions(1).Document.FullFileName
+                    If InStr(LCase(strParentFullName), "frame") > 0 Then Continue For
+                Catch
+                End Try
+            End If
+
             '遍历下一级
             If (oBomrow.ChildRows IsNot Nothing) Then
                 LoadBOMSub(oBomrow.ChildRows, olistiview, IsContainIdw, IsContaindwg, IsContainIpt)
@@ -576,6 +766,9 @@ Public Class FormFormatConversion
             LoadBOM(oInventorAssemblyDocument, Lvw文件列表, 工程图ToolStripButton.Checked, 工程图ToolStripButton.Checked, 零部件ToolStripButton.Checked)
         Next
 
+        intConverted = 0
+        Update剩余数量()
+
         Me.TopMost = True
         Me.TopMost = False
     End Sub
@@ -606,6 +799,9 @@ Public Class FormFormatConversion
             .Value = 0
             .Height = 20
         End With
+
+        intConverted = 0
+        Update剩余数量()
 
         For Each oListViewItem As ListViewItem In Lvw文件列表.Items
             System.Windows.Forms.Application.DoEvents()
@@ -817,6 +1013,8 @@ Public Class FormFormatConversion
 999:
             intCount += 1
             进度ToolStripProgressBar.Value = intCount
+            intConverted = intCount
+            Update剩余数量()
         Next
 
         OInteractionEvents.SetCursor(CursorTypeEnum.kCursorTypeDefault)
@@ -834,6 +1032,14 @@ Public Class FormFormatConversion
     End Sub
 
     Private Sub Lvw文件列表_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Lvw文件列表.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub TLS剩余数量_Click(sender As Object, e As EventArgs) Handles TLS剩余数量.Click
+
+    End Sub
+
+    Private Sub ToolStrip文档格式_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles ToolStrip文档格式.ItemClicked
 
     End Sub
 End Class
