@@ -15,7 +15,7 @@ Public Class FormiPropertyToFileName
     Public intSelectIndex As Integer    '被选中的一行
 
     Private Sub FormiPropertyToFileName_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
         Me.TopMost = True
 
         Dim toolTip As New ToolTip With {
@@ -170,7 +170,7 @@ Public Class FormiPropertyToFileName
                 End If
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -192,7 +192,7 @@ Public Class FormiPropertyToFileName
         Dim strNewFileName As String
 
         If ThisApplication.ActiveDocumentType <> DocumentTypeEnum.kAssemblyDocumentObject Then
-            MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -361,7 +361,7 @@ Public Class FormiPropertyToFileName
 
         Me.TopMost = False
 
-        MessageBox.Show("按iProperty更改文件名完成。", AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        MessageBox.Show("按iProperty更改文件名完成。", GLTool, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
         Me.Close()
 
@@ -396,12 +396,12 @@ Public Class FormiPropertyToFileName
                 Next
             End Using
 
-            If MessageBox.Show("数据文件导出完成，是否打开？", AIPTool, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = MsgBoxResult.Yes Then
+            If MessageBox.Show("数据文件导出完成，是否打开？", GLTool, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = MsgBoxResult.Yes Then
               ProcessStart(strCsvFullFileName)
             End If
 
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
 
@@ -424,20 +424,20 @@ Public Class FormiPropertyToFileName
 
                         ' 步骤1：读取列名
                         If oTextFieldParser.EndOfData Then
-                            MessageBox.Show("CSV 文件为空。", AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                            MessageBox.Show("CSV 文件为空。", GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                             Return
                         End If
                         Dim csvHeaders As String() = oTextFieldParser.ReadFields()
 
                         ' 步骤2：验证列名和列数是否与 ListView 匹配
                         If csvHeaders.Length <> lvw文件列表.Columns.Count Then
-                            MessageBox.Show("CSV 列数不匹配。", AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                            MessageBox.Show("CSV 列数不匹配。", GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                             Return
                         End If
 
                         For i As Integer = 0 To csvHeaders.Length - 1
                             If csvHeaders(i) <> lvw文件列表.Columns(i).Text Then
-                                MessageBox.Show($"列名不匹配：第 {i + 1} 列应为 [{lvw文件列表.Columns(i).Text}]", AIPTool,
+                                MessageBox.Show($"列名不匹配：第 {i + 1} 列应为 [{lvw文件列表.Columns(i).Text}]", GLTool,
                                                 MessageBoxButtons.OK, MessageBoxIcon.Error)
                                 Return
                             End If
@@ -482,10 +482,10 @@ Public Class FormiPropertyToFileName
                     Next
 
                     lvw文件列表.EndUpdate()
-                    MessageBox.Show("CSV 文件导入成功。", AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBox.Show("CSV 文件导入成功。", GLTool, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                 Catch ex As Exception
-                    MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End Try
             End If
         End Using

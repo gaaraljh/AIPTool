@@ -16,7 +16,7 @@ Module BrowserNodes
         strOldInventorDocumentFullName = oInventorDrawingDocument.AllReferencedDocuments(1).FullDocumentName
 
         If GetFileExtensionLCase(strOldInventorDocumentFullName) <> IAM Then
-            MessageBox.Show("不支持非部件工程图。"， AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
+            MessageBox.Show("不支持非部件工程图。"， GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -52,7 +52,7 @@ Module BrowserNodes
         Try
             oOcc = oDrawingCurve.ModelGeometry.ContainingOccurrence
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End Try
 

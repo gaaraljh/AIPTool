@@ -36,7 +36,7 @@ Module IdwModule
             End If
 
             If ThisApplication.ActiveDocumentType <> kDrawingDocumentObject Then
-                MessageBox.Show(”该功能仅适用于工程图。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于工程图。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
@@ -90,16 +90,16 @@ Module IdwModule
 
             If IsFileExists(strDwgFullFileName) Then
                 SetStatusBarText("另存为DWG完成。")
-                If MessageBox.Show($"是否打开文件： {vbCrLf}{strDwgFullFileName} ？”, AIPTool， MessageBoxButtons.YesNo， MessageBoxIcon.Question） = DialogResult.Yes Then
+                If MessageBox.Show($"是否打开文件： {vbCrLf}{strDwgFullFileName} ？”, GLTool， MessageBoxButtons.YesNo， MessageBoxIcon.Question） = DialogResult.Yes Then
                     ProcessStart(strDwgFullFileName)
                 End If
             Else
-                SetStatusBarText(AIPTool)
-                MessageBox.Show("另存为DWG错误。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                SetStatusBarText(GLTool)
+                MessageBox.Show("另存为DWG错误。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
 
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -182,7 +182,7 @@ Module IdwModule
             End If
 
             If ThisApplication.ActiveDocumentType <> kDrawingDocumentObject Then
-                MessageBox.Show(”该功能仅适用于工程图。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于工程图。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
@@ -233,17 +233,17 @@ Module IdwModule
 
             If IsFileExists(strPdfFullFileName) Then
                 SetStatusBarText("另存为Pdf文件完成")
-                If MessageBox.Show($"是否打开文件：{strPdfFullFileName}？“, AIPTool，
+                If MessageBox.Show($"是否打开文件：{strPdfFullFileName}？“, GLTool，
                                    MessageBoxButtons.YesNo， MessageBoxIcon.Question) = DialogResult.Yes Then
                     ProcessStart(strPdfFullFileName)
                 End If
             Else
-                SetStatusBarText(AIPTool)
-                MessageBox.Show("另存为pdf错误。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                SetStatusBarText(GLTool)
+                MessageBox.Show("另存为pdf错误。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
 
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -331,7 +331,7 @@ Module IdwModule
             End If
 
             If ThisApplication.ActiveDocumentType <> kDrawingDocumentObject Then
-                MessageBox.Show(”该功能仅适用于工程图。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于工程图。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
@@ -374,7 +374,7 @@ Module IdwModule
 
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -393,7 +393,7 @@ Module IdwModule
             End If
 
             If ThisApplication.ActiveDocumentType <> kDrawingDocumentObject Then
-                MessageBox.Show(”该功能仅适用于工程图。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于工程图。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Function
             End If
 
@@ -420,7 +420,7 @@ Module IdwModule
                 Loop Until (oDrawingDimension Is Nothing)
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Function
 
@@ -439,7 +439,7 @@ Module IdwModule
             End If
 
             If ThisApplication.ActiveDocumentType <> kDrawingDocumentObject Then
-                MessageBox.Show(”该功能仅适用于工程图。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于工程图。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
@@ -472,7 +472,7 @@ Module IdwModule
 
             oTransaction.End()
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -492,7 +492,7 @@ Module IdwModule
             End If
 
             If ThisApplication.ActiveDocumentType <> kDrawingDocumentObject Then
-                MessageBox.Show(”该功能仅适用于工程图。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于工程图。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
@@ -520,7 +520,7 @@ Module IdwModule
 
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -537,7 +537,7 @@ Module IdwModule
             End If
 
             If ThisApplication.ActiveDocumentType <> kDrawingDocumentObject Then
-                MessageBox.Show(”该功能仅适用于工程图。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于工程图。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
@@ -548,12 +548,12 @@ Module IdwModule
                 SetStatusBarText("设置工程图自定义属性：对称件IPro")
                 ' MessageBox.Show("设置工程图自定义属性：对称件IPro", MsgBoxStyle.Information)
             Else
-                SetStatusBarText(AIPTool)
-                MessageBox.Show("设置对称件iProperty错误。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                SetStatusBarText(GLTool)
+                MessageBox.Show("设置对称件iProperty错误。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
 
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -568,7 +568,7 @@ Module IdwModule
         oSheet = oInventorDrawingDocument.ActiveSheet
 
         If oSheet.DrawingViews.Count = 0 Then
-            MessageBox.Show("先添加一个视图。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+            MessageBox.Show("先添加一个视图。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
             Return False
         End If
 
@@ -628,7 +628,7 @@ Module IdwModule
         oInventorDrawingDocument.PropertySets.Item("User Defined Properties").Add(oStockNumPartName.ERP编码, Map_Mir_ERPCode)
         'End Try
 
-        If MessageBox.Show("是否添加对称件说明标签？", AIPTool， MessageBoxButtons.YesNo， MessageBoxIcon.Question） = DialogResult.Yes Then
+        If MessageBox.Show("是否添加对称件说明标签？", GLTool， MessageBoxButtons.YesNo， MessageBoxIcon.Question） = DialogResult.Yes Then
             ' Set a reference to the GeneralNotes object
             Dim oGeneralNotes As GeneralNotes
             oGeneralNotes = oSheet.DrawingNotes.GeneralNotes
@@ -693,7 +693,7 @@ Module IdwModule
         End If
 
         If ThisApplication.ActiveDocumentType <> kDrawingDocumentObject Then
-            MessageBox.Show(”该功能仅适用于工程图。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”该功能仅适用于工程图。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -701,7 +701,7 @@ Module IdwModule
         oInventorDrawingDocument = ThisApplication.ActiveDocument
 
         If IsFileExists(str工程图模板) = False Then
-            MessageBox.Show($"找不到模板文件：{str工程图模板}，重新设置。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+            MessageBox.Show($"找不到模板文件：{str工程图模板}，重新设置。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
 
             Dim strFileName As String
             Dim strFilter As String = "Inventor工程图文件(*.idw;*.dwg)|*.idw;*.dwg" '添加过滤文件
@@ -723,7 +723,7 @@ Module IdwModule
         strTitleBlock = IO.Path.Combine(My.Application.Info.DirectoryPath, "TitleBlock.ini")
 
         If IsFileExists(strTitleBlock) = False Then
-            MessageBox.Show("无配置文件,请手动配置。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+            MessageBox.Show("无配置文件,请手动配置。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
 
             Dim file As New StreamWriter(strTitleBlock)
             file.WriteLine("#号行勿修改,文件编码 ANSI")
@@ -857,10 +857,10 @@ Module IdwModule
 
         str模型匹配检查 = 1
 
-        MessageBox.Show("替换图框标题栏完成。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
+        MessageBox.Show("替换图框标题栏完成。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
 
         'Catch ex As Exception
-        '       MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        '       MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         'End Try
     End Sub
 
@@ -1065,7 +1065,7 @@ Module IdwModule
             End If
 
             If ThisApplication.ActiveDocumentType <> kDrawingDocumentObject Then
-                MessageBox.Show("该功能仅适用于工程图。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                MessageBox.Show("该功能仅适用于工程图。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
                 Exit Sub
             End If
 
@@ -1083,10 +1083,10 @@ Module IdwModule
             If SetSign(oInventorDrawingDocument, EngineerName, strPrintDate, True) Then
                 SetStatusBarText("设置工程图属性：签字完成")
             Else
-                SetStatusBarText(AIPTool)
+                SetStatusBarText(GLTool)
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -1107,7 +1107,7 @@ Module IdwModule
             End If
 
             If ThisApplication.ActiveDocumentType <> kDrawingDocumentObject Then
-                MessageBox.Show("该功能仅适用于工程图。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                MessageBox.Show("该功能仅适用于工程图。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
                 Exit Sub
             End If
 
@@ -1117,10 +1117,10 @@ Module IdwModule
             If SetSign(oInventorDrawingDocument, "", "", False) Then
                 SetStatusBarText("清除工程图属性，签字完成")
             Else
-                SetStatusBarText(AIPTool)
+                SetStatusBarText(GLTool)
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -1261,7 +1261,7 @@ Module IdwModule
             End If
 
             If ThisApplication.ActiveDocumentType <> kDrawingDocumentObject Then
-                MessageBox.Show("该功能仅适用于工程图。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                MessageBox.Show("该功能仅适用于工程图。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
                 Exit Sub
             End If
 
@@ -1351,7 +1351,7 @@ Module IdwModule
             SetSign(oInventorDrawingDocument, "", "", False)
 
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -1379,7 +1379,7 @@ Module IdwModule
         If IsFileExists(str展开图模板) = False Then
             Dim oOpenFileDialog As New OpenFileDialog '声名新open 窗口
 
-            MessageBox.Show($"未找到展开图模板：{vbCrLf}{str展开图模板}，{vbCrLf}请选择展开图模板文件。", AIPTool，
+            MessageBox.Show($"未找到展开图模板：{vbCrLf}{str展开图模板}，{vbCrLf}请选择展开图模板文件。", GLTool，
                             MessageBoxButtons.OK， MessageBoxIcon.Error）
 
             With oOpenFileDialog
@@ -1402,7 +1402,7 @@ Module IdwModule
 
         Dim strInventorDrawingFolder As String = Nothing
 
-        'Dim msg As DialogResult = MessageBox.Show("是否指定保存展开图文件夹？不指定则保存到当前文件夹。", AIPTool，
+        'Dim msg As DialogResult = MessageBox.Show("是否指定保存展开图文件夹？不指定则保存到当前文件夹。", GLTool，
         '                            MessageBoxButtons.YesNoCancel， MessageBoxIcon.Question, MessageBoxDefaultButton.Button1）
 
         Select Case str保存展开图到指定文件夹
@@ -1442,7 +1442,7 @@ Module IdwModule
         Select Case oInventorDocument.DocumentType
             Case kAssemblyDocumentObject
 
-                If MessageBox.Show("部件中的钣金件将创建展开图？", AIPTool， MessageBoxButtons.YesNo， MessageBoxIcon.Question） = DialogResult.No Then
+                If MessageBox.Show("部件中的钣金件将创建展开图？", GLTool， MessageBoxButtons.YesNo， MessageBoxIcon.Question） = DialogResult.No Then
                     Exit Sub
                 End If
 
@@ -1500,7 +1500,7 @@ Module IdwModule
                         Next
                     End If
                 Next
-                MessageBox.Show("钣金件批量生成展开图完成。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
+                MessageBox.Show("钣金件批量生成展开图完成。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
 
             Case kPartDocumentObject
                 oInventorPartDocument = oInventorDocument
@@ -1508,7 +1508,7 @@ Module IdwModule
         End Select
 
         'Catch ex As Exception
-        '       MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        '       MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         'End Try
 
     End Sub
@@ -1521,13 +1521,13 @@ Module IdwModule
     Public Sub CreateFlat(ByVal oInventorDocument As Inventor.PartDocument)
         ' Check for a non-part document 
         If oInventorDocument.DocumentType <> kPartDocumentObject Then
-            MessageBox.Show(”该文档不是零件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”该文档不是零件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
         ' The Active document must be a Sheet metal Part
         If oInventorDocument.SubType <> "{9C464203-9BAE-11D3-8BAD-0060B0CE6BB4}" Then
-            MessageBox.Show(”该文档不是钣金件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”该文档不是钣金件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -1945,7 +1945,7 @@ Module IdwModule
         If IsFileExists(str工程图模板) = False Then
             Dim oOpenFileDialog As New OpenFileDialog '声名新open 窗口
 
-            MessageBox.Show($"未找到工程图模板：{vbCrLf}{str工程图模板}，{vbCrLf}请选择工程图模板文件。", AIPTool，
+            MessageBox.Show($"未找到工程图模板：{vbCrLf}{str工程图模板}，{vbCrLf}请选择工程图模板文件。", GLTool，
                             MessageBoxButtons.OK， MessageBoxIcon.Error）
 
             Dim strFilter As String = "Autodesk Inventor 工程图 (*.idw)|*.idw" '添加过滤文件
@@ -2023,14 +2023,14 @@ Module IdwModule
 
         '如果工程图存在就打开工程图，不创建新的工程图
         If IsFileExists(strInventorDrawingDocumentFullFileName) = True Then
-            If MessageBox.Show("确定打开已存在IDW工程图：" & strInventorDrawingDocumentFullFileName, AIPTool，
+            If MessageBox.Show("确定打开已存在IDW工程图：" & strInventorDrawingDocumentFullFileName, GLTool，
                                MessageBoxButtons.YesNo， MessageBoxIcon.Question） = DialogResult.Yes Then
                 ThisApplication.Documents.Open(strInventorDrawingDocumentFullFileName)
                 Exit Sub
 
             End If
         ElseIf IsFileExists(strInventorDWGDrawingDocumentFullFileName) = True Then
-            If MessageBox.Show("确定打开已存在DWG工程图：" & strInventorDWGDrawingDocumentFullFileName, AIPTool，
+            If MessageBox.Show("确定打开已存在DWG工程图：" & strInventorDWGDrawingDocumentFullFileName, GLTool，
                                MessageBoxButtons.YesNo， MessageBoxIcon.Question） = DialogResult.Yes Then
                 ThisApplication.Documents.Open(strInventorDWGDrawingDocumentFullFileName)
                 Exit Sub
@@ -2158,7 +2158,7 @@ Module IdwModule
 
         Select Case douDrawingViewWidthDividedHeight
             Case Is > 2         '设置为a3，横向
-                If MessageBox.Show("是否将图框设置为 A3-横向？", AIPTool，
+                If MessageBox.Show("是否将图框设置为 A3-横向？", GLTool，
                                        MessageBoxButtons.YesNo， MessageBoxIcon.Question） = DialogResult.Yes Then   '询问是否将图框改为横向
                     oSheet.Size = DrawingSheetSizeEnum.kA3DrawingSheetSize
                     oSheet.Orientation = PageOrientationTypeEnum.kLandscapePageOrientation
@@ -2310,7 +2310,7 @@ Module IdwModule
         '保存idw工程图
         If IsFileExists(strInventorDrawingDocumentFullFileName) = True Then
 
-            Dim msg As DialogResult = MessageBox.Show($"存在文件：{vbCrLf}{strInventorDrawingDocumentFullFileName}，{vbCrLf}是否覆盖？", AIPTool，
+            Dim msg As DialogResult = MessageBox.Show($"存在文件：{vbCrLf}{strInventorDrawingDocumentFullFileName}，{vbCrLf}是否覆盖？", GLTool，
                                          MessageBoxButtons.YesNoCancel， MessageBoxIcon.Question）
             Select Case msg
 
@@ -2368,7 +2368,7 @@ Module IdwModule
         '保存dwg工程图
         If IsFileExists(strInventorDWGDrawingDocumentFullFileName) = True Then
 
-            Dim msg As DialogResult = MessageBox.Show("存在文件：" & strInventorDWGDrawingDocumentFullFileName & "，是否覆盖？", AIPTool，
+            Dim msg As DialogResult = MessageBox.Show("存在文件：" & strInventorDWGDrawingDocumentFullFileName & "，是否覆盖？", GLTool，
                                          MessageBoxButtons.YesNoCancel， MessageBoxIcon.Question）
             Select Case msg
 
@@ -2506,7 +2506,7 @@ Module IdwModule
             End If
 
             If ThisApplication.ActiveDocumentType <> kDrawingDocumentObject Then
-                MessageBox.Show("该功能仅适用于工程图。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                MessageBox.Show("该功能仅适用于工程图。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
                 Exit Sub
             End If
 
@@ -2547,7 +2547,7 @@ Module IdwModule
             Dim strNewInventorDocumentFullName As String = oFileList.Item(0).ToString
 
             If strNewInventorDocumentFullName = strOldInventorDocumentFullName Then
-                MessageBox.Show("请选择不同的零部件文件。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                MessageBox.Show("请选择不同的零部件文件。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
                 Exit Sub
             End If
 
@@ -2559,7 +2559,7 @@ Module IdwModule
             '判断新工程图是否存在，是否需要覆盖
             If IsFileExists(strNewInventorDrawingDocumentFullName) = True Then
                 If MessageBox.Show($"存在工程图：{vbCrLf}{strNewInventorDrawingDocumentFullName}，{vbCrLf}是否覆盖？",
-                         AIPTool， MessageBoxButtons.YesNo， MessageBoxIcon.Question） = DialogResult.Yes Then
+                         GLTool， MessageBoxButtons.YesNo， MessageBoxIcon.Question） = DialogResult.Yes Then
                 Else
                     Exit Sub
                 End If
@@ -2596,7 +2596,7 @@ Module IdwModule
 
 
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
 
@@ -2617,7 +2617,7 @@ Module IdwModule
         End If
 
         If ThisApplication.ActiveDocumentType <> kDrawingDocumentObject Then
-            MessageBox.Show("该功能仅适用于工程图。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+            MessageBox.Show("该功能仅适用于工程图。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
             Exit Sub
         End If
 
@@ -2647,7 +2647,7 @@ Module IdwModule
 
             End If
         Next
-        MessageBox.Show("断开链接完成。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
+        MessageBox.Show("断开链接完成。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
     End Sub
 
     ''' <summary>
@@ -2664,7 +2664,7 @@ Module IdwModule
         End If
 
         If ThisApplication.ActiveDocumentType <> kDrawingDocumentObject Then
-            MessageBox.Show("该功能仅适用于工程图。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+            MessageBox.Show("该功能仅适用于工程图。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
             Exit Sub
         End If
 
@@ -2908,7 +2908,7 @@ Module IdwModule
         End If
 
         If ThisApplication.ActiveDocumentType <> kDrawingDocumentObject Then
-            MessageBox.Show("该功能仅适用于工程图。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+            MessageBox.Show("该功能仅适用于工程图。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
             Exit Sub
         End If
 
@@ -2920,7 +2920,7 @@ Module IdwModule
         oInventorDocument = oInventorDrawingDocument.ReferencedDocumentDescriptors.Item(1).ReferencedDocument
 
         If TypeOf oInventorDocument IsNot PartDocument Then
-            MessageBox.Show(”该功能仅适用于零件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”该功能仅适用于零件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -3037,7 +3037,7 @@ Module IdwModule
         End If
 
         If ThisApplication.ActiveDocumentType <> kDrawingDocumentObject Then
-            MessageBox.Show("该功能仅适用于工程图。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+            MessageBox.Show("该功能仅适用于工程图。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
             Exit Sub
         End If
 
@@ -3121,7 +3121,7 @@ Module IdwModule
         intNunber = Int(Val(strText1) / Val(strText2))
 
         If douNumber <> intNunber Then
-            MessageBox.Show("基准尺寸非整数个。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+            MessageBox.Show("基准尺寸非整数个。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
             Exit Sub
         End If
 
@@ -3276,7 +3276,7 @@ Module IdwModule
         oDocDesc = oDrawView.ReferencedDocumentDescriptor
         ' Verify that the selected drawing view is of an assembly.
         If oDocDesc.ReferencedDocumentType <> kAssemblyDocumentObject Then
-            MessageBox.Show("请选装一个部件模型。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+            MessageBox.Show("请选装一个部件模型。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
             Exit Sub
         End If
         Dim oAssyDoc As AssemblyDocument

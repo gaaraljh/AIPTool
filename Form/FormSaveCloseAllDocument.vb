@@ -98,6 +98,6 @@ Public Class FormSaveCloseAllDocument
     End Sub
 
     Private Sub FrmSaveAll_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
     End Sub
 End Class

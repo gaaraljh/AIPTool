@@ -10,7 +10,7 @@ Public Class FormInputBox
     End Sub
 
     Private Sub FrmInputBox_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
         txt输入.SelectAll()
     End Sub
 
@@ -55,14 +55,14 @@ Public Class FormInputBox
                             txt输入.Text = strPartNum
                         Case Else
                             If txt输入.Text <> strPartNum Then
-                                If MessageBox.Show($"查询到不同的ERP编码：{strPartNum}，是否更新？", AIPTool，
+                                If MessageBox.Show($"查询到不同的ERP编码：{strPartNum}，是否更新？", GLTool，
                                                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
                                     txt输入.Text = strPartNum
                                 End If
                             End If
                     End Select
                 Else
-                    MessageBox.Show(”未查询到ERP编码。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBox.Show(”未查询到ERP编码。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
 
         End Select

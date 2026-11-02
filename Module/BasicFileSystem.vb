@@ -497,7 +497,7 @@ Module BasicFileSystem
     ''' <remarks></remarks>
     Public Function SetNewFile(ByVal strFullFileName As String, ByVal strFilter As String) As String
         If IsFileExists(strFullFileName) = True Then
-            Dim msg As DialogResult = MessageBox.Show($"已存在文件：{vbCrLf}{strFullFileName}。{vbCrLf}是——覆盖。{vbCrLf}否——另存为。", AIPTool, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
+            Dim msg As DialogResult = MessageBox.Show($"已存在文件：{vbCrLf}{strFullFileName}。{vbCrLf}是——覆盖。{vbCrLf}否——另存为。", GLTool, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
             Select Case msg
                 Case DialogResult.Yes
                     Return strFullFileName

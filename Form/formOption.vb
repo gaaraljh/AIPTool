@@ -40,7 +40,7 @@ Public Class FormOption
 
     Private Sub Btn确定_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn确定.Click
         If cmb图号.Text = cmb文件名.Text Then
-            MessageBox.Show("映射设置相同。", AIPTool, MessageBoxButtons.OK， MessageBoxIcon.Error)
+            MessageBox.Show("映射设置相同。", GLTool, MessageBoxButtons.OK， MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -265,11 +265,11 @@ Public Class FormOption
             'Process.Start(BasicExcelFullFileName)
 
         End If
-        MessageBox.Show("更新数据库文件完成。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information)
+        MessageBox.Show("更新数据库文件完成。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information)
     End Sub
 
     Private Sub FrmOption_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
 
 
 

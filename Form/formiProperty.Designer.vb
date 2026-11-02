@@ -22,6 +22,7 @@ Partial Class FormiProperty
     '不要使用代码编辑器修改它。
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormiProperty))
         btn确定 = New Button()
         btn取消 = New Button()
         lbl图号 = New Label()
@@ -339,6 +340,7 @@ Partial Class FormiProperty
         Controls.Add(txt图号)
         Controls.Add(lbl图号)
         FormBorderStyle = FormBorderStyle.FixedSingle
+        Icon = CType(resources.GetObject("$this.Icon"), Icon)
         Margin = New Padding(4, 6, 4, 6)
         MaximizeBox = False
         Name = "FormiProperty"

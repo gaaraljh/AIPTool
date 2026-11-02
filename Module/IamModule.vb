@@ -32,7 +32,7 @@ Module IamModule
             End If
 
             If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-                MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 'Return False
                 Exit Sub
             End If
@@ -49,7 +49,7 @@ Module IamModule
 
             With frmInputBox
                 .txt输入.Text = strPartDrawingNnumber
-                .Text = AIPTool
+                .Text = GLTool
                 .lbl描述.Text = "输入要搜索的部分图号。"     '  & vbCrLf & "如要检查全部AAA-BBB000下的零件是否有工程图，输入AAA-BBB即可。"
                 .StartPosition = FormStartPosition.CenterScreen
                 strPartDrawingNnumber = .txt输入.Text
@@ -61,21 +61,21 @@ Module IamModule
 
             If (frmInputBox.DialogResult = System.Windows.Forms.DialogResult.OK) And (strPartDrawingNnumber <> "") Then
                 If CheckIsInvHaveDrawingSub(oInventorAssemblyDocument, frmInputBox.txt输入.Text) Then
-                    MessageBox.Show("检查是否有工程图完成，打开了未找到工程图对应的模型文件。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information)
+                    MessageBox.Show("检查是否有工程图完成，打开了未找到工程图对应的模型文件。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information)
                 Else
-                    SetStatusBarText(AIPTool)
-                    ' MessageBox.Show(AIPTool, MsgBoxStyle.Exclamation)
+                    SetStatusBarText(GLTool)
+                    ' MessageBox.Show(GLTool, MsgBoxStyle.Exclamation)
                 End If
             ElseIf frmInputBox.DialogResult = System.Windows.Forms.DialogResult.Cancel Then
                 Exit Sub
             Else
-                MessageBox.Show("请输入部分图号。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
-                SetStatusBarText(AIPTool)
+                MessageBox.Show("请输入部分图号。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
+                SetStatusBarText(GLTool)
                 GoTo 999
                 Exit Sub
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -170,7 +170,7 @@ Module IamModule
             SetStatusBarText()
 
             If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-                MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 'Return False
                 Exit Sub
             End If
@@ -181,13 +181,13 @@ Module IamModule
             If GetMissDocumentSub(oInventorFile) Then
                 SetStatusBarText("查找缺失文件的部件完成")
             Else
-                SetStatusBarText(AIPTool)
-                ' MessageBox.Show(AIPTool, MsgBoxStyle.Exclamation)
+                SetStatusBarText(GLTool)
+                ' MessageBox.Show(GLTool, MsgBoxStyle.Exclamation)
 
             End If
-            MessageBox.Show("查找缺失文件的部件完成。", AIPTool, MessageBoxButtons.OK， MessageBoxIcon.Information)
+            MessageBox.Show("查找缺失文件的部件完成。", GLTool, MessageBoxButtons.OK， MessageBoxIcon.Information)
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -228,7 +228,7 @@ Module IamModule
         SetStatusBarText()
 
         If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-            MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -338,7 +338,7 @@ Module IamModule
             oHSet1.Clear()
             oHSet2.Clear()
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -353,7 +353,7 @@ Module IamModule
             End If
 
             If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-                MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 'Return False
                 Exit Function
             End If
@@ -399,8 +399,8 @@ Module IamModule
             'end the transactio
             createSlotTransaction.End()
         Catch ex As Exception
-            SetStatusBarText(AIPTool)
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            SetStatusBarText(GLTool)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Function
@@ -463,7 +463,7 @@ Module IamModule
             End If
 
             If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-                MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 'Return False
                 Exit Sub
             End If
@@ -490,8 +490,8 @@ Module IamModule
             ElseIf frmInputBox.DialogResult = System.Windows.Forms.DialogResult.Cancel Then
                 Exit Sub
             Else
-                MessageBox.Show("请输入部分图号。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
-                SetStatusBarText(AIPTool)
+                MessageBox.Show("请输入部分图号。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
+                SetStatusBarText(GLTool)
                 GoTo 999
                 Exit Sub
             End If
@@ -538,7 +538,7 @@ Module IamModule
                     strNewReferencedFullFileName = IO.Path.Combine(strInventorAssemblyFileFolder, strReferencedFileName)
 
                     If IsFileExists(strNewReferencedFullFileName) Then
-                        If MessageBox.Show($"存在文件：{strNewReferencedFullFileName}，是否覆盖？", AIPTool，
+                        If MessageBox.Show($"存在文件：{strNewReferencedFullFileName}，是否覆盖？", GLTool，
                                            MessageBoxButtons.YesNo， MessageBoxIcon.Question) = DialogResult.No Then
                             '不覆盖 ，进行下一个文件
                             Continue For
@@ -556,7 +556,7 @@ Module IamModule
                         strNewReferencedDrawingFullFileName = GetChangeExtension(strNewReferencedDrawingFullFileName, IDW)
 
                         If IsFileExists(strNewReferencedDrawingFullFileName) Then
-                            If MessageBox.Show($"存在文件：{strNewReferencedDrawingFullFileName}，是否覆盖？", AIPTool，
+                            If MessageBox.Show($"存在文件：{strNewReferencedDrawingFullFileName}，是否覆盖？", GLTool，
                                                 MessageBoxButtons.YesNo， MessageBoxIcon.Question) = DialogResult.Yes Then
                             Else
                                 Continue For
@@ -570,12 +570,12 @@ Module IamModule
                 End If
             Next
 
-            If MessageBox.Show($"移动指定文件完成，是否重新打开 {strInventorAssemblyDocumentFullFileName} ？", AIPTool，
+            If MessageBox.Show($"移动指定文件完成，是否重新打开 {strInventorAssemblyDocumentFullFileName} ？", GLTool，
                                                 MessageBoxButtons.YesNo， MessageBoxIcon.Question) = DialogResult.Yes Then
                 ThisApplication.Documents.Open(strInventorAssemblyDocumentFullFileName)
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -589,7 +589,7 @@ Module IamModule
             End If
 
             If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-                MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 'Return False
                 Exit Sub
             End If
@@ -615,12 +615,12 @@ Module IamModule
                 SetStatusBarText("提取iproperty更改文件名完成")
                 ' MessageBox.Show("提取iproperty更改文件名完成", MsgBoxStyle.Information)
             Else
-                SetStatusBarText(AIPTool)
-                MessageBox.Show("提取iproperty更改文件名错误。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
+                SetStatusBarText(GLTool)
+                MessageBox.Show("提取iproperty更改文件名错误。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
 
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -633,13 +633,13 @@ Module IamModule
         strOldFileName = GetFileNameInfo(strOldFullFileName).OnlyName
 
         If IsFileExists(strOldFullFileName) = False Then
-            MessageBox.Show($"文件： {strOldFullFileName}不存在。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
+            MessageBox.Show($"文件： {strOldFullFileName}不存在。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
             Return True
             Exit Function
         End If
 
         If InStr(strOldFullFileName, ContentCenterFiles) > 0 Then         '跳过零件库文件
-            MessageBox.Show($"无法修改资源中心文件： {strOldFullFileName}。", AIPTool, MessageBoxButtons.OK， MessageBoxIcon.Error)
+            MessageBox.Show($"无法修改资源中心文件： {strOldFullFileName}。", GLTool, MessageBoxButtons.OK， MessageBoxIcon.Error)
             'OldInventorDoc.Close()
             Return True
             Exit Function
@@ -682,7 +682,7 @@ Module IamModule
                 strNewFullFileName = GetChangeFileName(strOldFullFileName, strNewFileName)
 
                 If strNewFullFileName = strOldFullFileName Then
-                    MessageBox.Show("iProperty与文件名匹配，无需重命名文件！", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information)
+                    MessageBox.Show("iProperty与文件名匹配，无需重命名文件！", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information)
                     '关闭旧图,不保存
                     oOldInventorDocument.Close(True)
                     Return True
@@ -691,7 +691,7 @@ Module IamModule
                 '检查新文件是否存在
                 If IsFileExists(strNewFullFileName) = True Then
 
-                    Dim msg As DialogResult = MessageBox.Show($"存在文件：{strNewFullFileName }，{vbCrLf}是-直接替换。{vbCrLf}否-重新生成替换。{vbCrLf}取消-退出重新命名。", AIPTool， MessageBoxButtons.YesNoCancel， MessageBoxIcon.Question)
+                    Dim msg As DialogResult = MessageBox.Show($"存在文件：{strNewFullFileName }，{vbCrLf}是-直接替换。{vbCrLf}否-重新生成替换。{vbCrLf}取消-退出重新命名。", GLTool， MessageBoxButtons.YesNoCancel， MessageBoxIcon.Question)
 
                     Select Case msg
                         Case DialogResult.Yes  '直接用新文件替换
@@ -749,7 +749,7 @@ Module IamModule
                 End If
 
                 Return True
-            Case MessageBox.Show("选择的文件不是零件或部件。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
+            Case MessageBox.Show("选择的文件不是零件或部件。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
                 Return False
         End Select
     End Function
@@ -761,7 +761,7 @@ Module IamModule
     ''' </summary>
     ''' <remarks></remarks>
     Public Sub SetClearRandomColor()
-        Dim msg As DialogResult = MessageBox.Show($"设置随机颜色。{vbCrLf}是——设置随机颜色。{vbCrLf}否——清除随机颜色。", AIPTool，
+        Dim msg As DialogResult = MessageBox.Show($"设置随机颜色。{vbCrLf}是——设置随机颜色。{vbCrLf}否——清除随机颜色。", GLTool，
                                        MessageBoxButtons.YesNoCancel， MessageBoxIcon.Question)
         Select Case msg
             Case DialogResult.Yes
@@ -784,7 +784,7 @@ Module IamModule
         End If
 
         If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-            MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             'Return False
             Exit Sub
         End If
@@ -841,7 +841,7 @@ Module IamModule
         ThisApplication.CommandManager.ControlDefinitions.Item("AppZoomAllCmd").Execute()
 
         'Catch ex As Exception
-        '       MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        '       MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         'End Try
 
     End Sub
@@ -857,7 +857,7 @@ Module IamModule
         End If
 
         If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-            MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             'Return False
             Exit Sub
         End If
@@ -909,7 +909,7 @@ Module IamModule
         Call ThisApplication.CommandManager.ControlDefinitions.Item("AppZoomAllCmd").Execute()
 
         'Catch ex As Exception
-        '       MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        '       MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         'End Try
     End Sub
 
@@ -924,7 +924,7 @@ Module IamModule
             End If
 
             If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-                MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
@@ -935,12 +935,12 @@ Module IamModule
                 SetStatusBarText(" 设置BOM结构完成")
                 ' MessageBox.Show("设置工程图自定义属性：比例完成", MsgBoxStyle.Information)
             Else
-                SetStatusBarText(AIPTool)
-                ' MessageBox.Show(AIPTool, MsgBoxStyle.Exclamation)
+                SetStatusBarText(GLTool)
+                ' MessageBox.Show(GLTool, MsgBoxStyle.Exclamation)
 
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -1031,7 +1031,7 @@ Module IamModule
             End If
 
             If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-                MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             Else
                 Dim oInventorAssemblyDocument As Inventor.AssemblyDocument
@@ -1047,7 +1047,7 @@ Module IamModule
 
                 Dim IsExpandOutSourcedParts As Boolean
 
-                Dim msg As DialogResult = MessageBox.Show("是否展开外协件、外购件？", AIPTool,
+                Dim msg As DialogResult = MessageBox.Show("是否展开外协件、外购件？", GLTool,
                                             MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2)
 
                 Select Case msg
@@ -1072,7 +1072,7 @@ Module IamModule
                 SetStatusBarText(" 导出BOM平面性完成")
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -1198,7 +1198,7 @@ Module IamModule
         DeleteFile2(strCsvFullFileName, FileIO.RecycleOption.SendToRecycleBin)
 
         SetStatusBarText($"导出BOM到文件：{strExcelFullFileName}。")
-        MessageBox.Show($"导出BOM到文件：{vbCrLf}{strExcelFullFileName}。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information)
+        MessageBox.Show($"导出BOM到文件：{vbCrLf}{strExcelFullFileName}。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information)
 
         Try
             ProcessStart(strExcelFullFileName)
@@ -1590,7 +1590,7 @@ Module IamModule
         End If
 
         If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-            MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -1606,7 +1606,7 @@ Module IamModule
         Dim frmInputBox As New FormInputBox
         With frmInputBox
             .txt输入.Text = strPartDrawingNnumber
-            .Text = AIPTool
+            .Text = GLTool
             .lbl描述.Text = $"输入搜索的部分图号。{vbCrLf}如要打开 AAA-BBB000.aim 下的工程图，输入AAA-BBB即可。"
             .StartPosition = FormStartPosition.CenterScreen
             .ShowDialog()
@@ -1616,20 +1616,20 @@ Module IamModule
 
         If (frmInputBox.DialogResult = System.Windows.Forms.DialogResult.OK) And (strPartDrawingNnumber <> "") Then
             If OpenAllDrwInAsmSub(oInventorAssemblyDocument, strPartDrawingNnumber) Then
-                MessageBox.Show("打开了部件所有子集对应的工程图。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information)
+                MessageBox.Show("打开了部件所有子集对应的工程图。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information)
             Else
-                SetStatusBarText(AIPTool)
+                SetStatusBarText(GLTool)
             End If
         ElseIf frmInputBox.DialogResult = System.Windows.Forms.DialogResult.Cancel Then
             Exit Sub
         Else
-            MessageBox.Show("请输入部分图号。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
-            SetStatusBarText(AIPTool)
+            MessageBox.Show("请输入部分图号。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
+            SetStatusBarText(GLTool)
             GoTo 999
             Exit Sub
         End If
         'Catch ex As Exception
-        '       MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        '       MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         'End Try
 
     End Sub
@@ -1741,7 +1741,7 @@ Module IamModule
         End If
 
         If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-            MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -1772,7 +1772,7 @@ Module IamModule
                 strOldDocumentName = GetFileNameInfo(strOldFullFileNameName).OnlyName
 
                 Dim strNewFileName As String   '新文件仅文件名
-                strNewFileName = InputBox($"重命名：{vbCrLf}{vbCrLf}{strOldFullFileNameName}", AIPTool, strOldDocumentName)  '输入新文件名
+                strNewFileName = InputBox($"重命名：{vbCrLf}{vbCrLf}{strOldFullFileNameName}", GLTool, strOldDocumentName)  '输入新文件名
 
                 If strNewFileName = “” Then
                     Exit Sub
@@ -1795,7 +1795,7 @@ Module IamModule
                         '没找到重复文件
 
                     Else
-                        If MessageBox.Show($"当前项目存在:{vbCrLf}{arrFullFileName(0)}，{vbCrLf}是否退出？", AIPTool，
+                        If MessageBox.Show($"当前项目存在:{vbCrLf}{arrFullFileName(0)}，{vbCrLf}是否退出？", GLTool，
                                             MessageBoxButtons.YesNo， MessageBoxIcon.Question， MessageBoxDefaultButton.Button1) = DialogResult.Yes Then
                             Exit Sub
                         End If
@@ -1808,15 +1808,15 @@ Module IamModule
                     SetStatusBarText("更改零件/部件文件名完成")
                     ' MessageBox.Show("更改零件/部件文件名完成", MsgBoxStyle.Information)
                 Else
-                    SetStatusBarText(AIPTool)
-                    MessageBox.Show("更改零件/部件文件名错误", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
+                    SetStatusBarText(GLTool)
+                    MessageBox.Show("更改零件/部件文件名错误", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
                 End If
             Case Else
 
         End Select
 
         'Catch ex As Exception
-        '       MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        '       MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         'End Try
 
     End Sub
@@ -1839,7 +1839,7 @@ Module IamModule
         strOldFileName = GetFileNameInfo(strOldFullFileName).OnlyName
 
         If IsFileExists(strOldFullFileName) = False Then
-            MessageBox.Show($"文件：{strOldFullFileName} 不存在。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
+            MessageBox.Show($"文件：{strOldFullFileName} 不存在。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
             Return True
             Exit Function
         End If
@@ -1855,7 +1855,7 @@ Module IamModule
         'End if
 
         If InStr(strOldFullFileName, ContentCenterFiles) > 0 Then         '跳过零件库文件
-            MessageBox.Show($"无法修改资源中心文件：{strOldFullFileName}。“, AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
+            MessageBox.Show($"无法修改资源中心文件：{strOldFullFileName}。“, GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
             'OldInventorDoc.Close()
             Return True
             Exit Function
@@ -1875,7 +1875,7 @@ Module IamModule
 
                 '新旧文件名一致
                 If strOldFileName = strNewFileName Then
-                    MessageBox.Show("新旧文件名一致，请重新命名。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
+                    MessageBox.Show("新旧文件名一致，请重新命名。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
                     Return True
                 End If
 
@@ -1884,12 +1884,12 @@ Module IamModule
 
                 '检查新文件是否存在
                 If IsFileExists(strNewFullFileName) = True Then
-                    Dim msg As DialogResult = MessageBox.Show($"存在文件：{vbCrLf}{strNewFullFileName}{vbCrLf}是-直接替换。{vbCrLf}否-重新生成替换。{vbCrLf}取消-退出重新命名。", AIPTool， MessageBoxButtons.YesNoCancel， MessageBoxIcon.Question)
+                    Dim msg As DialogResult = MessageBox.Show($"存在文件：{vbCrLf}{strNewFullFileName}{vbCrLf}是-直接替换。{vbCrLf}否-重新生成替换。{vbCrLf}取消-退出重新命名。", GLTool， MessageBoxButtons.YesNoCancel， MessageBoxIcon.Question)
 
                     Select Case msg
                         Case DialogResult.Yes  '直接用新文件替换
                             '全部替换为新文件
-                            If MessageBox.Show("是否替换全部零件？", AIPTool, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+                            If MessageBox.Show("是否替换全部零件？", GLTool, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
                                 oOldComponentOccurrence.Replace(strNewFullFileName, True)
                             Else
                                 oOldComponentOccurrence.Replace(strNewFullFileName, False)
@@ -1927,7 +1927,7 @@ Module IamModule
 
                 '全部替换为新文件
                 SetStatusBarText("替换文件")
-                If MessageBox.Show("是否替换全部零件？", AIPTool, MessageBoxButtons.YesNo，
+                If MessageBox.Show("是否替换全部零件？", GLTool, MessageBoxButtons.YesNo，
                                    MessageBoxIcon.Question， MessageBoxDefaultButton.Button1) = DialogResult.Yes Then
                     oOldComponentOccurrence.Replace(strNewFullFileName, True)
                 Else
@@ -1945,7 +1945,7 @@ Module IamModule
                 SetDocumentIpropertyFromFileNameSub(oInventorDocument, True) '设置Iproperty，打开文件后需关闭
 
                 Dim IsSaveAsOld As DialogResult
-                IsSaveAsOld = MessageBox.Show("是否更改原文件为备份文件，扩展名增加 .old ？", AIPTool， MessageBoxButtons.YesNo，
+                IsSaveAsOld = MessageBox.Show("是否更改原文件为备份文件，扩展名增加 .old ？", GLTool， MessageBoxButtons.YesNo，
                                               MessageBoxIcon.Question， MessageBoxDefaultButton.Button2)
 
                 '是否有对应的工程图文件，同时复制后修改文件名和模型链接
@@ -1969,7 +1969,7 @@ Module IamModule
                     strNewIdwFullFileName = GetChangeExtension(strNewFullFileName, IDW)   'IDW新工程图
 
                     If IsFileExists(strNewIdwFullFileName) = True Then
-                        If MessageBox.Show($"存在旧的工程图：{vbCrLf}{strNewIdwFullFileName}{vbCrLf}是否重新生成？", AIPTool，
+                        If MessageBox.Show($"存在旧的工程图：{vbCrLf}{strNewIdwFullFileName}{vbCrLf}是否重新生成？", GLTool，
                                   MessageBoxButtons.YesNo， MessageBoxIcon.Question) = DialogResult.Yes Then  '选择覆盖
 
                             DeleteFile2(strNewIdwFullFileName, FileIO.RecycleOption.SendToRecycleBin)   '删除旧的新文件名 文件
@@ -1999,7 +1999,7 @@ Module IamModule
                     strNewDWGFullFileName = GetChangeExtension(strNewFullFileName, DWG)   'DWG新工程图
 
                     If IsFileExists(strNewDWGFullFileName) = True Then
-                        If MessageBox.Show($"存在旧的工程图：{vbCrLf}{strNewDWGFullFileName}{vbCrLf}是否重新生成？", AIPTool，
+                        If MessageBox.Show($"存在旧的工程图：{vbCrLf}{strNewDWGFullFileName}{vbCrLf}是否重新生成？", GLTool，
                                       MessageBoxButtons.YesNo， MessageBoxIcon.Question) = DialogResult.Yes Then  '选择覆盖
 
                             DeleteFile2(strNewDWGFullFileName, FileIO.RecycleOption.SendToRecycleBin)   '删除旧的新文件名 文件
@@ -2035,7 +2035,7 @@ Module IamModule
                 OInteractionEvents.Stop()
 
                 Return True
-            Case MessageBox.Show("选择的文件不是零件或部件。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
+            Case MessageBox.Show("选择的文件不是零件或部件。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
                 Return False
         End Select
 
@@ -2051,7 +2051,7 @@ Module IamModule
         End If
 
         If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-            MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -2080,7 +2080,7 @@ Module IamModule
                 OldFileName = GetFileNameInfo(OldFullFileName).OnlyName
 
                 Dim NewFileName As String   '新文件仅文件名
-                NewFileName = InputBox($"镜像文件重命名：{vbCrLf}{OldFullFileName}", AIPTool, OldFileName)  '输入新文件名
+                NewFileName = InputBox($"镜像文件重命名：{vbCrLf}{OldFullFileName}", GLTool, OldFileName)  '输入新文件名
 
                 '取消输入
                 If NewFileName = "" Then
@@ -2094,15 +2094,15 @@ Module IamModule
                     '刷新引用
                     'RefreshTreeNodeNameSub(oInventorAssemblyDocument)
                 Else
-                    SetStatusBarText(AIPTool)
-                    MessageBox.Show("更改镜像零件/部件文件名错误。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                    SetStatusBarText(GLTool)
+                    MessageBox.Show("更改镜像零件/部件文件名错误。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
 
                 End If
-            Case MessageBox.Show("选择的文件不是零件或部件。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
+            Case MessageBox.Show("选择的文件不是零件或部件。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
 
         End Select
         'Catch ex As Exception
-        '       MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        '       MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         'End Try
     End Sub
 
@@ -2127,7 +2127,7 @@ Module IamModule
         strOldFileName = GetFileNameInfo(strOldFullFileName).OnlyName
 
         If IsFileExists(strOldFullFileName) = False Then
-            MessageBox.Show($"{strOldFullFileName} 不存在。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
+            MessageBox.Show($"{strOldFullFileName} 不存在。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
             Return True
             Exit Function
         End If
@@ -2143,7 +2143,7 @@ Module IamModule
         'End if
 
         If InStr(strOldFullFileName, ContentCenterFiles) > 0 Then         '跳过零件库文件
-            MessageBox.Show($"{strOldFullFileName} 为零件库文件，不支持更改文件名。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
+            MessageBox.Show($"{strOldFullFileName} 为零件库文件，不支持更改文件名。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
             'OldInventorDoc.Close()
             Return True
             Exit Function
@@ -2159,12 +2159,12 @@ Module IamModule
         '检查新文件是否存在
         If IsFileExists(strNewFullFileName) = True Then
 
-            Dim msg As DialogResult = MessageBox.Show($"存在文件：{vbCrLf}{strNewFullFileName}{vbCrLf}是-直接替换。{vbCrLf}否-重新生成替换。{vbCrLf}取消-退出重新命名。", AIPTool， MessageBoxButtons.YesNoCancel， MessageBoxIcon.Question)
+            Dim msg As DialogResult = MessageBox.Show($"存在文件：{vbCrLf}{strNewFullFileName}{vbCrLf}是-直接替换。{vbCrLf}否-重新生成替换。{vbCrLf}取消-退出重新命名。", GLTool， MessageBoxButtons.YesNoCancel， MessageBoxIcon.Question)
 
             Select Case msg
                 Case DialogResult.Yes   '直接用新文件替换
                     '全部替换为新文件
-                    If MessageBox.Show("是否替换全部零件？", AIPTool， MessageBoxButtons.YesNo， MessageBoxIcon.Question) = DialogResult.Yes Then
+                    If MessageBox.Show("是否替换全部零件？", GLTool， MessageBoxButtons.YesNo， MessageBoxIcon.Question) = DialogResult.Yes Then
                         oOldComponentOccurrence.Replace(strNewFullFileName, True)
                     Else
                         oOldComponentOccurrence.Replace(strNewFullFileName, False)
@@ -2196,7 +2196,7 @@ Module IamModule
         Dim docToReplace As Inventor.Document = FindDocToReplace(oNewInventorDocument)
         If (docToReplace Is Nothing) Then Return False
 
-        MessageBox.Show($"选择文件：{vbCrLf}{strNewFullFileName}{vbCrLf}的基础文件。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information)
+        MessageBox.Show($"选择文件：{vbCrLf}{strNewFullFileName}{vbCrLf}的基础文件。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information)
         Dim ReplacementFileName As String = SelectReplacementFilename(docToReplace.DisplayName)
 
         If (String.IsNullOrEmpty(ReplacementFileName)) Then Return False
@@ -2207,7 +2207,7 @@ Module IamModule
         Dim doReplace As Boolean = True
         If (ReplacementPart.InternalName <> docToReplace.InternalName) Then
             MessageBox.Show($"更换零件{ReplacementPart.DisplayName} 似乎与原始零件关系不密切，因此无法使用。",
-                            AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                            GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             doReplace = False
         End If
         ReplacementPart.ReleaseReference()
@@ -2224,7 +2224,7 @@ Module IamModule
 
         '全部替换为新文件
 
-        If MessageBox.Show("是否替换全部零件？", AIPTool， MessageBoxButtons.YesNo， MessageBoxIcon.Question） = DialogResult.Yes Then
+        If MessageBox.Show("是否替换全部零件？", GLTool， MessageBoxButtons.YesNo， MessageBoxIcon.Question） = DialogResult.Yes Then
             oOldComponentOccurrence.Replace(strNewFullFileName, True)
         Else
             oOldComponentOccurrence.Replace(strNewFullFileName, False)
@@ -2259,7 +2259,7 @@ Module IamModule
         strOldFileName = GetFileNameInfo(strOldFullFileName).OnlyName
 
         If IsFileExists(strOldFullFileName) = False Then
-            MessageBox.Show($"文件：{strOldFullFileName} 不存在。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
+            MessageBox.Show($"文件：{strOldFullFileName} 不存在。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
             Return True
             Exit Function
         End If
@@ -2269,7 +2269,7 @@ Module IamModule
 
 
         If InStr(strOldFullFileName, ContentCenterFiles) > 0 Then         '跳过零件库文件
-            MessageBox.Show($"{strOldFullFileName} 为零件库文件。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
+            MessageBox.Show($"{strOldFullFileName} 为零件库文件。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
             'OldInventorDoc.Close()
             Return True
             Exit Function
@@ -2285,12 +2285,12 @@ Module IamModule
         '检查新文件是否存在
         If IsFileExists(strNewFullFileName) = True Then
 
-            Dim msg As DialogResult = MessageBox.Show($"存在文件：{vbCrLf}{strNewFullFileName}{vbCrLf}是-直接替换。{vbCrLf}否-重新生成替换。{vbCrLf}取消-退出重新命名。", AIPTool， MessageBoxButtons.YesNoCancel， MessageBoxIcon.Question）
+            Dim msg As DialogResult = MessageBox.Show($"存在文件：{vbCrLf}{strNewFullFileName}{vbCrLf}是-直接替换。{vbCrLf}否-重新生成替换。{vbCrLf}取消-退出重新命名。", GLTool， MessageBoxButtons.YesNoCancel， MessageBoxIcon.Question）
 
             Select Case msg
                 Case DialogResult.Yes   '直接用新文件替换
                     '全部替换为新文件
-                    If MessageBox.Show("是否替换全部零件？", AIPTool， MessageBoxButtons.YesNo， MessageBoxIcon.Question) = DialogResult.Yes Then
+                    If MessageBox.Show("是否替换全部零件？", GLTool， MessageBoxButtons.YesNo， MessageBoxIcon.Question) = DialogResult.Yes Then
                         oOldComponentOccurrence.Replace(strNewFullFileName, True)
                     Else
                         oOldComponentOccurrence.Replace(strNewFullFileName, False)
@@ -2325,11 +2325,11 @@ Module IamModule
 
         '全部替换为新文件
 
-        If MessageBox.Show("是否替换全部零件？", AIPTool， MessageBoxButtons.YesNo， MessageBoxIcon.Question) = DialogResult.Yes Then
-            MessageBox.Show($"选择 {strNewFullFileName}  的基础文件。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
+        If MessageBox.Show("是否替换全部零件？", GLTool， MessageBoxButtons.YesNo， MessageBoxIcon.Question) = DialogResult.Yes Then
+            MessageBox.Show($"选择 {strNewFullFileName}  的基础文件。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
             oOldComponentOccurrence.Replace(strNewFullFileName, True)
         Else
-            MessageBox.Show($"选择 {strNewFullFileName}  的基础文件。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
+            MessageBox.Show($"选择 {strNewFullFileName}  的基础文件。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
             oOldComponentOccurrence.Replace(strNewFullFileName, False)
         End If
 
@@ -2359,7 +2359,7 @@ Module IamModule
             End If
 
             If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-                MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
@@ -2383,14 +2383,14 @@ Module IamModule
             oInventorAssemblyDocument = ThisApplication.ActiveDocument
 
             Dim IsSaveAsOld As DialogResult
-            IsSaveAsOld = MessageBox.Show("是否更改原文件为备份文件，扩展名增加 .old ？", AIPTool，
+            IsSaveAsOld = MessageBox.Show("是否更改原文件为备份文件，扩展名增加 .old ？", GLTool，
                                           MessageBoxButtons.YesNo， MessageBoxIcon.Question， MessageBoxDefaultButton.Button2)
 
             ReplaceNameInAsmSub(oInventorAssemblyDocument, strOldFileName, strNewFileName, IsSaveAsOld)
 
-            MessageBox.Show("部件替换文件名完成。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information)
+            MessageBox.Show("部件替换文件名完成。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information)
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -2519,7 +2519,7 @@ Module IamModule
             End If
 
             If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-                MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
@@ -2528,12 +2528,12 @@ Module IamModule
 
             If RefreshTreeNodeNameSub(oInventorAssemblyDocument) Then
                 SetStatusBarText("刷新引用完成")
-                MessageBox.Show("刷新引用完成。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information)
+                MessageBox.Show("刷新引用完成。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information)
             Else
-                SetStatusBarText(AIPTool)
+                SetStatusBarText(GLTool)
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -2640,7 +2640,7 @@ Module IamModule
             SetStatusBarText()
 
             If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-                MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 'Return False
                 Exit Sub
             End If
@@ -2667,7 +2667,7 @@ Module IamModule
             '刷新浏览器
             oInventorAssemblyDocument.BrowserPanes.ActivePane.Refresh()
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
 
@@ -2684,7 +2684,7 @@ Module IamModule
             SetStatusBarText()
 
             If TypeOf ThisApplication.ActiveEditDocument IsNot AssemblyDocument Then
-                MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 'Return False
                 Exit Sub
             End If
@@ -2700,7 +2700,7 @@ Module IamModule
             Dim IsVisible As Boolean
 
 
-            Dim msg As DialogResult = MessageBox.Show($"设置标准件可见性。{vbCrLf}是——全部可见。{vbCrLf}否——全部隐藏。", AIPTool,
+            Dim msg As DialogResult = MessageBox.Show($"设置标准件可见性。{vbCrLf}是——全部可见。{vbCrLf}否——全部隐藏。", GLTool,
                              MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
 
             Select Case msg
@@ -2726,7 +2726,7 @@ Module IamModule
             oInventorAssemblyDocument.BrowserPanes.ActivePane.Refresh()
 
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -2740,7 +2740,7 @@ Module IamModule
             SetStatusBarText()
 
             If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-                MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 'Return False
                 Exit Sub
             End If
@@ -2830,10 +2830,10 @@ Module IamModule
             '刷新浏览器
             oInventorAssemblyDocument.BrowserPanes.ActivePane.Refresh()
 
-            MessageBox.Show("替换为库文件完成。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
+            MessageBox.Show("替换为库文件完成。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
 
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
 
@@ -2849,7 +2849,7 @@ Module IamModule
         End If
 
         If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-            MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -2893,7 +2893,7 @@ Module IamModule
 
                 Dim strOldDocumentName As String
 
-                strOldDocumentName = InputBox($"输入需搜索的文件替换：{GetFileNameWithExtension(strOldFullDocumentName)}", AIPTool， strDrawingNnumber)
+                strOldDocumentName = InputBox($"输入需搜索的文件替换：{GetFileNameWithExtension(strOldFullDocumentName)}", GLTool， strDrawingNnumber)
 
                 If strOldDocumentName = "" Then
                     Exit Sub
@@ -2912,7 +2912,7 @@ Module IamModule
                 End If
 
                 If arrFullFileName.Length = 0 Then
-                    MessageBox.Show($"未找到文件：{strOldDocumentName}。”, AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                    MessageBox.Show($"未找到文件：{strOldDocumentName}。”, GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
                     Exit Sub
                 End If
 
@@ -2956,7 +2956,7 @@ Module IamModule
                             Exit Sub
                         End If
 
-                        Select Case MessageBox.Show($"是否全部替换为 {strQuitOpenSelectFileFullName} ？", AIPTool， MessageBoxButtons.YesNoCancel， MessageBoxIcon.Question)
+                        Select Case MessageBox.Show($"是否全部替换为 {strQuitOpenSelectFileFullName} ？", GLTool， MessageBoxButtons.YesNoCancel， MessageBoxIcon.Question)
                             Case DialogResult.Yes
                                 oOldComponentOccurrence.Replace(strQuitOpenSelectFileFullName, True)
                                 ' MessageBox.Show("替换完成！", MsgBoxStyle.Information)
@@ -2984,7 +2984,7 @@ Module IamModule
         End If
 
         If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-            MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -2997,7 +2997,7 @@ Module IamModule
                 oConstraint.Suppressed = True
             End If
         Next
-        MessageBox.Show("抑制错误的约束完成。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information)
+        MessageBox.Show("抑制错误的约束完成。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information)
     End Sub
 
     ''' <summary>
@@ -3011,7 +3011,7 @@ Module IamModule
         End If
 
         'If (ThisApplication.ActiveDocumentType = kAssemblyDocumentObject) And (ThisApplication.ActiveDocumentType = kPartDocumentObject) Then
-        '     MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        '     MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         '    Exit Sub
         'End If
 
@@ -3031,7 +3031,7 @@ Module IamModule
 
         CreatJpgSub(oInventorDocument, strJpgFileFullName, True)
 
-        MessageBox.Show($"保存文件到：{vbCrLf}{strJpgFileFullName}。“， AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
+        MessageBox.Show($"保存文件到：{vbCrLf}{strJpgFileFullName}。“， GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
     End Sub
 
     ''' <summary>
@@ -3238,7 +3238,7 @@ Module IamModule
         End If
 
         If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-            MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -3308,7 +3308,7 @@ Module IamModule
 
 
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -3365,7 +3365,7 @@ Module IamModule
         End If
 
         If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-            MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -3386,7 +3386,7 @@ Module IamModule
             'If oSourceComponentList Is Nothing Then
             '    Exit Sub
             'End If
-            MessageBox.Show("选择复制的组件。"， AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information)
+            MessageBox.Show("选择复制的组件。"， GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information)
             Exit Sub
         Else
             For Each oSelectedEntity As Object In oSelectSets
@@ -3439,7 +3439,7 @@ Module IamModule
         ' 3. 结果检查
         If oOneSourceComponentOccurrence Is Nothing Then
             ' 未找到符合条件的组件
-            MessageBox.Show("选择的组件中无数量为一的，无法与源组件对齐，退出本功能。"， AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("选择的组件中无数量为一的，无法与源组件对齐，退出本功能。"， GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         Else
             ' 成功找到唯一文件路径的组件
@@ -3449,7 +3449,7 @@ Module IamModule
 
         Dim douOffset As Double      '插入偏移
         If Not Double.TryParse(InputBox("输入偏移量：", "复制插入", 0), douOffset) Then
-            MessageBox.Show("偏移量必须为数字。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
+            MessageBox.Show("偏移量必须为数字。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
             Exit Sub
         End If
         '输入的单位是cm ，转换为 mm
@@ -3502,7 +3502,7 @@ Module IamModule
 
         If IsEdgeOneInComponentOccurrence = False Then
             oEdgeHSet.Clear()
-            MessageBox.Show("选择的圆(弧)不属于被复制的组件。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+            MessageBox.Show("选择的圆(弧)不属于被复制的组件。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
             GoTo 998
         End If
 
@@ -3619,7 +3619,7 @@ Module IamModule
 999:
 
             If oEdgeThree Is Nothing Then
-                MessageBox.Show("未找到匹配的圆形边。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                MessageBox.Show("未找到匹配的圆形边。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
                 Continue Do
             End If
 
@@ -3684,7 +3684,7 @@ Module IamModule
         End If
 
         If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-            MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -3723,7 +3723,7 @@ Module IamModule
         End If
 
         If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-            MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -3768,7 +3768,7 @@ Module IamModule
             End If
         Next
 
-        MessageBox.Show("检查钣金厚度匹配完成，已打开不匹配的零件。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information)
+        MessageBox.Show("检查钣金厚度匹配完成，已打开不匹配的零件。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information)
     End Sub
 
 

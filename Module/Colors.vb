@@ -38,7 +38,7 @@ Module Colors
         End If
 
         If ThisApplication.ActiveDocumentType <> kPartDocumentObject Then
-            MessageBox.Show("该功能仅适用于零件。", AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("该功能仅适用于零件。", GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -49,7 +49,7 @@ Module Colors
         Dim CompDef As PartComponentDefinition = oInventorPartDocument.ComponentDefinition
 
 
-        Dim msg As DialogResult = MessageBox.Show($"孔着色。{vbCrLf}是——孔着色。{vbCrLf}否——清除着色。", AIPTool，
+        Dim msg As DialogResult = MessageBox.Show($"孔着色。{vbCrLf}是——孔着色。{vbCrLf}否——清除着色。", GLTool，
                                        MessageBoxButtons.YesNoCancel， MessageBoxIcon.Question)
         Select Case msg
             Case DialogResult.Yes
@@ -258,7 +258,7 @@ Module Colors
         'OInteractionEvents.SetCursor(CursorTypeEnum.kCursorTypeDefault)
         'OInteractionEvents.Stop()
 
-        'MessageBox.Show("零件孔着色完成。"， AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information)
+        'MessageBox.Show("零件孔着色完成。"， GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information)
 
         SetStatusBarText("零件孔着色完成。")
 
@@ -273,7 +273,7 @@ Module Colors
     '    End If
 
     '    If ThisApplication.ActiveDocumentType <> kPartDocumentObject Then
-    '        MessageBox.Show("该功能仅适用于零件。", AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+    '        MessageBox.Show("该功能仅适用于零件。", GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
     '        Exit Sub
     '    End If
 
@@ -293,7 +293,7 @@ Module Colors
     '        Next
     '    End If
 
-    '    Dim msg As DialogResult = MessageBox.Show("油路块孔着色。" & vbCrLf & vbCrLf & "是——油路块孔着色" & vbCrLf & vbCrLf & "否——清除着色", AIPTool，
+    '    Dim msg As DialogResult = MessageBox.Show("油路块孔着色。" & vbCrLf & vbCrLf & "是——油路块孔着色" & vbCrLf & vbCrLf & "否——清除着色", GLTool，
     '                                   MessageBoxButtons.YesNoCancel， MessageBoxIcon.Question)
 
     '    ' 是否已经选择了face

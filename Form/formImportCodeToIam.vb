@@ -22,7 +22,7 @@ Public Class FormImportCodeToIam
         End If
 
         If ThisApplication.ActiveEditDocument.DocumentType <> kAssemblyDocumentObject Then
-            MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -250,7 +250,7 @@ Public Class FormImportCodeToIam
                                 Exit For
                             Else
                                 'Me.TopMost = False
-                                If MessageBox.Show($"{oListViewItem.Text}({strNowRangeValue})查询到新的编码： {strFindRangeValue} ，是否替换？", AIPTool,
+                                If MessageBox.Show($"{oListViewItem.Text}({strNowRangeValue})查询到新的编码： {strFindRangeValue} ，是否替换？", GLTool,
                                                   MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
                                     oListViewItem.SubItems(2).Text = strFindRangeValue
                                     oListViewItem.UseItemStyleForSubItems = False
@@ -406,12 +406,12 @@ Public Class FormImportCodeToIam
                 End If
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
     Private Sub FrmInventoryCoding_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
 
         lvw文件列表.Items.Clear()
 
@@ -423,7 +423,7 @@ Public Class FormImportCodeToIam
         End If
 
         If ThisApplication.ActiveEditDocument.DocumentType <> kAssemblyDocumentObject Then
-            MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             'Me.Dispose()
             Exit Sub
         End If
@@ -465,7 +465,7 @@ Public Class FormImportCodeToIam
             End If
 
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 

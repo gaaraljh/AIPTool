@@ -1,20 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <!-- ═══════════════════════════════════════════════════════════════════════
-       AIPTool — .NET 8.0（net8.0-windows）SDK 风格工程
-       由 .NET Framework 4.8 旧式工程升级而来，旧工程已备份为 AIPTool.vbproj.net48.bak
+       GLTool — .NET 8.0（net8.0-windows）SDK 风格工程
+       由 .NET Framework 4.8 旧式工程升级而来，旧工程已备份为 GLTool.vbproj.net48.bak
 
        注意：本工程是 Inventor 的 COM 外接程序（AddIn）。
        .NET 8 不再支持 RegisterForComInterop，改为 EnableComHosting 生成
-       AIPTool.comhost.dll，并在注册表里把 CLSID 的 InprocServer32 指向该文件
+       GLTool.comhost.dll，并在注册表里把 CLSID 的 InprocServer32 指向该文件
        （注册方法见仓库根目录 RegisterAddin.ps1，需管理员身份运行）。
        ═══════════════════════════════════════════════════════════════════════ -->
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <RootNamespace>AIPTool</RootNamespace>
-    <AssemblyName>AIPTool</AssemblyName>
+    <RootNamespace>GLTool</RootNamespace>
+    <AssemblyName>GLTool</AssemblyName>
     <MyType>WindowsForms</MyType>
     <OptionExplicit>On</OptionExplicit>
     <OptionCompare>Binary</OptionCompare>
@@ -36,7 +36,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <OutputPath>C:\ProgramData\Autodesk\Inventor Addins\AIPTool\</OutputPath>
+    <OutputPath>C:\ProgramData\Autodesk\Inventor Addins\GLTool\</OutputPath>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -99,8 +99,9 @@
          EmbedInteropTypes 使类型嵌入，运行时不再依赖该 DLL） -->
     <Reference Include="Autodesk.Inventor.Interop">
       <HintPath>library\autodesk.inventor.interop.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-      <Private>False</Private>
+      <!-- Inventor 2025+/.NET 8 必须用真实互操作类型（不能嵌入式），否则 Activate 参数封送会 E_FAIL -->
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>True</Private>
     </Reference>
 
     <!-- Excel 互操作（类型嵌入，运行时无依赖，也不随输出复制其依赖的 VS 互程序集） -->
@@ -114,8 +115,9 @@
          不引入 NuGet 包，也不会把 stdole.dll 复制到输出（类型已嵌入程序集） -->
     <Reference Include="stdole">
       <HintPath>library\stdole.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-      <Private>False</Private>
+      <!-- 必须与 Inventor 互操作一致用真实类型，否则嵌入/真实混用会导致类型标识冲突（BC40059），设计器加载窗体失败 -->
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
 
@@ -140,9 +142,9 @@
     <EmbeddedResource Remove="Form\FrmProjectManager.resx" />
   </ItemGroup>
 
-  <!-- My.Resources 的基名由 My Project\Resources.Designer.vb 指定（本工程为 AIPTool.Resources），
+  <!-- My.Resources 的基名由 My Project\Resources.Designer.vb 指定（本工程为 GLTool.Resources），
        由 VB 目标的 CreateManifestResourceNames 自动按该规则命名，无需手工指定 LogicalName。
-       app.config 仅用于 .NET Framework 的 My.Application.Log，.NET 8 类库不需要，排除以免生成 AIPTool.dll.config -->
+       app.config 仅用于 .NET Framework 的 My.Application.Log，.NET 8 类库不需要，排除以免生成 GLTool.dll.config -->
   <ItemGroup>
     <None Update="My Project\Application.myapp" />
     <None Update="My Project\Settings.settings" />
@@ -163,7 +165,7 @@
        这里在生成后强制刷新一次，保证输出目录里的 comhost 与最新构建一致。 -->
   <Target Name="RefreshComHostInOutput" AfterTargets="Build" Condition="'$(EnableComHosting)' == 'true'">
     <ItemGroup>
-      <_ComHostFiles Include="$(IntermediateOutputPath)AIPTool.comhost.dll" />
+      <_ComHostFiles Include="$(IntermediateOutputPath)GLTool.comhost.dll" />
     </ItemGroup>
     <Copy SourceFiles="@(_ComHostFiles)" DestinationFolder="$(OutputPath)" SkipUnchangedFiles="false" ContinueOnError="true" />
   </Target>

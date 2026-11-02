@@ -357,7 +357,7 @@ Public Class FormExplorer
             ' 这里处理点击后的逻辑，例如：
             'MessageBox.Show($"你点击了字符：{selectedChar}")
 
-            If MessageBox.Show($"确定将扩展名为 {strExtension} 的文件移动到子文件夹？", AIPTool,
+            If MessageBox.Show($"确定将扩展名为 {strExtension} 的文件移动到子文件夹？", GLTool,
                                MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.Cancel Then
                 Exit Sub
             End If
@@ -378,7 +378,7 @@ Public Class FormExplorer
                     Dim destPath As String = Path.Combine(strNewDirectory, Path.GetFileName(filePath))
 
                     If IsFileExists(destPath) = True Then
-                        Dim msg As DialogResult = MessageBox.Show($"存在文件：{destPath }，是否覆盖？", AIPTool,
+                        Dim msg As DialogResult = MessageBox.Show($"存在文件：{destPath }，是否覆盖？", GLTool,
                                                 MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1)
 
                         Select Case msg
@@ -664,7 +664,7 @@ Public Class FormExplorer
     '------------------------------------------
 
     Private Sub FormExplorer_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
         'Me.TopMost = True
 
         Dim toolTip As New ToolTip With {
@@ -746,7 +746,7 @@ Public Class FormExplorer
             状态ToolStripStatusLabel.Text = Lvw文件列表.Items.Count & "个项目"
 
         Else
-            MessageBox.Show("文件夹路径不存在。", AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("文件夹路径不存在。", GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
 
         SetWindowSizeAndCenter(Me, 0.4, 0.5)
@@ -820,7 +820,7 @@ Public Class FormExplorer
             Dim strFilter As String = Cmb过滤.Text
             LoadFolderContents(strCurrentDirectory, Lvw文件列表, ImageList文件列表, Cmb过滤, strCurrentExtension)
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -861,7 +861,7 @@ Public Class FormExplorer
 
 
                 Catch ex As Exception
-                    MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End Try
             End If
 
@@ -1190,7 +1190,7 @@ Public Class FormExplorer
 
             ElseIf File.Exists(strSelectPath) Then
                 Try
-                    If MessageBox.Show($"确定将文件：{strSelectPath}设置为旧版？", AIPTool,
+                    If MessageBox.Show($"确定将文件：{strSelectPath}设置为旧版？", GLTool,
                                        MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then
                         Exit Sub
                     End If
@@ -1198,7 +1198,7 @@ Public Class FormExplorer
                     Dim stroldFileName As String = Path.Combine(strCurrentDirectory, oListViewItem.Text & ".old")
 
                     If IsFileExists(stroldFileName) = True Then
-                        Dim msg As DialogResult = MessageBox.Show($“存在文件：{stroldFileName},是否覆盖？“, AIPTool,
+                        Dim msg As DialogResult = MessageBox.Show($“存在文件：{stroldFileName},是否覆盖？“, GLTool,
                                                                   MessageBoxButtons.OKCancel, MessageBoxIcon.Question)
                         If msg = DialogResult.OK Then
                             Rename(strSelectPath, stroldFileName)
@@ -1211,7 +1211,7 @@ Public Class FormExplorer
                     End If
 
                 Catch ex As Exception
-                    MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End Try
             End If
 
@@ -1233,7 +1233,7 @@ Public Class FormExplorer
                 Try
 
                     If Strings.Right（strSelectPath, 4).ToLower <> ".old" Then
-                        MessageBox.Show(”仅支持 .old 文件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                        MessageBox.Show(”仅支持 .old 文件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                         Exit Sub
                     End If
 
@@ -1241,7 +1241,7 @@ Public Class FormExplorer
 
 
                     If IsFileExists(stroldFileName) = True Then
-                        Dim msg As DialogResult = MessageBox.Show($“存在文件：{stroldFileName},是否覆盖？“, AIPTool,
+                        Dim msg As DialogResult = MessageBox.Show($“存在文件：{stroldFileName},是否覆盖？“, GLTool,
                                                                   MessageBoxButtons.OKCancel, MessageBoxIcon.Question)
                         If msg = DialogResult.OK Then
                             Rename(strSelectPath, stroldFileName)
@@ -1253,7 +1253,7 @@ Public Class FormExplorer
                         LoadFolderContents(strCurrentDirectory, Lvw文件列表, ImageList文件列表, Cmb过滤, strCurrentExtension)
                     End If
                 Catch ex As Exception
-                    MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End Try
             End If
         Next
@@ -1283,10 +1283,10 @@ Public Class FormExplorer
             sei.hwnd = Me.Handle
 
             If Not ShellExecuteEx(sei) Then
-                MessageBox.Show("无法打开属性窗口。", AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("无法打开属性窗口。", GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -1307,7 +1307,7 @@ Public Class FormExplorer
             Clipboard.SetFileDropList(filePaths)
 
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
 

@@ -25,183 +25,185 @@ Partial Class FormAbout
     '不要使用代码编辑器修改它。
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.btn关闭 = New System.Windows.Forms.Button()
-        Me.lblVersion = New System.Windows.Forms.Label()
-        Me.lblCopyright = New System.Windows.Forms.Label()
-        Me.lblCompanyName = New System.Windows.Forms.Label()
-        Me.lblProductName = New System.Windows.Forms.Label()
-        Me.txtDescription = New System.Windows.Forms.TextBox()
-        Me.btn检查更新 = New System.Windows.Forms.Button()
-        Me.lblGitCode = New System.Windows.Forms.LinkLabel()
-        Me.lblBilibili = New System.Windows.Forms.LinkLabel()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.picWeiXin = New System.Windows.Forms.PictureBox()
-        CType(Me.picWeiXin, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SuspendLayout()
-        '
-        'btn关闭
-        '
-        Me.btn关闭.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn关闭.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btn关闭.Location = New System.Drawing.Point(411, 397)
-        Me.btn关闭.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
-        Me.btn关闭.Name = "btn关闭"
-        Me.btn关闭.Size = New System.Drawing.Size(112, 47)
-        Me.btn关闭.TabIndex = 40
-        Me.btn关闭.Text = "关闭"
-        '
-        'lblVersion
-        '
-        Me.lblVersion.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblVersion.AutoSize = True
-        Me.lblVersion.Location = New System.Drawing.Point(186, 58)
-        Me.lblVersion.Margin = New System.Windows.Forms.Padding(9, 0, 4, 0)
-        Me.lblVersion.MaximumSize = New System.Drawing.Size(0, 27)
-        Me.lblVersion.Name = "lblVersion"
-        Me.lblVersion.Size = New System.Drawing.Size(41, 20)
-        Me.lblVersion.TabIndex = 39
-        Me.lblVersion.Text = "版本"
-        Me.lblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'lblCopyright
-        '
-        Me.lblCopyright.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblCopyright.AutoSize = True
-        Me.lblCopyright.Location = New System.Drawing.Point(186, 102)
-        Me.lblCopyright.Margin = New System.Windows.Forms.Padding(9, 0, 4, 0)
-        Me.lblCopyright.MaximumSize = New System.Drawing.Size(0, 27)
-        Me.lblCopyright.Name = "lblCopyright"
-        Me.lblCopyright.Size = New System.Drawing.Size(41, 20)
-        Me.lblCopyright.TabIndex = 38
-        Me.lblCopyright.Text = "版权"
-        Me.lblCopyright.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'lblCompanyName
-        '
-        Me.lblCompanyName.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblCompanyName.AutoSize = True
-        Me.lblCompanyName.Location = New System.Drawing.Point(186, 143)
-        Me.lblCompanyName.Margin = New System.Windows.Forms.Padding(9, 0, 4, 0)
-        Me.lblCompanyName.MaximumSize = New System.Drawing.Size(0, 27)
-        Me.lblCompanyName.Name = "lblCompanyName"
-        Me.lblCompanyName.Size = New System.Drawing.Size(73, 20)
-        Me.lblCompanyName.TabIndex = 37
-        Me.lblCompanyName.Text = "公司名称"
-        Me.lblCompanyName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'lblProductName
-        '
-        Me.lblProductName.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblProductName.AutoSize = True
-        Me.lblProductName.Location = New System.Drawing.Point(186, 18)
-        Me.lblProductName.Margin = New System.Windows.Forms.Padding(9, 0, 4, 0)
-        Me.lblProductName.MaximumSize = New System.Drawing.Size(0, 27)
-        Me.lblProductName.Name = "lblProductName"
-        Me.lblProductName.Size = New System.Drawing.Size(73, 20)
-        Me.lblProductName.TabIndex = 36
-        Me.lblProductName.Text = "产品名称"
-        Me.lblProductName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'txtDescription
-        '
-        Me.txtDescription.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtDescription.Location = New System.Drawing.Point(190, 178)
-        Me.txtDescription.Margin = New System.Windows.Forms.Padding(9, 5, 4, 5)
-        Me.txtDescription.Multiline = True
-        Me.txtDescription.Name = "txtDescription"
-        Me.txtDescription.ReadOnly = True
-        Me.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.txtDescription.Size = New System.Drawing.Size(326, 196)
-        Me.txtDescription.TabIndex = 41
-        Me.txtDescription.TabStop = False
-        Me.txtDescription.Text = "说明 :" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(在运行时，将用应用程序的程序集信息替换这些标签的文本。" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "在"
-        '
-        'btn检查更新
-        '
-        Me.btn检查更新.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn检查更新.Location = New System.Drawing.Point(276, 397)
-        Me.btn检查更新.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
-        Me.btn检查更新.Name = "btn检查更新"
-        Me.btn检查更新.Size = New System.Drawing.Size(112, 47)
-        Me.btn检查更新.TabIndex = 44
-        Me.btn检查更新.Text = "检查更新"
-        Me.btn检查更新.UseVisualStyleBackColor = True
-        '
-        'lblGitCode
-        '
-        Me.lblGitCode.AutoSize = True
-        Me.lblGitCode.Location = New System.Drawing.Point(32, 413)
-        Me.lblGitCode.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.lblGitCode.Name = "lblGitCode"
-        Me.lblGitCode.Size = New System.Drawing.Size(60, 20)
-        Me.lblGitCode.TabIndex = 46
-        Me.lblGitCode.TabStop = True
-        Me.lblGitCode.Text = "GitHub"
-        '
-        'lblBilibili
-        '
-        Me.lblBilibili.AutoSize = True
-        Me.lblBilibili.Location = New System.Drawing.Point(132, 413)
-        Me.lblBilibili.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.lblBilibili.Name = "lblBilibili"
-        Me.lblBilibili.Size = New System.Drawing.Size(47, 20)
-        Me.lblBilibili.TabIndex = 47
-        Me.lblBilibili.TabStop = True
-        Me.lblBilibili.Text = "Bilibili"
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(14, 203)
-        Me.Label1.Margin = New System.Windows.Forms.Padding(9, 0, 4, 0)
-        Me.Label1.MaximumSize = New System.Drawing.Size(0, 27)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(153, 20)
-        Me.Label1.TabIndex = 48
-        Me.Label1.Text = "微信扫一扫打赏作者"
-        Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'picWeiXin
-        '
-        Me.picWeiXin.Location = New System.Drawing.Point(18, 25)
-        Me.picWeiXin.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
-        Me.picWeiXin.Name = "picWeiXin"
-        Me.picWeiXin.Size = New System.Drawing.Size(150, 167)
-        Me.picWeiXin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.picWeiXin.TabIndex = 49
-        Me.picWeiXin.TabStop = False
-        '
-        'FormAbout
-        '
-        Me.AcceptButton = Me.btn检查更新
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.CancelButton = Me.btn关闭
-        Me.ClientSize = New System.Drawing.Size(537, 458)
-        Me.Controls.Add(Me.picWeiXin)
-        Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.lblBilibili)
-        Me.Controls.Add(Me.lblGitCode)
-        Me.Controls.Add(Me.btn检查更新)
-        Me.Controls.Add(Me.txtDescription)
-        Me.Controls.Add(Me.btn关闭)
-        Me.Controls.Add(Me.lblVersion)
-        Me.Controls.Add(Me.lblCopyright)
-        Me.Controls.Add(Me.lblCompanyName)
-        Me.Controls.Add(Me.lblProductName)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
-        Me.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
-        Me.MaximizeBox = False
-        Me.MinimizeBox = False
-        Me.Name = "FormAbout"
-        Me.Padding = New System.Windows.Forms.Padding(14, 13, 14, 13)
-        Me.ShowInTaskbar = False
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
-        Me.Text = "关于"
-        Me.TopMost = True
-        CType(Me.picWeiXin, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ResumeLayout(False)
-        Me.PerformLayout()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormAbout))
+        btn关闭 = New Button()
+        lblVersion = New Label()
+        lblCopyright = New Label()
+        lblCompanyName = New Label()
+        lblProductName = New Label()
+        txtDescription = New TextBox()
+        btn检查更新 = New Button()
+        lblGitCode = New LinkLabel()
+        lblBilibili = New LinkLabel()
+        Label1 = New Label()
+        picWeiXin = New PictureBox()
+        CType(picWeiXin, System.ComponentModel.ISupportInitialize).BeginInit()
+        SuspendLayout()
+        ' 
+        ' btn关闭
+        ' 
+        btn关闭.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        btn关闭.DialogResult = DialogResult.Cancel
+        btn关闭.Location = New System.Drawing.Point(457, 496)
+        btn关闭.Margin = New Padding(4, 6, 4, 6)
+        btn关闭.Name = "btn关闭"
+        btn关闭.Size = New Size(124, 59)
+        btn关闭.TabIndex = 40
+        btn关闭.Text = "关闭"
+        ' 
+        ' lblVersion
+        ' 
+        lblVersion.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        lblVersion.AutoSize = True
+        lblVersion.Location = New System.Drawing.Point(207, 72)
+        lblVersion.Margin = New Padding(10, 0, 4, 0)
+        lblVersion.MaximumSize = New Size(0, 34)
+        lblVersion.Name = "lblVersion"
+        lblVersion.Size = New Size(50, 25)
+        lblVersion.TabIndex = 39
+        lblVersion.Text = "版本"
+        lblVersion.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' lblCopyright
+        ' 
+        lblCopyright.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        lblCopyright.AutoSize = True
+        lblCopyright.Location = New System.Drawing.Point(207, 128)
+        lblCopyright.Margin = New Padding(10, 0, 4, 0)
+        lblCopyright.MaximumSize = New Size(0, 34)
+        lblCopyright.Name = "lblCopyright"
+        lblCopyright.Size = New Size(50, 25)
+        lblCopyright.TabIndex = 38
+        lblCopyright.Text = "版权"
+        lblCopyright.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' lblCompanyName
+        ' 
+        lblCompanyName.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        lblCompanyName.AutoSize = True
+        lblCompanyName.Location = New System.Drawing.Point(207, 179)
+        lblCompanyName.Margin = New Padding(10, 0, 4, 0)
+        lblCompanyName.MaximumSize = New Size(0, 34)
+        lblCompanyName.Name = "lblCompanyName"
+        lblCompanyName.Size = New Size(88, 25)
+        lblCompanyName.TabIndex = 37
+        lblCompanyName.Text = "公司名称"
+        lblCompanyName.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' lblProductName
+        ' 
+        lblProductName.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        lblProductName.AutoSize = True
+        lblProductName.Location = New System.Drawing.Point(207, 22)
+        lblProductName.Margin = New Padding(10, 0, 4, 0)
+        lblProductName.MaximumSize = New Size(0, 34)
+        lblProductName.Name = "lblProductName"
+        lblProductName.Size = New Size(88, 25)
+        lblProductName.TabIndex = 36
+        lblProductName.Text = "产品名称"
+        lblProductName.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' txtDescription
+        ' 
+        txtDescription.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        txtDescription.Location = New System.Drawing.Point(211, 222)
+        txtDescription.Margin = New Padding(10, 6, 4, 6)
+        txtDescription.Multiline = True
+        txtDescription.Name = "txtDescription"
+        txtDescription.ReadOnly = True
+        txtDescription.ScrollBars = ScrollBars.Both
+        txtDescription.Size = New Size(362, 244)
+        txtDescription.TabIndex = 41
+        txtDescription.TabStop = False
+        txtDescription.Text = "说明 :" & vbCrLf & vbCrLf & "(在运行时，将用应用程序的程序集信息替换这些标签的文本。" & vbCrLf & "在"
+        ' 
+        ' btn检查更新
+        ' 
+        btn检查更新.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        btn检查更新.Location = New System.Drawing.Point(307, 496)
+        btn检查更新.Margin = New Padding(4, 6, 4, 6)
+        btn检查更新.Name = "btn检查更新"
+        btn检查更新.Size = New Size(124, 59)
+        btn检查更新.TabIndex = 44
+        btn检查更新.Text = "检查更新"
+        btn检查更新.UseVisualStyleBackColor = True
+        ' 
+        ' lblGitCode
+        ' 
+        lblGitCode.AutoSize = True
+        lblGitCode.Location = New System.Drawing.Point(36, 516)
+        lblGitCode.Margin = New Padding(4, 0, 4, 0)
+        lblGitCode.Name = "lblGitCode"
+        lblGitCode.Size = New Size(68, 25)
+        lblGitCode.TabIndex = 46
+        lblGitCode.TabStop = True
+        lblGitCode.Text = "GitHub"
+        ' 
+        ' lblBilibili
+        ' 
+        lblBilibili.AutoSize = True
+        lblBilibili.Location = New System.Drawing.Point(147, 516)
+        lblBilibili.Margin = New Padding(4, 0, 4, 0)
+        lblBilibili.Name = "lblBilibili"
+        lblBilibili.Size = New Size(57, 25)
+        lblBilibili.TabIndex = 47
+        lblBilibili.TabStop = True
+        lblBilibili.Text = "Bilibili"
+        ' 
+        ' Label1
+        ' 
+        Label1.AutoSize = True
+        Label1.Location = New System.Drawing.Point(16, 254)
+        Label1.Margin = New Padding(10, 0, 4, 0)
+        Label1.MaximumSize = New Size(0, 34)
+        Label1.Name = "Label1"
+        Label1.Size = New Size(183, 25)
+        Label1.TabIndex = 48
+        Label1.Text = "微信扫一扫打赏作者"
+        Label1.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' picWeiXin
+        ' 
+        picWeiXin.Location = New System.Drawing.Point(20, 31)
+        picWeiXin.Margin = New Padding(4, 6, 4, 6)
+        picWeiXin.Name = "picWeiXin"
+        picWeiXin.Size = New Size(167, 209)
+        picWeiXin.SizeMode = PictureBoxSizeMode.Zoom
+        picWeiXin.TabIndex = 49
+        picWeiXin.TabStop = False
+        ' 
+        ' FormAbout
+        ' 
+        AcceptButton = btn检查更新
+        AutoScaleDimensions = New SizeF(10F, 25F)
+        AutoScaleMode = AutoScaleMode.Font
+        CancelButton = btn关闭
+        ClientSize = New Size(597, 572)
+        Controls.Add(picWeiXin)
+        Controls.Add(Label1)
+        Controls.Add(lblBilibili)
+        Controls.Add(lblGitCode)
+        Controls.Add(btn检查更新)
+        Controls.Add(txtDescription)
+        Controls.Add(btn关闭)
+        Controls.Add(lblVersion)
+        Controls.Add(lblCopyright)
+        Controls.Add(lblCompanyName)
+        Controls.Add(lblProductName)
+        FormBorderStyle = FormBorderStyle.FixedDialog
+        Icon = CType(resources.GetObject("$this.Icon"), Icon)
+        Margin = New Padding(4, 6, 4, 6)
+        MaximizeBox = False
+        MinimizeBox = False
+        Name = "FormAbout"
+        Padding = New Padding(16, 16, 16, 16)
+        ShowInTaskbar = False
+        StartPosition = FormStartPosition.CenterParent
+        Text = "关于"
+        TopMost = True
+        CType(picWeiXin, System.ComponentModel.ISupportInitialize).EndInit()
+        ResumeLayout(False)
+        PerformLayout()
 
     End Sub
     Friend WithEvents btn关闭 As System.Windows.Forms.Button

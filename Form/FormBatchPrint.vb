@@ -19,7 +19,7 @@ Public Class FormBatchPrint
         On Error Resume Next
 
         If lvw文件列表.Items.Count = 0 Then
-            MessageBox.Show(”未添加工程图文件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”未添加工程图文件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -242,7 +242,7 @@ Public Class FormBatchPrint
     End Sub
 
     Private Sub FrmPrint_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
 
         Dim oPrintDocument As New Printing.PrintDocument
         Dim strDefaultPrinter As String = oPrintDocument.PrinterSettings.PrinterName
@@ -420,7 +420,7 @@ Public Class FormBatchPrint
 
             Me.Text = "批量打印  (共" & lvw文件列表.Items.Count & "张）"
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -521,7 +521,7 @@ Public Class FormBatchPrint
         oInventorDocument = ThisApplication.ActiveDocument
 
         If oInventorDocument.DocumentType <> kAssemblyDocumentObject Then
-            MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 

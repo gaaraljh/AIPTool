@@ -38,14 +38,14 @@ Module InventorBasic
     Public Function IsInventorOpenDocument() As Boolean
         Try
             If ThisApplication.FileManager.Files.Count = 0 Then
-                MessageBox.Show("未打开文件。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                MessageBox.Show("未打开文件。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
                 Return False
                 Exit Function
             Else
                 Return True
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+            MessageBox.Show(ex.Message, GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
         End Try
 
     End Function
@@ -85,7 +85,7 @@ Module InventorBasic
             arrayFullFileName = FindFileInFolder(WorkSpaceFloder, strSearchFileName, strExtension)
 
             If arrayFullFileName.Count = 0 Then
-                MessageBox.Show($"未找到文件：{strFileName}。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                MessageBox.Show($"未找到文件：{strFileName}。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
                 Exit Sub
             End If
 
@@ -143,7 +143,7 @@ Module InventorBasic
             End Select
 
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
     ''' <summary>
@@ -162,7 +162,7 @@ Module InventorBasic
 
             ' 3. 处理未保存的新建文档
             If String.IsNullOrEmpty(strRawPath) OrElse String.IsNullOrEmpty(strCleanPath) Then
-                Dim result As DialogResult = MessageBox.Show("当前文档尚未保存。是否立即保存？", AIPTool, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                Dim result As DialogResult = MessageBox.Show("当前文档尚未保存。是否立即保存？", GLTool, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                 If result = DialogResult.Yes Then
                     Try
                         ThisApplication.CommandManager.ControlDefinitions.Item("AppFileSaveCmd").Execute2(True)
@@ -182,13 +182,13 @@ Module InventorBasic
             If Not IsFileExists(strCleanPath) Then
                 ' 如果清洗后的路径仍不存在，可能是文件真的被删除了，或者路径解析错误
                 ' 这里给出更明确的提示
-                MessageBox.Show("无法找到文件物理路径：" & vbCrLf & strCleanPath, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                MessageBox.Show("无法找到文件物理路径：" & vbCrLf & strCleanPath, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 Exit Sub
             End If
 
             ' 5. 检查只读状态（使用清洗后的路径）
             If GetFileReadOnly(strCleanPath) Then
-                MessageBox.Show("文件是只读的，无法保存。" & vbCrLf & strCleanPath, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                MessageBox.Show("文件是只读的，无法保存。" & vbCrLf & strCleanPath, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 oDoc.Close(True)
                 Exit Sub
             End If
@@ -198,7 +198,7 @@ Module InventorBasic
             Try
                 oDoc.Save2(True)
             Catch ex As Exception
-                MessageBox.Show("保存失败: " & ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("保存失败: " & ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End Try
 
@@ -206,7 +206,7 @@ Module InventorBasic
             oDoc.Close()
 
         Catch ex As Exception
-            MessageBox.Show("保存并关闭发生错误: " & ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("保存并关闭发生错误: " & ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -285,7 +285,7 @@ Module InventorBasic
     '        End Select
 
     '    Catch ex As Exception
-    '        MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+    '        MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
     '    End Try
     'End Sub
 
@@ -309,7 +309,7 @@ Module InventorBasic
             oInventorDocument = ThisApplication.ActiveDocument
             oInventorDocument.Close(True)
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -331,7 +331,7 @@ Module InventorBasic
 
             ProcessStart(strFolderPath)
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -357,7 +357,7 @@ Module InventorBasic
             Rename(strOldFullFileName, strNewFullFileName)
         Next
 
-        MessageBox.Show(”该还原旧图完成。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        MessageBox.Show(”该还原旧图完成。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
 
     ''' <summary>
@@ -376,7 +376,7 @@ Module InventorBasic
 
         Dim intDeleteRecycleOption As Integer
 
-        Dim msg As DialogResult = MessageBox.Show("是否永久删除旧文件，而不是移动到回收站？", AIPTool，
+        Dim msg As DialogResult = MessageBox.Show("是否永久删除旧文件，而不是移动到回收站？", GLTool，
                                     MessageBoxButtons.YesNo， MessageBoxIcon.Question, MessageBoxDefaultButton.Button2)
         Select Case msg
             Case DialogResult.Yes
@@ -395,10 +395,10 @@ Module InventorBasic
         DelOldDirectory(strDestinationFolder, intDeleteRecycleOption)
 
         SetStatusBarText("就绪")
-        MessageBox.Show("清理旧版本文件完成。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
+        MessageBox.Show("清理旧版本文件完成。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
 
         'Catch ex As Exception
-        '       MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        '       MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         'End Try
 
     End Sub
@@ -423,12 +423,12 @@ Module InventorBasic
                 SetStatusBarText("获取编辑中的文件名修改iProperty完成")
                 ' MessageBox.Show("获取编辑中的文件名修改iProperty完成", MsgBoxStyle.Information)
             Else
-                SetStatusBarText(AIPTool)
-                MessageBox.Show("获取编辑中的文件名修改iProperty错误。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                SetStatusBarText(GLTool)
+                MessageBox.Show("获取编辑中的文件名修改iProperty错误。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
 
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+            MessageBox.Show(ex.Message, GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
         End Try
 
     End Sub
@@ -474,7 +474,7 @@ Module InventorBasic
             End If
 
             If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-                MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
@@ -483,14 +483,14 @@ Module InventorBasic
 
             If SetDocumentsInAssIpropertyFromFileNameSub(oInventorAssemblyDocument) = True Then
                 SetStatusBarText("获取当前部件中的子集文件名修改iProperty完成")
-                MessageBox.Show("获取当前部件中的文件名修改iProperty完成。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
+                MessageBox.Show("获取当前部件中的文件名修改iProperty完成。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
             Else
-                SetStatusBarText(AIPTool)
-                ' MessageBox.Show(AIPTool, MsgBoxStyle.Exclamation)
+                SetStatusBarText(GLTool)
+                ' MessageBox.Show(GLTool, MsgBoxStyle.Exclamation)
 
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -506,7 +506,7 @@ Module InventorBasic
 
         Dim FirstLevelOnly As Boolean
 
-        Dim msg As DialogResult = MessageBox.Show($"修改模式：{vbCrLf}是——仅修改第一级零件。{vbCrLf}否——修改所有级别零件。", AIPTool，
+        Dim msg As DialogResult = MessageBox.Show($"修改模式：{vbCrLf}是——仅修改第一级零件。{vbCrLf}否——修改所有级别零件。", GLTool，
                                     MessageBoxButtons.YesNoCancel， MessageBoxIcon.Question）
         Select Case msg
             Case DialogResult.Yes
@@ -670,13 +670,13 @@ Module InventorBasic
 
         If Integer.TryParse(InputBox("输入部件文件的编号变化，部件XXX-0000000 下第一个部件为XXX-0000100 则 输入 100 "), intAssNumberStep) Then
         Else
-            MessageBox.Show("输入字符串不是一个整数！", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+            MessageBox.Show("输入字符串不是一个整数！", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
             Return False
         End If
 
         If Integer.TryParse(InputBox("输入零件文件的编号变化，部件XXX-0000000 下第一个零件为XXX-0000001 则 输入 1  "), intPartNumberStep) Then
         Else
-            MessageBox.Show("输入字符串不是一个整数！", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+            MessageBox.Show("输入字符串不是一个整数！", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
             Return False
         End If
 
@@ -696,7 +696,7 @@ Module InventorBasic
         Dim PartNumberItem As Integer     '第几个零件文件
         Dim AssNumberItem As Integer   '第几个部件文件
 
-        If MessageBox.Show("是否续编部件文件名？", AIPTool， MessageBoxButtons.YesNo， MessageBoxIcon.Question） = DialogResult.Yes Then
+        If MessageBox.Show("是否续编部件文件名？", GLTool， MessageBoxButtons.YesNo， MessageBoxIcon.Question） = DialogResult.Yes Then
             'Dim BasicOcc As ComponentOccurrence   '选择续编的的部件或零件
             'Dim BasicFullFileName As String   '续编的文档全名
             'Dim BasicFileName As String       '续编的文件名
@@ -710,7 +710,7 @@ Module InventorBasic
             AssNumberItem = 0
         End If
 
-        If MessageBox.Show("是否续编零件文件名？", AIPTool， MessageBoxButtons.YesNo， MessageBoxIcon.Question） = DialogResult.Yes Then
+        If MessageBox.Show("是否续编零件文件名？", GLTool， MessageBoxButtons.YesNo， MessageBoxIcon.Question） = DialogResult.Yes Then
             'Dim BasicOcc As ComponentOccurrence   '选择续编的的部件或零件
             'Dim BasicFullFileName As String   '续编的文档全名
             'Dim BasicFileName As String       '续编的文件名
@@ -755,12 +755,12 @@ Module InventorBasic
             strOldFileName = oOldFileNameInfo.OnlyName     '旧文件 仅文件名
 
             If IsFileExists(strOldFullFileName) = False Then   '跳过不存在的文件
-                MessageBox.Show($"不存在文件：{strOldFullFileName}。“, AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                MessageBox.Show($"不存在文件：{strOldFullFileName}。“, GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
                 GoTo 999
             End If
 
             If InStr(strOldFullFileName, ContentCenterFiles) > 0 Then    '跳过零件库文件
-                MessageBox.Show($”{strOldFullFileName}为零件库文件。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                MessageBox.Show($”{strOldFullFileName}为零件库文件。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
                 'OldInventorDoc.Close()
                 GoTo 999
             End If
@@ -770,7 +770,7 @@ Module InventorBasic
                 If InStr(GetFileNameInfo(FoundFile).FileName, oOldFileNameInfo.FileName) > 1 Then  '存在一个已命名图号的文件
 
                     Dim msg As DialogResult = MessageBox.Show($"存在一个已命名图号的文件：{FoundFile}，{vbCrLf}是-直接替换，否-重新生成替换？",
-                                                AIPTool， MessageBoxButtons.YesNo， MessageBoxIcon.Error, MessageBoxDefaultButton.Button1）
+                                                GLTool， MessageBoxButtons.YesNo， MessageBoxIcon.Error, MessageBoxDefaultButton.Button1）
 
                     Select Case msg
                         Case DialogResult.Yes   '替换文件
@@ -828,7 +828,7 @@ Module InventorBasic
                     Dim strTempFullFileName As String       '暂时更改旧文件名字
                     strTempFullFileName = strOldFullFileName & OLD
                     ReFileName(strOldFullFileName, strTempFullFileName)
-                    MessageBox.Show($"找到有对应的旧工程图，生成新的工程图，将打开，请链接到文件：{vbCrLf}{strNewFullFileName}，{vbCrLf}该文件名已复制，粘贴到对话框即可。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Question）
+                    MessageBox.Show($"找到有对应的旧工程图，生成新的工程图，将打开，请链接到文件：{vbCrLf}{strNewFullFileName}，{vbCrLf}该文件名已复制，粘贴到对话框即可。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Question）
                     System.Windows.Forms.Clipboard.SetText(strNewFullFileName)
                     ThisApplication.Documents.Open(strNewIdwFullFileName, False)      '打开新的工程图，使其手动链接零件或部件
                     ThisApplication.Documents.ItemByName(strNewIdwFullFileName).Save2() '保存链接并关闭工程图
@@ -838,7 +838,7 @@ Module InventorBasic
 
                 End If
             Else
-                MessageBox.Show(strOldFullFileName & "可能已有图号。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                MessageBox.Show(strOldFullFileName & "可能已有图号。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
             End If
 999:
             'TSProgressBar.Value = TSProgressBar.Value + 1
@@ -1156,14 +1156,14 @@ Module InventorBasic
 
         strPartNum = FindSrtingInSheet(BasicExcelFullFileName, strStochNum, SheetName, TableArrays, ColIndexNum, 0)
         If strPartNum <> 0 Then
-            MessageBox.Show($"查询到ERP编码：{strPartNum}。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
+            MessageBox.Show($"查询到ERP编码：{strPartNum}。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
             SetPropitem(oInventorDocument, Map_ERPCode, strPartNum)
         Else
-            MessageBox.Show("未查询到ERP编码。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+            MessageBox.Show("未查询到ERP编码。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
         End If
 
         'Catch ex As Exception
-        '       MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        '       MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         'End Try
     End Sub
 
@@ -1285,7 +1285,7 @@ Module InventorBasic
         strInventorDocumentFullDocumentName = oInventorDocument.FullDocumentName
 
         Dim oDef1 As ButtonDefinition
-        oDef1 = ThisApplication.CommandManager.ControlDefinitions.Item("AIPToolInName文件只读")
+        oDef1 = ThisApplication.CommandManager.ControlDefinitions.Item("GLToolInName文件只读")
 
         oDef1.Pressed = oDef1.Pressed Xor True
         SetFileReadOnly(strInventorDocumentFullDocumentName, oDef1.Pressed)
@@ -1382,7 +1382,7 @@ Module InventorBasic
             End While
         End Using
 
-        MessageBox.Show("按列表打开文件完成，若没有打开文件，请检查列表文件编码为UTF-8。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
+        MessageBox.Show("按列表打开文件完成，若没有打开文件，请检查列表文件编码为UTF-8。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
 
     End Sub
 
@@ -1397,7 +1397,7 @@ Module InventorBasic
         ' 格式化日期和时间为字符串
 
 
-        Dim strListFileName As String = InputBox(“输入列表文件名：", AIPTool， strDate)
+        Dim strListFileName As String = InputBox(“输入列表文件名：", GLTool， strDate)
         If strListFileName = "" Then
             Exit Sub
         End If
@@ -1417,7 +1417,7 @@ Module InventorBasic
                 oStreamWriter.WriteLine(strFileFullName)
             Next
         End Using
-        MessageBox.Show($"保存当前打开的文件到列表：{vbCrLf}{strListFileName}。“, AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
+        MessageBox.Show($"保存当前打开的文件到列表：{vbCrLf}{strListFileName}。“, GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
     End Sub
 
     ''' <summary>

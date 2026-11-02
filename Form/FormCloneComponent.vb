@@ -26,7 +26,7 @@ Public Class FormCloneComponent
     Dim oInsertConstraintList As New List(Of InsertConstraint)
 
     Private Sub FormCloneComponent_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
         ' 创建ToolTip控件并设置相关属性
         Dim toolTip As New ToolTip With {
             .AutoPopDelay = 0,
@@ -103,7 +103,7 @@ Public Class FormCloneComponent
             If oSourceComponentList Is Nothing Then
                 Exit Sub
             End If
-            'MessageBox.Show("选择复制的组件。"， AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information)
+            'MessageBox.Show("选择复制的组件。"， GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information)
             'Exit Sub
         Else
             For Each oSelectedEntity As Object In oSelectSets
@@ -172,7 +172,7 @@ Public Class FormCloneComponent
             ' 3. 结果检查
             If oOneSourceComponentOccurrence Is Nothing Then
                 ' 未找到符合条件的组件
-                MessageBox.Show("选择的组件中无数量为一的，无法与源组件对齐，退出本功能。"， AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("选择的组件中无数量为一的，无法与源组件对齐，退出本功能。"， GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
 
                 Exit Sub
             Else
@@ -217,7 +217,7 @@ Public Class FormCloneComponent
 
             If IsEdgeOneInComponentOccurrence = False Then
                 oEdgeHSet.Clear()
-                MessageBox.Show("选择的圆(弧)不属于被复制的组件。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                MessageBox.Show("选择的圆(弧)不属于被复制的组件。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
                 Exit Sub
             End If
 
@@ -247,7 +247,7 @@ Public Class FormCloneComponent
 
         Dim douOffset As Double = txt偏移量.Text     '插入偏移
         'If Not Double.TryParse(InputBox("输入偏移量：", "复制插入", 0), douOffset) Then
-        '    MessageBox.Show("偏移量必须为数字。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
+        '    MessageBox.Show("偏移量必须为数字。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
         '    Exit Sub
         'End If
         '输入的单位是cm ，转换为 mm
@@ -351,7 +351,7 @@ Public Class FormCloneComponent
 999:
 
                 If oEdgeThree Is Nothing Then
-                    MessageBox.Show("未找到匹配的圆形边。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                    MessageBox.Show("未找到匹配的圆形边。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
                     Continue Do
                 End If
 

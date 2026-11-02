@@ -16,7 +16,7 @@ Public Class FormCustomSignature
             oInventorDocument = ThisApplication.ActiveDocument
 
             If oInventorDocument.DocumentType <> kDrawingDocumentObject Then
-                MessageBox.Show(”该功能仅适用于工程图。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于工程图。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
@@ -41,11 +41,11 @@ Public Class FormCustomSignature
             If SetSign(oInventorDrawingDocument, txt工程师.Text, strPrintDate, True) Then
                 SetStatusBarText("设置工程图属性：签字完成")
             Else
-                SetStatusBarText(AIPTool)
+                SetStatusBarText(GLTool)
             End If
 
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
         FormManager.CloseAndDisposeForm(Of FormCustomSignature)()
@@ -56,7 +56,7 @@ Public Class FormCustomSignature
     End Sub
 
     Private Sub FrmSign_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
 
         txt工程师.Text = EngineerName
         dtp日期.Value = Today.Date

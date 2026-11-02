@@ -60,7 +60,7 @@ Public Class FormAutoPartNumber
             str模型匹配检查标记 = 1
 
             SetStatusBarText("自动命名图号完成！")
-            MessageBox.Show("自动命名图号完成。", AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show("自动命名图号完成。", GLTool, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
             Me.TopMost = True
 
@@ -114,7 +114,7 @@ Public Class FormAutoPartNumber
 
         '有新文件存在
         If IsFileExists(strNewFullFileName) = True Then
-            'MessageBox.Show($"已存在文件：{NewFileNameInfo.FileName }。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
+            'MessageBox.Show($"已存在文件：{NewFileNameInfo.FileName }。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
             oListViewItem.Text = "存在新文件"
             Exit Sub
         End If
@@ -293,20 +293,20 @@ Public Class FormAutoPartNumber
         Dim basenamePattern As String = txt基准图号.Text  ' 默认示例，实际应从文本框获取
 
         If basenamePattern = "" Then
-            MessageBox.Show("请输入基准图号。", AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("请输入基准图号。", GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
         ' 验证basename是否包含占位符
         If Not Regex.IsMatch(basenamePattern, "#{2,}") Then
-            MessageBox.Show($"基准图号必须包含至少2个连续的#作为占位符。{vbCrLf }例如：ABC###；ABC.##.WG", AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show($"基准图号必须包含至少2个连续的#作为占位符。{vbCrLf }例如：ABC###；ABC.##.WG", GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
 
         If (IsNumeric(txt零件初始值.Text) = False) Or (IsNumeric(txt零件增量.Text) = False) Or
             (IsNumeric(txt部件初始值.Text) = False) Or (IsNumeric(txt部件增量.Text) = False) Then
-            MessageBox.Show("变量非数字。", AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("变量非数字。", GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -499,7 +499,7 @@ Public Class FormAutoPartNumber
     End Function
 
     Private Sub FrmAutoPartNumber_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
 
         Dim toolTip As New ToolTip With {
             .AutoPopDelay = 0,
@@ -676,7 +676,7 @@ Public Class FormAutoPartNumber
                 End If
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -898,7 +898,7 @@ Public Class FormAutoPartNumber
 
         If Strings.InStr(txt基准图号.Text, ConnectionCharacter) <> 0 Then
             If isHandlingTextChange = False Then ' 设置处理标志
-                MessageBox.Show("基准图号包含分隔符，请重新设置。", "AIPTool", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("基准图号包含分隔符，请重新设置。", "GLTool", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 cmb连接符.Text = "无"
                 isHandlingTextChange = True  ' 重置处理标志
             Else

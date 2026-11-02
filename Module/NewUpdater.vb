@@ -63,7 +63,7 @@ Module NewUpdater
         If IsFileExists(strTempFile) = True Then
             ProcessStart(strTempFile)
         Else
-            MessageBox.Show("未找到升级程序XHUpdater.exe，请到 www.pmhker.com 重新下载安装文件。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
+            MessageBox.Show("未找到升级程序XHUpdater.exe，请到 www.pmhker.com 重新下载安装文件。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
 
             'Process.Start(pmhker)
         End If
@@ -193,7 +193,7 @@ Module NewUpdater
 
     '    '比较版本
     '    If intNewVersion > intOldVersion Then
-    '        If  MessageBox.Show("发现新版 AIPTool，版本号" & strNewVersion & "，是否更新？", MsgBoxStyle.Information + MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+    '        If  MessageBox.Show("发现新版 GLTool，版本号" & strNewVersion & "，是否更新？", MsgBoxStyle.Information + MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
 
     '            strTempFile = Path.Combine(My.Application.Info.DirectoryPath, "Updata.zip")
 
@@ -484,7 +484,7 @@ End Module
 '            End If
 
 '        Catch ex As Exception
-'               MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+'               MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
 '        End Try
 '    End Sub
 

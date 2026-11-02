@@ -7265,7 +7265,6 @@ Public Class clsBomTool
 		If g_grid IsNot Nothing Then RemoveHandler g_grid.CellValueChanged, AddressOf OnCellValueChanged
 		Try
 			If g_isRefreshing OrElse g_isLoading Then Return  ' ★ 刷新/加载期间跳过，防止误触发
-			System.Diagnostics.Debug.WriteLine("[CVC] row=" & e.RowIndex & " col=" & e.ColumnIndex & " colName=" & If(e.ColumnIndex >= 0 AndAlso e.ColumnIndex < g_grid.Columns.Count, g_grid.Columns(e.ColumnIndex).Name, "??") & " val=" & If(e.RowIndex >= 0 AndAlso e.RowIndex < g_grid.Rows.Count AndAlso e.ColumnIndex >= 0 AndAlso e.ColumnIndex < g_grid.Columns.Count, SafeStr(g_grid.Rows(e.RowIndex).Cells(e.ColumnIndex).Value), "??") & " isRefreshing=" & g_isRefreshing)
 			If e.RowIndex < 0 OrElse e.RowIndex >= g_grid.Rows.Count Then Return
 			If e.ColumnIndex < 0 OrElse e.ColumnIndex >= g_grid.Columns.Count Then Return
 			Dim colName As String = g_grid.Columns(e.ColumnIndex).Name
@@ -12243,4 +12242,4 @@ Public Class clsBomTool
 	End Sub
 
 
-End Class
+End Class

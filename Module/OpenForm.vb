@@ -43,7 +43,7 @@ Module OpenForm
             Dim FormAbout As New formAbout
             FormManager.ShowForm(Of formAbout)(True)
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -58,14 +58,14 @@ Module OpenForm
             End If
 
             If ThisApplication.ActiveDocumentType <> kDrawingDocumentObject Then
-                MessageBox.Show("该功能仅适用于工程图。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                MessageBox.Show("该功能仅适用于工程图。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
                 Exit Sub
             End If
 
             Dim formSign As New FormCustomSignature
             FormManager.ShowForm(Of FormCustomSignature)()
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+            MessageBox.Show(ex.Message, GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
         End Try
 
     End Sub
@@ -82,7 +82,7 @@ Module OpenForm
             Dim FormSaveCloseAllDocument As New FormSaveCloseAllDocument
             FormManager.ShowForm(Of FormSaveCloseAllDocument)()
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -96,14 +96,14 @@ Module OpenForm
             End If
 
             If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-                MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
             Dim formAutoPartNumber As New FormAutoPartNumber
             FormManager.ShowForm(Of FormAutoPartNumber)()
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -123,12 +123,12 @@ Module OpenForm
             If ThisApplication.ActiveDocumentType = kDrawingDocumentObject Then
                 FormManager.ShowForm(Of FormSpecification)()
             Else
-                MessageBox.Show("该功能仅适用于工程图。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                MessageBox.Show("该功能仅适用于工程图。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
                 Exit Sub
             End If
 
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+            MessageBox.Show(ex.Message, GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
         End Try
 
     End Sub
@@ -144,7 +144,7 @@ Module OpenForm
             FormManager.ShowForm(Of FormBorderTitle)(False)
 
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -158,7 +158,7 @@ Module OpenForm
             Dim FormBatchPrint As New FormBatchPrint
             FormManager.ShowForm(Of FormBatchPrint)()
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -170,7 +170,7 @@ Module OpenForm
             Dim FormBatchCommand As New FormBatchCommand
             FormManager.ShowForm(Of FormBatchCommand)()
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -183,7 +183,7 @@ Module OpenForm
             Dim formSearchERPCode As New FormSearchERPCode
             FormManager.ShowForm(Of FormSearchERPCode)()
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -196,7 +196,7 @@ Module OpenForm
             Dim FormReverseCheckERPCodes As New FormReverseCheckERPCodes
             FormManager.ShowForm(Of FormReverseCheckERPCodes)()
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -211,14 +211,14 @@ Module OpenForm
             End If
 
             If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-                MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
             Dim formImportCodeToIam As New FormImportCodeToIam
             FormManager.ShowForm(Of FormImportCodeToIam)()
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -231,7 +231,7 @@ Module OpenForm
             Dim formImportCodeToBomExcel As New FormImportCodeToBomExcel
             FormManager.ShowForm(Of FormImportCodeToBomExcel)()
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -245,10 +245,10 @@ Module OpenForm
               ProcessStart(BasicExcelFullFileName)
             Else
                 'ProcessStart(My.Application.Info.DirectoryPath)
-                MessageBox.Show($"未找到文件： {BasicExcelFullFileName} ，请重新设置。", AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show($"未找到文件： {BasicExcelFullFileName} ，请重新设置。", GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -266,7 +266,7 @@ Module OpenForm
             End If
 
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -279,7 +279,7 @@ Module OpenForm
             Dim formFormatConversion As New FormFormatConversion
             FormManager.ShowForm(Of FormFormatConversion)()
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -295,7 +295,7 @@ Module OpenForm
             Dim formiProperty As New FormiProperty
             FormManager.ShowForm(Of FormiProperty)()
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -312,7 +312,7 @@ Module OpenForm
             Dim formUseriProperty As New FormUseriProperty
             FormManager.ShowForm(Of FormUseriProperty)(True)
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -328,7 +328,7 @@ Module OpenForm
             Dim formMassiPoperties As New formBatchiPoperties
             FormManager.ShowForm(Of formBatchiPoperties)()
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -343,14 +343,14 @@ Module OpenForm
             End If
 
             If ThisApplication.ActiveDocumentType = DocumentTypeEnum.kDrawingDocumentObject Then
-                MessageBox.Show(”该功能仅适用于零部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于零部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
             Dim formStatistical As New FormStatistical
             FormManager.ShowForm(Of FormStatistical)()
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -366,14 +366,14 @@ Module OpenForm
             End If
 
             If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-                MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
             Dim formSetReadOnly As New FormSetReadOnly
             FormManager.ShowForm(Of FormSetReadOnly)()
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -389,7 +389,7 @@ Module OpenForm
             End If
 
             'if (ThisApplication.ActiveEditDocument.DocumentType <> kPartDocumentObject Then
-            '      MessageBox.Show(”该功能仅适用于零件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            '      MessageBox.Show(”该功能仅适用于零件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             '    Exit Sub
             'End if
 
@@ -412,7 +412,7 @@ Module OpenForm
             End If
 
             If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-                MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
@@ -420,7 +420,7 @@ Module OpenForm
             FormManager.ShowForm(Of FormDim2Object)()
 
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -436,7 +436,7 @@ Module OpenForm
             End If
 
             If ThisApplication.ActiveDocumentType <> kPartDocumentObject Then
-                MessageBox.Show(”该功能仅适用于零件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于零件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
@@ -444,7 +444,7 @@ Module OpenForm
             FormManager.ShowForm(Of FormPantone)()
 
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -458,7 +458,7 @@ Module OpenForm
             End If
 
             If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-                MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
@@ -466,7 +466,7 @@ Module OpenForm
             FormManager.ShowForm(Of FormPlayer)()
 
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -488,7 +488,7 @@ Module OpenForm
             FormManager.ShowForm(Of FormSwitchLables)()
 
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -505,7 +505,7 @@ Module OpenForm
             End If
 
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -520,14 +520,14 @@ Module OpenForm
             End If
 
             If ThisApplication.ActiveDocumentType <> kDrawingDocumentObject Then
-                MessageBox.Show("该功能仅适用于工程图。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                MessageBox.Show("该功能仅适用于工程图。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
                 Exit Sub
             End If
 
             Dim formFlatPattern As New FormFlatPattern
             FormManager.ShowForm(Of FormFlatPattern)()
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -542,14 +542,14 @@ Module OpenForm
             End If
 
             If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-                MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
             Dim formMovesSpecifiedFile As New FormMovesSpecifiedFile
             FormManager.ShowForm(Of FormMovesSpecifiedFile)()
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -565,14 +565,14 @@ Module OpenForm
             End If
 
             If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-                MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
             Dim FormiPropertyToFileName As New FormiPropertyToFileName
             FormManager.ShowForm(Of FormiPropertyToFileName)()
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -587,14 +587,14 @@ Module OpenForm
             End If
 
             If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-                MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
             Dim formBatchChangeFileNames As New FormBatchChangeFileNames
             FormManager.ShowForm(Of FormBatchChangeFileNames)(True)
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -610,14 +610,14 @@ Module OpenForm
             End If
 
             If ThisApplication.ActiveDocumentType <> DocumentTypeEnum.kPartDocumentObject Then
-                MessageBox.Show(”该功能仅适用于零件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于零件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
             Dim FormOilBlockHoleColoring As New FormOilBlockHoleColoring
             FormManager.ShowForm(Of FormOilBlockHoleColoring)()
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -633,14 +633,14 @@ Module OpenForm
             End If
 
             If ThisApplication.ActiveDocumentType <> DocumentTypeEnum.kPartDocumentObject Then
-                MessageBox.Show(”该功能仅适用于零件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于零件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
             Dim FormFaceColoring As New FormFaceColoring
             FormManager.ShowForm(Of FormFaceColoring)()
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -658,14 +658,14 @@ Module OpenForm
             End If
 
             If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-                MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
             Dim FormCleanUpRedundantFiles As New FormCleanUpRedundantFiles
             FormManager.ShowForm(Of FormCleanUpRedundantFiles)(True)
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -683,7 +683,7 @@ Module OpenForm
             End If
 
             If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-                MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
@@ -695,7 +695,7 @@ Module OpenForm
 
 
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -709,7 +709,7 @@ Module OpenForm
             End If
 
             If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-                MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
@@ -721,7 +721,7 @@ Module OpenForm
 
 
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub

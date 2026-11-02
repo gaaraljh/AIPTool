@@ -17,7 +17,7 @@ Public Class FormMovesSpecifiedFile
     End Sub
 
     Private Sub FrmMovesSpecifiedFile_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
 
         'Dim toolTip As New ToolTip()
         'toolTip.AutoPopDelay = 0
@@ -40,7 +40,7 @@ Public Class FormMovesSpecifiedFile
         oInventorDocument = ThisApplication.ActiveDocument
 
         If oInventorDocument.DocumentType <> kAssemblyDocumentObject Then
-            MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -68,7 +68,7 @@ Public Class FormMovesSpecifiedFile
         '    Exit Sub
         'Else
         '     MessageBox.Show("请输入部分图号！", MsgBoxStyle.Information)
-        '    SetStatusBarText(AIPTool)
+        '    SetStatusBarText(GLTool)
         'End If
 
         筛选ToolStripTextBox.Text = strSearch
@@ -188,7 +188,7 @@ Public Class FormMovesSpecifiedFile
 
         Dim strInventorAssemblyDocumentFullFileName As String = oInventorDocument.FullFileName
 
-        If MessageBox.Show($"确定移动文件？{vbCrLf} 将关闭部件：{strInventorAssemblyDocumentFullFileName}", AIPTool,
+        If MessageBox.Show($"确定移动文件？{vbCrLf} 将关闭部件：{strInventorAssemblyDocumentFullFileName}", GLTool,
                            MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then
             Exit Sub
         End If
@@ -214,7 +214,7 @@ Public Class FormMovesSpecifiedFile
             End If
         Next
 
-        If MessageBox.Show($"移动文件完成，是否重新打开{strInventorAssemblyDocumentFullFileName} ？“, AIPTool, MessageBoxButtons.YesNo，
+        If MessageBox.Show($"移动文件完成，是否重新打开{strInventorAssemblyDocumentFullFileName} ？“, GLTool, MessageBoxButtons.YesNo，
                            MessageBoxIcon.Question） = DialogResult.Yes Then
             ThisApplication.Documents.Open(strInventorAssemblyDocumentFullFileName)
         End If
@@ -228,7 +228,7 @@ Public Class FormMovesSpecifiedFile
         oInventorDocument = ThisApplication.ActiveDocument
 
         If oInventorDocument.DocumentType <> kAssemblyDocumentObject Then
-            MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 

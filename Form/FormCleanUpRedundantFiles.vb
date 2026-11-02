@@ -55,7 +55,7 @@ Public Class FormCleanUpRedundantFiles
     End Sub
 
     Private Sub FormCleanUpRedundantFiles_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
 
         Dim toolTip As New ToolTip With {
             .AutoPopDelay = 0,
@@ -94,7 +94,7 @@ Public Class FormCleanUpRedundantFiles
         Try
             ' 验证目录存在
             If Not Directory.Exists(strInventorAssemblyDocumentNamePath) Then
-                MessageBox.Show($"目录不存在: {strInventorAssemblyDocumentNamePath}", AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show($"目录不存在: {strInventorAssemblyDocumentNamePath}", GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Return
             End If
 
@@ -271,7 +271,7 @@ Public Class FormCleanUpRedundantFiles
 
             End If
         Next
-        MessageBox.Show("清理冗余文件完成。", AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        MessageBox.Show("清理冗余文件完成。", GLTool, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
     End Sub
     Private Sub 关闭ToolStripButton_Click(sender As Object, e As EventArgs) Handles 关闭ToolStripButton.Click

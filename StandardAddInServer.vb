@@ -147,14 +147,6 @@ Namespace InventorAddIn
 
         Public Sub Activate(ByVal addInSiteObject As Inventor.ApplicationAddInSite, ByVal firstTime As Boolean) Implements Inventor.ApplicationAddInServer.Activate
 
-            ' ═══ 诊断日志（.NET 8 迁移排障用，定位后可删除）═══
-            DbgLog("Activate begin, firstTime=" & firstTime)
-            Try
-                AddHandler AppDomain.CurrentDomain.UnhandledException, AddressOf DbgUnhandledException
-                AddHandler AppDomain.CurrentDomain.ProcessExit, AddressOf DbgProcessExit
-                AddHandler AppDomain.CurrentDomain.DomainUnload, AddressOf DbgDomainUnload
-                If m_dbgListener Is Nothing Then m_dbgListener = New DbgEventListener()
-            Catch : End Try
             Try
 
                 ' This method is called by Inventor when it loads the AddIn.
@@ -164,7 +156,6 @@ Namespace InventorAddIn
 
                 ' Initialize AddIn members.
                 ThisApplication = addInSiteObject.Application
-                DbgLog("ThisApplication ok, version=" & ThisApplication.SoftwareVersion.DisplayVersion)
 
                 '打开文件时事件
                 ThisApplicationEvents = ThisApplication.ApplicationEvents
@@ -228,14 +219,12 @@ Namespace InventorAddIn
                 End If
 
                 WrIni.ConfigFileIniReadSetting()
-                DbgLog("ini ok")
 
                 '时间计数器
                 m_timer = New System.Timers.Timer
                 m_timer.Interval = Integer.Parse(str保存间隔时间 * 60 * 1000)
                 m_timer.AutoReset = True
                 m_timer.Start()
-                DbgLog("timer ok")
 
 
                 ' 检查更新挪到下方后台任务执行，避免拖慢 Activate
@@ -310,77 +299,24 @@ Namespace InventorAddIn
                                                                     wc2.DownloadFile(bgHelpUrl, bgHelpPath)
                                                                 End Using
                                                             End If
-                                                            DbgLog("后台更新/下载完成")
                                                         Catch exTask As Exception
-                                                            DbgLog("后台更新任务异常: " & exTask.Message)
                                                         End Try
                                                     End Sub)
                 Catch exStart As Exception
-                    DbgLog("启动后台更新任务失败: " & exStart.Message)
                 End Try
 
                 '创建按钮
-                DbgLog("CreatUI begin")
                 CreatUI(firstTime)
-                DbgLog("CreatUI end")
 
-                DbgLog("Activate end")
 
             Catch ex As Exception
-                DbgLog("ACTIVATE EXCEPTION: " & ex.GetType().FullName & ": " & ex.Message & vbCrLf & ex.StackTrace)
                 Throw
             End Try
 
         End Sub
 
-        ' ═══ 诊断日志（.NET 8 迁移排障用，定位后可删除）═══
-        Private Shared m_dbgListener As DbgEventListener = Nothing
-
-        ''' <summary>捕获进程内所有托管异常（first-chance），用于定位闪退</summary>
-        Private Class DbgEventListener
-            Inherits System.Diagnostics.Tracing.EventListener
-
-            Protected Overrides Sub OnEventSourceCreated(ByVal eventSource As System.Diagnostics.Tracing.EventSource)
-                Try
-                    If String.Equals(eventSource.Name, "Microsoft-Windows-DotNETRuntime", StringComparison.OrdinalIgnoreCase) Then
-                        EnableEvents(eventSource, System.Diagnostics.Tracing.EventLevel.Verbose, -1)
-                    End If
-                Catch : End Try
-            End Sub
-
-            Protected Overrides Sub OnEventWritten(ByVal e As System.Diagnostics.Tracing.EventWrittenEventArgs)
-                Try
-                    Dim nm As String = e.EventName
-                    If String.IsNullOrEmpty(nm) Then Return
-                    If nm.IndexOf("Exception", StringComparison.OrdinalIgnoreCase) < 0 Then Return
-                    Dim payload As String = ""
-                    If e.Payload IsNot Nothing Then
-                        For Each p As Object In e.Payload
-                            payload &= " | " & System.Convert.ToString(p)
-                        Next
-                    End If
-                    DbgLog("EVT " & nm & payload)
-                Catch : End Try
-            End Sub
-        End Class
-
-
-        Private Shared Sub DbgUnhandledException(ByVal sender As Object, ByVal e As System.UnhandledExceptionEventArgs)
-            Try
-                DbgLog("UNHANDLED EXCEPTION: " & e.ExceptionObject.ToString())
-            Catch : End Try
-        End Sub
-
-        Private Shared Sub DbgProcessExit(ByVal sender As Object, ByVal e As EventArgs)
-            DbgLog("ProcessExit (进程正常退出路径)")
-        End Sub
-
-        Private Shared Sub DbgDomainUnload(ByVal sender As Object, ByVal e As EventArgs)
-            DbgLog("DomainUnload")
-        End Sub
 
         Public Sub New()
-            DbgLog("ctor: StandardAddInServer instance created")
         End Sub
 
         'Private Sub m_timer_Elapsed(sender As Object, e As ElapsedEventArgs) Handles m_timer.Elapsed
@@ -408,533 +344,533 @@ Namespace InventorAddIn
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.修改文件iProperty16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.修改文件iProperty32.ToBitmap)
 
-            Menu_修改文件iProperty_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("修改文件iProperty", "AIPToolInName修改文件iProperty",
+            Menu_修改文件iProperty_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("修改文件iProperty", "GLToolInName修改文件iProperty",
                                   CommandTypesEnum.kShapeEditCmdType, ClientID, , "以第一个汉字或空格为标识，提取文件名中的图号和名称，根据【iProperty映射】的设置，写入【iProperty】【项目】中的字段。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '2
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.修改部件iProperty16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.修改部件iProperty32.ToBitmap)
-            Menu_修改部件iProperty_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("修改部件iProperty", "AIPToolInName修改部件iProperty",
+            Menu_修改部件iProperty_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("修改部件iProperty", "GLToolInName修改部件iProperty",
                                   CommandTypesEnum.kShapeEditCmdType, ClientID, "", "根据【BOM表】【结构化】的数据，设置下一级或所有级文件的iProperty。注意：将忽略零件库和参考文件。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '3
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.更改文件名16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.更改文件名32.ToBitmap)
-            Menu_重命名_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("重命名", "AIPToolInName更改文件名",
+            Menu_重命名_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("重命名", "GLToolInName更改文件名",
                                   CommandTypesEnum.kShapeEditCmdType, ClientID, "", "在部件文件中选择一个文件，修改其文件名，将替换选中的文件或全部文件。若在与文件同一文件夹中存在其同名工程图，将生成新的工程图。注意：将忽略零件库。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '4
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.提取iPro修改文件名16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.提取iPro修改文件名32.ToBitmap)
-            Menu_提取iPro重命名_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("提取iPro重命名", "AIPToolInName提取iPro修改文件名",
+            Menu_提取iPro重命名_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("提取iPro重命名", "GLToolInName提取iPro修改文件名",
                    CommandTypesEnum.kShapeEditCmdType, ClientID, "", "在部件文件中选择一个文件，根据【iProperty映射】设置，提取【iProperty】【项目】中的字段，修改选取文件的文件名。与【修改部件iProperty】反向。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '5
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.生成图号16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.生成图号32.ToBitmap)
-            Menu_自动生成图号_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("自动生成图号", "AIPToolInName自动生成图号",
+            Menu_自动生成图号_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("自动生成图号", "GLToolInName自动生成图号",
                   CommandTypesEnum.kShapeEditCmdType, ClientID, "", "根据第一级部件的图号，设置子级部件或零件的图号变化规则，重命名其文件名。对于新设计先命名后图号特别有用。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '6
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.更改镜像文件名16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.更改镜像文件名32.ToBitmap)
-            Menu_重命名镜像文件_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("重命名镜像文件", "AIPToolInName更改镜像文件名",
+            Menu_重命名镜像文件_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("重命名镜像文件", "GLToolInName更改镜像文件名",
                   CommandTypesEnum.kShapeEditCmdType, ClientID, "", "在部件中选择一个是镜像生成的文件，修改其文件名，将原基础文件改为临时文件，重新手动指定其基础文件，后还原基础文件。对于基础文件和镜像文件都需修改的文件很有用。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '7
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.关闭文件16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.关闭文件32.ToBitmap)
-            Menu_关闭文档_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("关闭", "AIPToolInName关闭当前文档",
+            Menu_关闭文档_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("关闭", "GLToolInName关闭当前文档",
                                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "关闭当前文档。 ", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.打开文件夹16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.打开文件夹32.ToBitmap)
             ' Create the button definition.
-            Menu_打开文件夹_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("打开文件夹", "AIPToolInName打开文件夹",
+            Menu_打开文件夹_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("打开文件夹", "GLToolInName打开文件夹",
                            CommandTypesEnum.kShapeEditCmdType, ClientID, "", "打开当前文件所在的文件夹。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '8
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.保存关闭16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.保存关闭32.ToBitmap)
-            Menu_保存关闭_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("保存关闭", "AIPToolInName保存关闭",
+            Menu_保存关闭_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("保存关闭", "GLToolInName保存关闭",
                    CommandTypesEnum.kShapeEditCmdType, ClientID, "", "保存并关闭当前打开的文件。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '9
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.文件Pdf16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.文件Pdf32.ToBitmap)
-            Menu_导出为Pdf_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("导出为Pdf", "AIPToolInName导出为Pdf",
+            Menu_导出为Pdf_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("导出为Pdf", "GLToolInName导出为Pdf",
               CommandTypesEnum.kShapeEditCmdType, ClientID, "", "将当前文件导出为Pdf格式。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '10
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.文件Dwg16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.文件Dwg32.ToBitmap)
-            Menu_导出为Dwg_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("导出为Dwg", "AIPToolInName导出为Dwg",
+            Menu_导出为Dwg_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("导出为Dwg", "GLToolInName导出为Dwg",
                CommandTypesEnum.kShapeEditCmdType, ClientID, "", "将当前文件导出为Dwg格式。可能 因为设置的不同而是 Zip 格式的，也将其打开。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '11
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.设置BOM结构16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.设置BOM结构32.ToBitmap)
-            Menu_设置BOM结构_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("设置虚拟件", "AIPToolInName设置BOM结构",
+            Menu_设置BOM结构_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("设置虚拟件", "GLToolInName设置BOM结构",
                   CommandTypesEnum.kShapeEditCmdType, ClientID, "", "在部件中使用，输入序号，将部件的所有子级设置为对应的BOM结构。对与液压管等特别有用。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '12
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.格式转换16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.格式转换32.ToBitmap)
-            Menu_自定义iProperty_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("自定义iProperty", "AIPToolInName打开自定义iProperty",
+            Menu_自定义iProperty_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("自定义iProperty", "GLToolInName打开自定义iProperty",
                    CommandTypesEnum.kShapeEditCmdType, ClientID, "", "打开自定义iProperty窗口", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '13
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.对称件iProperty16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.对称件iProperty32.ToBitmap)
-            Menu_设置对称件iProperty_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("对称件iProperty", "AIPToolInName对称件iProperty",
+            Menu_设置对称件iProperty_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("对称件iProperty", "GLToolInName对称件iProperty",
                                   CommandTypesEnum.kShapeEditCmdType, ClientID, "", "选择一个文件，根据【对称件iProperty映射】的设置，将其iProperty写入【iProperty】【自定义】字段。对于对称件的工程图很有用。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '14
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.检查序号完整性16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.检查序号完整性32.ToBitmap)
-            Menu_检查序号完整性_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("检查序号完整性", "AIPToolInName检查序号完整性",
+            Menu_检查序号完整性_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("检查序号完整性", "GLToolInName检查序号完整性",
                            CommandTypesEnum.kShapeEditCmdType, ClientID, "", "检查工程图的序号是否标注完整。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '15
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.新建序号16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.新建序号32.ToBitmap)
-            Menu_新建序号_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("新建序号", "AIPToolInName新建序号",
+            Menu_新建序号_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("新建序号", "GLToolInName新建序号",
                   CommandTypesEnum.kShapeEditCmdType, ClientID, "", "重新对工程图的序号进行变化，使寻找序号更简便。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '16
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.设置日期16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.设置日期32.ToBitmap)
-            Menu_设置日期_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("设置日期", "AIPToolInName设置日期",
+            Menu_设置日期_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("设置日期", "GLToolInName设置日期",
                                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "根据【签字】【打印日期】的设置，将当前日期写入【iProperty】【自定义】字段。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '17
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.替换衍生32.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.替换衍生16.ToBitmap)
-            Menu_替换衍生_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("替换基础文件", "AIPToolInName替换基础文件",
+            Menu_替换衍生_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("替换基础文件", "GLToolInName替换基础文件",
               CommandTypesEnum.kShapeEditCmdType, ClientID, "", "替换衍生零件的基础文件，请选择一个新的基础文件。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '18
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.抑制约束16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.抑制约束16.ToBitmap)
-            Menu_抑制全部错误的约束_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("抑制错误约束", "AIPToolInName自定义日期",
+            Menu_抑制全部错误的约束_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("抑制错误约束", "GLToolInName自定义日期",
            CommandTypesEnum.kShapeEditCmdType, ClientID, "", " 抑制全部错误的约束", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '19
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.设置签字16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.设置签字32.ToBitmap)
-            Menu_设置签字_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("设置签字", "AIPToolInName设置签字",
+            Menu_设置签字_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("设置签字", "GLToolInName设置签字",
                      CommandTypesEnum.kShapeEditCmdType, ClientID, "", "根据【签字】【工程师】的设置，将当前日期写入【iProperty】【自定义】字段。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '20
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.清除签字16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.清除签字32.ToBitmap)
-            Menu_清除签字_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("清除签字", "AIPToolInName清除签字",
+            Menu_清除签字_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("清除签字", "GLToolInName清除签字",
                CommandTypesEnum.kShapeEditCmdType, ClientID, "", "", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '21
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.自定义签字16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.自定义签字32.ToBitmap)
-            Menu_自定义签字_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("自定义签字", "AIPToolInName自定义签字",
+            Menu_自定义签字_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("自定义签字", "GLToolInName自定义签字",
                   CommandTypesEnum.kShapeEditCmdType, ClientID, "", "", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '22
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.设置16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.设置32.ToBitmap)
-            Menu_选项_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("选项", "AIPToolInName选项",
+            Menu_选项_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("选项", "GLToolInName选项",
                      CommandTypesEnum.kShapeEditCmdType, ClientID, "打开【选项】窗口，对插件进行配置。", "", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '23
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.量产iProperty16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.量产iProperty32.ToBitmap)
-            Menu_量产iProperty_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("量产iProperty", "AIPToolInName量产iProperty",
+            Menu_量产iProperty_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("量产iProperty", "GLToolInName量产iProperty",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "打开【量产iProperty】窗口，对多个文件设置【iProperty】。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '24
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.格式转换16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.格式转换32.ToBitmap)
-            Menu_格式转换_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("格式转换", "AIPToolInName格式转换",
+            Menu_格式转换_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("格式转换", "GLToolInName格式转换",
                  CommandTypesEnum.kShapeEditCmdType, ClientID, "", "打开【格式转换】窗口，批量转换Inventor文件。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '25
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.关于16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.关于32.ToBitmap)
-            Menu_关于_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("关于", "AIPToolInName关于",
+            Menu_关于_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("关于", "GLToolInName关于",
                  CommandTypesEnum.kShapeEditCmdType, ClientID, "", "", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '26
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.全部保存16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.全部保存32.ToBitmap)
-            Menu_全部保存_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("全部保存", "AIPToolInName全部保存",
+            Menu_全部保存_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("全部保存", "GLToolInName全部保存",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "保存并关闭打开的所有部件。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '27
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.查询16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.查询32.ToBitmap)
-            Menu_输入查询ERP编码_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("查询ERP编码", "AIPToolInName输入查询ERP编码",
+            Menu_输入查询ERP编码_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("查询ERP编码", "GLToolInName输入查询ERP编码",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "输入图号或名称查询ERP编码。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '28
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.标题栏16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.标题栏32.ToBitmap)
-            Menu_替换图框标题栏_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("替换图框标题栏", "AIPToolInName替换图框标题栏",
+            Menu_替换图框标题栏_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("替换图框标题栏", "GLToolInName替换图框标题栏",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "以Inventor安装文件夹下的 模板.idw 文件为基础，替换图框标题栏。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '29
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.自动重建序号16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.自动重建序号32.ToBitmap)
-            Menu_自动重建序号_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("自动重建序号", "AIPToolInName自动重建序号",
+            Menu_自动重建序号_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("自动重建序号", "GLToolInName自动重建序号",
                CommandTypesEnum.kShapeEditCmdType, ClientID, "", "按极角排序（环形）自动重建序号。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '30
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.创建展开16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.创建展开16.ToBitmap)
-            Menu_创建展开图_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("创建展开图", "AIPToolInName创建展开图",
+            Menu_创建展开图_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("创建展开图", "GLToolInName创建展开图",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "在部件中批量或在零件中创建钣金零件展开图，保存到子目录《钣金展开》。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '31
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.刷新浏览器16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.刷新浏览器32.ToBitmap)
-            Menu_刷新引用_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("刷新引用", "AIPToolInName刷新引用",
+            Menu_刷新引用_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("刷新引用", "GLToolInName刷新引用",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "刷新浏览器中的引用名称。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '32
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.清理旧版文件16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.清理旧版文件32.ToBitmap)
-            Menu_清理旧版文件_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("清理旧版文件", "AIPToolInName清理旧版文件",
+            Menu_清理旧版文件_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("清理旧版文件", "GLToolInName清理旧版文件",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "扫描指定路径下的旧版文件，删除之。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '33
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.添加直径16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.添加直径32.ToBitmap)
-            Menu_添加直径_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("添加直径", "AIPToolInName添加直径",
+            Menu_添加直径_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("添加直径", "GLToolInName添加直径",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "在尺寸前添加 Φ。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '35
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.检查是否有工程图16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.检查是否有工程图32.ToBitmap)
-            Menu_检查是否有工程图_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("检查是否有工程图", "AIPToolInName检查是否有工程图",
+            Menu_检查是否有工程图_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("检查是否有工程图", "GLToolInName检查是否有工程图",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "检查部件中指定图号的文件是否有对应的工程图。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '36
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.工程图16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.工程图32.ToBitmap)
-            Menu_打开全部工程图_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("打开全部工程图", "AIPToolInName打开全部工程图",
+            Menu_打开全部工程图_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("打开全部工程图", "GLToolInName打开全部工程图",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "打开部件中所有子级对应的工程图。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '37
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.部件替换文件名16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.部件替换文件名32.ToBitmap)
-            Menu_批量重命名_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("批量重命名", "AIPToolInName批量重命名",
+            Menu_批量重命名_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("批量重命名", "GLToolInName批量重命名",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "批量重命名，可替换，添加前缀，后缀。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '38
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.导出平面BOM16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.导出平面BOM32.ToBitmap)
-            Menu_导出平面BOMenu_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("导出平面BOM", "AIPToolInName导出平面BOM",
+            Menu_导出平面BOMenu_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("导出平面BOM", "GLToolInName导出平面BOM",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "根据BOM导出项目，导出平面性的BOM为Excel文件。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '39
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.还原旧版文件16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.还原旧版文件32.ToBitmap)
-            Menu_还原旧版文件_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("还原旧版文件", "AIPToolInName还原旧版文件",
+            Menu_还原旧版文件_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("还原旧版文件", "GLToolInName还原旧版文件",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "还原更改文件名后的 .old 文件为原始文件名。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '40
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.保存副本16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.保存副本32.ToBitmap)
-            Menu_另存为副本_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("另存为副本", "AIPToolInName另存为副本",
+            Menu_另存为副本_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("另存为副本", "GLToolInName另存为副本",
                                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "将激活的文件另存为副本，并链接工程图", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.帮助16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.帮助32.ToBitmap)
-            Menu_帮助_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("帮助", "AIPToolInName帮助",
+            Menu_帮助_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("帮助", "GLToolInName帮助",
                                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "打开帮助文件。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '36
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.工程图16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.工程图32.ToBitmap)
-            Menu_打开指定工程图_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("打开指定工程图", "AIPToolInName打开指定工程图",
+            Menu_打开指定工程图_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("打开指定工程图", "GLToolInName打开指定工程图",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "打开部件中所有包含指定图号子级的对应的工程图。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '41
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.移动指定文件16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.移动指定文件32.ToBitmap)
-            Menu_移动指定文件_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("移动指定文件", "AIPToolInName移动指定文件",
+            Menu_移动指定文件_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("移动指定文件", "GLToolInName移动指定文件",
                CommandTypesEnum.kShapeEditCmdType, ClientID, "", "移到组件中指定前缀的零件和组件到当前组件所在文件夹。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '42
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.对齐原始坐标面16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.对齐原始坐标面32.ToBitmap)
-            Menu_对齐原始坐标面_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("对齐坐标系", "AIPToolInName对齐原始坐标面",
+            Menu_对齐原始坐标面_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("对齐坐标系", "GLToolInName对齐原始坐标面",
                CommandTypesEnum.kShapeEditCmdType, ClientID, "", "选择部件中的两个部件或零件，使其原始坐标面对齐。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '43
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.查找缺失文件的部件16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.查找缺失文件的部件32.ToBitmap)
-            Menu_查找缺失文件的部件_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("查找缺失文件的部件", "AIPToolInName查找缺失文件的部件",
+            Menu_查找缺失文件的部件_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("查找缺失文件的部件", "GLToolInName查找缺失文件的部件",
                CommandTypesEnum.kShapeEditCmdType, ClientID, "", "查找当前部件中缺失的文件，并打开缺失文件的父级部件。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '44
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.统计16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.统计32.ToBitmap)
-            Menu_统计_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("统计", "AIPToolInName统计",
+            Menu_统计_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("统计", "GLToolInName统计",
                CommandTypesEnum.kShapeEditCmdType, ClientID, "", "选择部件中的部件或零件，统计总质量，面积，焊缝。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '45
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.IPro16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.IPro32.ToBitmap)
-            Menu_项目iProperty_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("iProperty+", "AIPToolInName自定义IPro",
+            Menu_项目iProperty_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("iProperty+", "GLToolInName自定义IPro",
                CommandTypesEnum.kShapeEditCmdType, ClientID, "", "自定义设置iProperty。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '44:
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.创建工程图16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.创建工程图32.ToBitmap)
-            Menu_创建工程图_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("创建工程图", "AIPToolInName创建工程图",
+            Menu_创建工程图_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("创建工程图", "GLToolInName创建工程图",
                CommandTypesEnum.kShapeEditCmdType, ClientID, "", "创建一个工程图，需要设置一个模板文件。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '47
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.尺寸圆整16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.尺寸圆整32.ToBitmap)
-            Menu_尺寸圆整_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("尺寸圆整", "AIPToolInName尺寸圆整",
+            Menu_尺寸圆整_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("尺寸圆整", "GLToolInName尺寸圆整",
                CommandTypesEnum.kShapeEditCmdType, ClientID, "", "四舍五入尺寸小数位到个位。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '48
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.导入材料编码16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.导入材料编码32.ToBitmap)
-            Menu_导入ERP编码到模型_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("导入ERP编码到模型", "AIPToolInName导入存货编码",
+            Menu_导入ERP编码到模型_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("导入ERP编码到模型", "GLToolInName导入存货编码",
                CommandTypesEnum.kShapeEditCmdType, ClientID, "", "导入ERP编码。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '49
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.设置材料编码16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.设置材料编码32.ToBitmap)
-            Menu_ERP反查_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("ERP编码反查", "AIPToolInNameERP反查",
+            Menu_ERP反查_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("ERP编码反查", "GLToolInNameERP反查",
                CommandTypesEnum.kShapeEditCmdType, ClientID, "", "输入ERP编码，查询数据。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '50
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.工程图16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.工程图32.ToBitmap)
-            Menu_工程图_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("工程图", "AIPToolInName打开工程图",
+            Menu_工程图_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("工程图", "GLToolInName打开工程图",
               CommandTypesEnum.kShapeEditCmdType, ClientID, "", "打开当前文件或部件中选择的文件对应的工程图。 ", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '51
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.批量打印16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.批量打印32.ToBitmap)
-            Menu_批量打印_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("批量打印", "AIPToolInName批量打印",
+            Menu_批量打印_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("批量打印", "GLToolInName批量打印",
               CommandTypesEnum.kShapeEditCmdType, ClientID, "", "批量打印工程图。 ", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '52
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.重写BOM16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.重写BOM32.ToBitmap)
-            Menu_重写BOM序号_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("重写BOM序号", "AIPToolInName重写BOM序号",
+            Menu_重写BOM序号_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("重写BOM序号", "GLToolInName重写BOM序号",
               CommandTypesEnum.kShapeEditCmdType, ClientID, "", "重写BOM序号并按序号升序排序。 ", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '53:
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.查询16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.查询32.ToBitmap)
-            Menu_查询ERP编码_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("查询ERP编码", "AIPToolInName查询ERP编码",
+            Menu_查询ERP编码_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("查询ERP编码", "GLToolInName查询ERP编码",
               CommandTypesEnum.kShapeEditCmdType, ClientID, "", "在Excel数据表中查询ERP编码。 ", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '54
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.打开ERP数据文件16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.打开ERP数据文件32.ToBitmap)
-            Menu_打开ERP数据文件_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("打开ERP数据文件", "AIPToolInName打开ERP数据文件",
+            Menu_打开ERP数据文件_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("打开ERP数据文件", "GLToolInName打开ERP数据文件",
               CommandTypesEnum.kShapeEditCmdType, ClientID, "", "打开ERP数据文件。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '55
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.打开文件16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.打开文件32.ToBitmap)
-            Menu_快速打开_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("快速打开", "AIPToolInName快速打开",
+            Menu_快速打开_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("快速打开", "GLToolInName快速打开",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "在当前项目中快速打开指定文件。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '56
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.导入ERP到BOM16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.导入ERP到BOM32.ToBitmap)
-            Menu_导入ERP到BOMenu_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("导入ERP编码到Excel", "AIPToolInName导入ERP到Excel",
+            Menu_导入ERP到BOMenu_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("导入ERP编码到Excel", "GLToolInName导入ERP到Excel",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "导入ERP编码到Excel文件。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '57
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.快速打印16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.快速打印32.ToBitmap)
-            Menu_快速打印_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("快速打印", "AIPToolInName快速打印",
+            Menu_快速打印_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("快速打印", "GLToolInName快速打印",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "按默认设值立即打印本工程图。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.设值随机颜色16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.设值随机颜色32.ToBitmap)
-            Menu_设值随机颜色_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("设值随机颜色", "AIPToolInName设值随机颜色",
+            Menu_设值随机颜色_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("设值随机颜色", "GLToolInName设值随机颜色",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "设值部件中零件为随机颜色。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.清净世界16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.清净世界32.ToBitmap)
-            Menu_错误清理_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("错误清理", "AIPToolInName错误清理",
+            Menu_错误清理_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("错误清理", "GLToolInName错误清理",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "删除部件和工程图设计医生提示的错误。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.技术要求16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.技术要求32.ToBitmap)
-            Menu_技术要求_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("技术要求", "AIPToolInName技术要求",
+            Menu_技术要求_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("技术要求", "GLToolInName技术要求",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "打开技术要求。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.居中对齐16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.居中对齐32.ToBitmap)
-            Menu_居中对齐_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("距离对齐", "AIPToolInName距离对齐",
+            Menu_居中对齐_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("居中对齐", "GLToolInName居中对齐",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "已两个零件的两组平行边的距离为偏移量，添加平齐约束。",
                 smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.尺寸居中16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.尺寸居中32.ToBitmap)
-            Menu_尺寸居中_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("尺寸居中", "AIPToolInName尺寸居中",
+            Menu_尺寸居中_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("尺寸居中", "GLToolInName尺寸居中",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "将选择的尺寸文本居中。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.全部尺寸居中16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.全部尺寸居中32.ToBitmap)
-            Menu_全部尺寸居中_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("全部居中", "AIPToolInName全部尺寸居中",
+            Menu_全部尺寸居中_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("全部居中", "GLToolInName全部尺寸居中",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "将全部尺寸文本居中。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.克隆插入组件16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.克隆插入组件32.ToBitmap)
-            Menu_复制插入_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("复制插入", "AIPToolInName复制插入",
+            Menu_复制插入_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("复制插入", "GLToolInName复制插入",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "复制选择的组件，并插入选择的孔。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.可写16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.可写32.ToBitmap)
-            Menu_设置只读_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("设置只读", "AIPToolInName设置只读",
+            Menu_设置只读_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("设置只读", "GLToolInName设置只读",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "打开设置只读窗口。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.可写16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.可写32.ToBitmap)
-            Menu_文件只读_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("文件只读", "AIPToolInName文件只读",
+            Menu_文件只读_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("文件只读", "GLToolInName文件只读",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "单击设置当前编辑文件属性，被按下时为文件只读。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.标准件可见性16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.标准件可见性32.ToBitmap)
-            Menu_标准件可见性_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("标准件可见性", "AIPToolInName标准件可见性",
+            Menu_标准件可见性_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("标准件可见性", "GLToolInName标准件可见性",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "一键显示隐藏所有标准件。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.替换为库文件16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.替换为库文件32.ToBitmap)
-            Menu_替换为库文件_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("替换为库文件", "AIPToolInName替换为库文件",
+            Menu_替换为库文件_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("替换为库文件", "GLToolInName替换为库文件",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "将组件中的自定义标准件替换为库文件。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.编辑尺寸16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.编辑尺寸32.ToBitmap)
-            Menu_动态尺寸_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("动态尺寸", "AIPToolInName动态尺寸",
+            Menu_动态尺寸_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("动态尺寸", "GLToolInName动态尺寸",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "动态编辑草图尺寸，实时更新到模型。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.查找替换16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.查找替换32.ToBitmap)
-            Menu_查找替换_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("查找替换", "AIPToolInName查找替换",
+            Menu_查找替换_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("查找替换", "GLToolInName查找替换",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "在部件中选择一个零部件，查询当前项目和资源中心文件夹，替换相同文件名的文件。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.驱动测量16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.驱动测量32.ToBitmap)
-            Menu_驱动测量_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("驱动测量", "AIPToolInName驱动测量",
+            Menu_驱动测量_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("驱动测量", "GLToolInName驱动测量",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "先选择2个对象，再选择1个尺寸驱动，动态测量2个对象之间的最小距离。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.创建截图16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.创建截图32.ToBitmap)
-            Menu_创建截屏_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("创建截屏", "AIPToolInName创建截屏",
+            Menu_创建截屏_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("创建截屏", "GLToolInName创建截屏",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "创建截屏图，保存到 ..桌面\截图 文件夹。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.按列表打开16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.按列表打开32.ToBitmap)
-            Menu_按列表打开文件_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("按列表打开文件", "AIPToolInName按列表打开文件",
+            Menu_按列表打开文件_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("按列表打开文件", "GLToolInName按列表打开文件",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "打开一个txt文本文件，按行读取文件名，在当前项目中查找并打开。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.打开文件16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.打开文件32.ToBitmap)
-            Menu_切换文档_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("切换文档", "AIPToolInName切换文档",
+            Menu_切换文档_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("切换文档", "GLToolInName切换文档",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "打开一个文档选择窗口。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
             Menu_切换文档_Buttondef.DefaultShortcut = "QQ"
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.文件Dxf16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.文件dxf32.ToBitmap)
-            Menu_导出为Dxf_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("导出为Dxf", "AIPToolInName导出为Dxf",
+            Menu_导出为Dxf_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("导出为Dxf", "GLToolInName导出为Dxf",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "将当前文件导出为Dxf格式。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.标记展开图螺纹16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.标记展开图螺纹32.ToBitmap)
-            Menu_标记展开图螺纹_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("简化孔", "AIPToolInName简化展开图孔",
+            Menu_标记展开图螺纹_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("简化孔", "GLToolInName简化展开图孔",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "简化钣金展开图中孔的螺纹，按直径转换为标记孔。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.按列表打开16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.按列表打开32.ToBitmap)
-            Menu_保存为列表_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("保存为列表", "AIPToolInName保存为列表",
+            Menu_保存为列表_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("保存为列表", "GLToolInName保存为列表",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "将当前激活的文件路径保存为列表，下次批量打开。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.创建展开16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.创建展开32.ToBitmap)
-            Menu_创建工艺_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("创建工艺", "AIPToolInName工艺",
+            Menu_创建工艺_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("创建工艺", "GLToolInName工艺",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "打开创建工艺图窗口。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.其他格式16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.其他格式32.ToBitmap)
-            Menu_导出为Stp_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("导出为Stp", "AIPToolInName导出为Stp",
+            Menu_导出为Stp_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("导出为Stp", "GLToolInName导出为Stp",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "零部件导出为Stp文件。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.板厚16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.板厚32.ToBitmap)
-            Menu_检查钣金厚度_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("检查钣金厚度", "AIPToolInName检查钣金厚度",
+            Menu_检查钣金厚度_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("检查钣金厚度", "GLToolInName检查钣金厚度",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "检查钣金厚度是否和材料匹配。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.打开文件夹16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.打开文件夹32.ToBitmap)
-            Menu_打开快捷管理_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("打开文件浏览器", "AIPToolInName打开文件浏览器",
+            Menu_打开快捷管理_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("打开文件浏览器", "GLToolInName打开文件浏览器",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "打开文件浏览器，管理当前部件所在文件夹。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.导出平面BOM16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.导出平面BOM32.ToBitmap)
-            Menu_批量BOM重命名_buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("批量BOM重命名", "AIPToolInName批量BOM重命名",
+            Menu_批量BOM重命名_buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("批量BOM重命名", "GLToolInName批量BOM重命名",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "打开文件浏览器，管理当前部件所在文件夹。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.快捷管理16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.快捷管理32.ToBitmap)
-            Menu_快捷管理_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("快捷管理", "AIPToolInName快捷管理",
+            Menu_快捷管理_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("快捷管理", "GLToolInName快捷管理",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "打开快捷管理。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.色卡16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.色卡32.ToBitmap)
-            Menu_色卡_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("色卡", "AIPToolInName色卡",
+            Menu_色卡_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("色卡", "GLToolInName色卡",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "打开色卡。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.修改序号16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.修改序号32.ToBitmap)
-            Menu_修改序号_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("修改序号", "AIPToolInName修改序号",
+            Menu_修改序号_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("修改序号", "GLToolInName修改序号",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "修改一个选择的序号。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.孔颜色16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.孔颜色32.ToBitmap)
-            Menu_孔着色_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("孔着色", "AIPToolInName孔着色",
+            Menu_孔着色_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("孔着色", "GLToolInName孔着色",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "按直径设置零件中孔的颜色。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.面着色16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.面着色32.ToBitmap)
-            Menu_面着色_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("面着色", "AIPToolInName面着色",
+            Menu_面着色_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("面着色", "GLToolInName面着色",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "按零件中面或特征的颜色。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.冗余文件16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.冗余文件32.ToBitmap)
-            Menu_清理冗余文件_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("清理冗余文件", "AIPToolInName清理冗余文件", CommandTypesEnum.kShapeEditCmdType, ClientID, "", "清理组件所在文件夹中无用的冗余文件。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
+            Menu_清理冗余文件_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("清理冗余文件", "GLToolInName清理冗余文件", CommandTypesEnum.kShapeEditCmdType, ClientID, "", "清理组件所在文件夹中无用的冗余文件。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.基础数量16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.基础数量32.ToBitmap)
-            Menu_设置基础数量_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("基础数量", "AIPToolInName设置基础数量", CommandTypesEnum.kShapeEditCmdType, ClientID, "", "设置基础数量为【每个】。如果是部件就设置所有引用文件。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
+            Menu_设置基础数量_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("基础数量", "GLToolInName设置基础数量", CommandTypesEnum.kShapeEditCmdType, ClientID, "", "设置基础数量为【每个】。如果是部件就设置所有引用文件。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.复制材料16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.复制材料32.ToBitmap)
-            Menu_复制材料_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("复制材料", "AIPToolInName复制材料", CommandTypesEnum.kShapeEditCmdType, ClientID, "", "从基础文件复制材料到镜像文件。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
+            Menu_复制材料_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("复制材料", "GLToolInName复制材料", CommandTypesEnum.kShapeEditCmdType, ClientID, "", "从基础文件复制材料到镜像文件。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.插入零部件16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.插入零部件32.ToBitmap)
-            Menu_插入零部件_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("插入零部件", "AIPToolInName插入零部件",
+            Menu_插入零部件_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("插入零部件", "GLToolInName插入零部件",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "插入打开的零部件。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             'BOM 工具
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.导出平面BOM16.ToBitmap)
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.导出平面BOM32.ToBitmap)
-            Menu_BOM_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("BOM工具", "AIPToolInNameBOM",
+            Menu_BOM_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("BOM工具", "GLToolInNameBOM",
                 CommandTypesEnum.kShapeEditCmdType, ClientID, "", "打开 BOM 工具：BOM 采集、属性批量操作、图号写入、工程图打印、PDF/DWG 导出、Excel 导入导出。需在部件（.iam）中运行。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
 
@@ -982,7 +918,7 @@ Namespace InventorAddIn
                         oRibbonTab = oRibbon.RibbonTabs.Item("id_TabTools")
                     End If
 
-                    oRibbonPanel = oRibbonTab.RibbonPanels.Add(AIPTool, "AIPTool", ClientID)
+                    oRibbonPanel = oRibbonTab.RibbonPanels.Add(GLTool, "GLTool", ClientID)
 
                     oRibbonPanel.CommandControls.AddButton(Menu_快速打开_Buttondef, True)
                     oRibbonPanel.CommandControls.AddButton(Menu_按列表打开文件_Buttondef, True)
@@ -1047,7 +983,7 @@ Namespace InventorAddIn
 
                     ' Create a new panel on the Assemble tab.
 
-                    oRibbonPanel = oRibbonTab.RibbonPanels.Add(AIPTool, "AIPTool", ClientID)
+                    oRibbonPanel = oRibbonTab.RibbonPanels.Add(GLTool, "GLTool", ClientID)
                     ' Add the buttons to the tab, with the first and last ones being large and the other two small.
 
 
@@ -1139,7 +1075,7 @@ Namespace InventorAddIn
 
 
 
-                    oRibbonPanel = oRibbonTab.RibbonPanels.Add(AIPTool, "AIPTool", ClientID)
+                    oRibbonPanel = oRibbonTab.RibbonPanels.Add(GLTool, "GLTool", ClientID)
                     ' Add the buttons to the tab, with the first and last ones being large and the other two small.
                     oButtonDefinitions.Clear()
                     oButtonDefinitions.Add(Menu_打开文件夹_Buttondef)
@@ -1234,7 +1170,7 @@ Namespace InventorAddIn
                     '模型选项卡
                     oRibbonTab = oRibbon.RibbonTabs.Item("id_TabModel")
 
-                    oRibbonPanel = oRibbonTab.RibbonPanels.Add(AIPTool, "AIPTool", ClientID)
+                    oRibbonPanel = oRibbonTab.RibbonPanels.Add(GLTool, "GLTool", ClientID)
 
                     oButtonDefinitions.Clear()
                     oButtonDefinitions.Add(Menu_打开文件夹_Buttondef)
@@ -1286,7 +1222,7 @@ Namespace InventorAddIn
                     '钣金选项卡+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                     oRibbonTab = oRibbon.RibbonTabs.Item("id_TabSheetMetal")
 
-                    oRibbonPanel = oRibbonTab.RibbonPanels.Add(AIPTool, "AIPTool", ClientID)
+                    oRibbonPanel = oRibbonTab.RibbonPanels.Add(GLTool, "GLTool", ClientID)
 
                     oButtonDefinitions.Clear()
 
@@ -1336,7 +1272,7 @@ Namespace InventorAddIn
 
                     oRibbonTab = oRibbon.RibbonTabs.Item("id_TabSketch")
 
-                    oRibbonPanel = oRibbonTab.RibbonPanels.Add(AIPTool, "AIPTool", ClientID)
+                    oRibbonPanel = oRibbonTab.RibbonPanels.Add(GLTool, "GLTool", ClientID)
                     oRibbonPanel.CommandControls.AddSplitButton(Menu_动态尺寸_Buttondef, oButtonDefinitions, False)
 
 
@@ -1349,7 +1285,7 @@ Namespace InventorAddIn
                     '在放置视图选项卡中添加
 
                     oRibbonTab = oRibbon.RibbonTabs.Item("id_TabPlaceViews")
-                    oRibbonPanel = oRibbonTab.RibbonPanels.Add(AIPTool, "AIPTool", ClientID)
+                    oRibbonPanel = oRibbonTab.RibbonPanels.Add(GLTool, "GLTool", ClientID)
 
 
                     oButtonDefinitions.Clear()
@@ -1433,7 +1369,7 @@ Namespace InventorAddIn
 
 
                     Dim obutton As ButtonDefinition
-                    obutton = ThisApplication.CommandManager.ControlDefinitions.Item("AIPToolInName快捷管理")
+                    obutton = ThisApplication.CommandManager.ControlDefinitions.Item("GLToolInName快捷管理")
                     If obutton.OverrideShortcut = "" Then
                         obutton.OverrideShortcut = "FF"
                     End If
@@ -1470,7 +1406,6 @@ Namespace InventorAddIn
             Try
                 SetDocumentIpropertyFromFileName()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_修改文件iProperty_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1478,7 +1413,6 @@ Namespace InventorAddIn
             Try
                 SetDocumentsInAssIpropertyFromFileName()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_修改部件iProperty_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1486,7 +1420,6 @@ Namespace InventorAddIn
             Try
                 RenamePartFileNameInAssembly()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_重命名_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1495,7 +1428,6 @@ Namespace InventorAddIn
                 GetIpropertyToRename()
 
             Catch __ex As Exception
-                DbgLog("[Private_Menu_提取iPro重命名_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1503,7 +1435,6 @@ Namespace InventorAddIn
             Try
                 FormAutoPartNumberShow()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_自动生成图号_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1511,7 +1442,6 @@ Namespace InventorAddIn
             Try
                 RenameMirrorPartFileNameInAssembly()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_重命名镜像文件_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1519,7 +1449,6 @@ Namespace InventorAddIn
             Try
                 OpenFolderwithDocument()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_打开文件夹_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1527,7 +1456,6 @@ Namespace InventorAddIn
             Try
                 SaveClose()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_保存关闭_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1535,7 +1463,6 @@ Namespace InventorAddIn
             Try
                 DrawingSaveAsPdf()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_导出为Pdf_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1543,7 +1470,6 @@ Namespace InventorAddIn
             Try
                 DrawingSaveAsDwg()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_导出为Dwg_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1551,7 +1477,6 @@ Namespace InventorAddIn
             Try
                 SetBOMStructuret()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_设置BOM结构_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1559,7 +1484,6 @@ Namespace InventorAddIn
             Try
                 SetDrawingMirPartIPro()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_设置对称件iProperty_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1567,7 +1491,6 @@ Namespace InventorAddIn
             Try
                 CheckSerialNumber()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_序号完整性_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1575,7 +1498,6 @@ Namespace InventorAddIn
             Try
                 CreateNewSequenceNumber()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_新建序号_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1583,7 +1505,6 @@ Namespace InventorAddIn
             Try
                 SetUpSigning()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_设置签字_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1591,7 +1512,6 @@ Namespace InventorAddIn
             Try
                 ClearSignature()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_清除签字_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1599,7 +1519,6 @@ Namespace InventorAddIn
             Try
                 FormCustomSignatureShow()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_自定义签字_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1607,7 +1526,6 @@ Namespace InventorAddIn
             Try
                 FormOptionshow()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_选项_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1615,7 +1533,6 @@ Namespace InventorAddIn
             Try
                 FormMassiPopertiesshow()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_量产iProperty_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1623,7 +1540,6 @@ Namespace InventorAddIn
             Try
                 FormBulkPrintShow()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_批量打印_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1631,7 +1547,6 @@ Namespace InventorAddIn
             Try
                 FormFormatConversionShow()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_格式转换_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1639,7 +1554,6 @@ Namespace InventorAddIn
             Try
                 RestoreOldVersion()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_还原旧版文件_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1648,7 +1562,6 @@ Namespace InventorAddIn
                 Dim frmAbout As New FormAbout
                 frmAbout.ShowDialog()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_关于_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1658,7 +1571,6 @@ Namespace InventorAddIn
                 strHelpFullFileName = IO.Path.Combine(My.Application.Info.DirectoryPath, "帮助.pdf")
                 Process.Start(strHelpFullFileName)
             Catch __ex As Exception
-                DbgLog("[Private_Menu_帮助_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1666,7 +1578,6 @@ Namespace InventorAddIn
             Try
                 FormSaveCloseAllDocumentShow()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_全部保存_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1674,7 +1585,6 @@ Namespace InventorAddIn
             Try
                 CloseDocument()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_关闭文档_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1682,7 +1592,6 @@ Namespace InventorAddIn
             Try
                 AddDiameter()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_添加直径_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1690,7 +1599,6 @@ Namespace InventorAddIn
             Try
                 CheckIsInvHaveDrawing()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_检查是否有工程图_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1698,7 +1606,6 @@ Namespace InventorAddIn
             Try
                 OpenAllDrwInAsm()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_打开指定工程图_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1706,7 +1613,6 @@ Namespace InventorAddIn
             Try
                 FormBatchChangeFileNamesShow()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_批量重命名_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1715,7 +1621,6 @@ Namespace InventorAddIn
             Try
                 ExportBOMAsFlat()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_导出平面BOMenu_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1724,7 +1629,6 @@ Namespace InventorAddIn
             Try
                 RefreshTreeNodeName()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_刷新引用_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1732,7 +1636,6 @@ Namespace InventorAddIn
             Try
                 CleanUpLegacyFiles()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_清理旧版文件_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1742,7 +1645,6 @@ Namespace InventorAddIn
                 FormMovesSpecifiedFileShow()
 
             Catch __ex As Exception
-                DbgLog("[Private_Menu_移动指定文件_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1750,7 +1652,6 @@ Namespace InventorAddIn
             Try
                 FlushXYZPlane()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_对齐原始坐标面_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1758,7 +1659,6 @@ Namespace InventorAddIn
             Try
                 GetAsmMissDocument()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_查找缺失文件的部件_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1766,7 +1666,6 @@ Namespace InventorAddIn
             Try
                 FormStatisticalShow()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_统计_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1785,7 +1684,6 @@ Namespace InventorAddIn
             Try
                 FormiPropertyShow()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_项目iProperty_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1793,7 +1691,6 @@ Namespace InventorAddIn
             Try
                 FormUseriPropertyShow()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_自定义iProperty_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1801,7 +1698,6 @@ Namespace InventorAddIn
             Try
                 DimensionRounding()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_尺寸圆整_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1809,7 +1705,6 @@ Namespace InventorAddIn
             Try
                 FormImportERPCodeToIamShow()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_导入ERP编码到模型_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1817,7 +1712,6 @@ Namespace InventorAddIn
             Try
                 OpenDrawingFile()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_工程图_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1826,7 +1720,6 @@ Namespace InventorAddIn
             Try
                 ReWriteBOM()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_重写BOM序号_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1834,7 +1727,6 @@ Namespace InventorAddIn
             Try
                 OpenBasicExcel()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_打开ERP数据文件_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1842,7 +1734,6 @@ Namespace InventorAddIn
             Try
                 FormSearchERPCodeShow()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_输入查询ERP编码_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1850,7 +1741,6 @@ Namespace InventorAddIn
             Try
                 FormImportERPCodeToExcelshow()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_导入ERP到BOMenu_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1858,7 +1748,6 @@ Namespace InventorAddIn
             Try
                 QuitOpen()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_快速打开_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1866,7 +1755,6 @@ Namespace InventorAddIn
             Try
                 RebuildRingSerialNumber()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_自动重建序号_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1874,7 +1762,6 @@ Namespace InventorAddIn
             Try
                 ReplaceBorderTitleBlock()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_替换图框标题栏_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1882,7 +1769,6 @@ Namespace InventorAddIn
             Try
                 QuitPrint()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_快速打印_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1890,7 +1776,6 @@ Namespace InventorAddIn
             Try
                 FormReverseCheckERPCodesShow()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_ERP反查_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1899,7 +1784,6 @@ Namespace InventorAddIn
                 SetClearRandomColor()
                 'SetRandomColor()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_设值随机颜色_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1907,7 +1791,6 @@ Namespace InventorAddIn
             Try
                 ClearErrorTagging()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_错误清理_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1915,7 +1798,6 @@ Namespace InventorAddIn
             Try
                 FormSpecificationShow()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_技术要求_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1923,7 +1805,6 @@ Namespace InventorAddIn
             Try
                 AlignComponentsInTheCenter()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_居中对齐_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1931,7 +1812,6 @@ Namespace InventorAddIn
             Try
                 CenterAllDimensions()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_全部尺寸居中_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1939,7 +1819,6 @@ Namespace InventorAddIn
             Try
                 CenterDimensions()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_尺寸居中_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1947,7 +1826,6 @@ Namespace InventorAddIn
             Try
                 FormFlatPatternShow()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_创建工艺_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1955,7 +1833,6 @@ Namespace InventorAddIn
             Try
                 FormSetReadOnlyShow()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_设置只读_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1963,7 +1840,6 @@ Namespace InventorAddIn
             Try
                 SetWriteOnly()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_文件只读_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1971,7 +1847,6 @@ Namespace InventorAddIn
             Try
                 SetStandIptVisible()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_标准件可见性_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1979,7 +1854,6 @@ Namespace InventorAddIn
             Try
                 ReplaceWithContentCenterFile()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_替换为库文件_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1987,7 +1861,6 @@ Namespace InventorAddIn
             Try
                 FormEditDimensionShow()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_动态尺寸_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -1995,7 +1868,6 @@ Namespace InventorAddIn
             Try
                 CreateFlatDrawingDocument()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_创建展开图_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -2003,7 +1875,6 @@ Namespace InventorAddIn
             Try
                 FindAndReplace()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_查找替换_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -2011,7 +1882,6 @@ Namespace InventorAddIn
             Try
                 ReplaceDerivedPart()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_替换衍生_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -2019,7 +1889,6 @@ Namespace InventorAddIn
             Try
                 CreatNewDrawingDocument()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_创建工程图_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -2027,7 +1896,6 @@ Namespace InventorAddIn
             Try
                 SuppressAllUnhealthConstraints()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_抑制全部错误的约束_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -2035,7 +1903,6 @@ Namespace InventorAddIn
             Try
                 FormDim2ObjectShow()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_驱动测量_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -2043,7 +1910,6 @@ Namespace InventorAddIn
             Try
                 SaveAsCopy()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_另存为副本_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -2051,7 +1917,6 @@ Namespace InventorAddIn
             Try
                 CreatJpg()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_创建截屏_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -2059,7 +1924,6 @@ Namespace InventorAddIn
             Try
                 OpenFilesWithList()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_按列表打开文件_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -2067,7 +1931,6 @@ Namespace InventorAddIn
             Try
                 FormSwitchLablesShow()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_切换文档_Buttondef_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -2075,7 +1938,6 @@ Namespace InventorAddIn
             Try
                 DrawingSaveAsDxf()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_另存为Dxf_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -2083,7 +1945,6 @@ Namespace InventorAddIn
             Try
                 MarkCircleInFlatDrawing()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_标记展开图螺纹_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -2091,7 +1952,6 @@ Namespace InventorAddIn
             Try
                 SaveFilessList()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_保存为列表_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -2101,7 +1961,6 @@ Namespace InventorAddIn
 
                 FormCloneComponentShow()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_复制插入_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -2109,7 +1968,6 @@ Namespace InventorAddIn
             Try
                 AsmIptSaveAsStp()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_导出为Stp_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -2117,7 +1975,6 @@ Namespace InventorAddIn
             Try
                 CheckSteelThicknessInAssembly()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_检查钣金厚度_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -2126,7 +1983,6 @@ Namespace InventorAddIn
             Try
                 FormExplorerShow()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_打开快捷管理_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -2135,7 +1991,6 @@ Namespace InventorAddIn
             Try
                 FormiPropertyToFileNameShow()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_批量BOM重命名_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -2144,7 +1999,6 @@ Namespace InventorAddIn
                 FormExplorerShow()
 
             Catch __ex As Exception
-                DbgLog("[Private_Menu_快捷管理_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -2154,7 +2008,6 @@ Namespace InventorAddIn
                 FormPantoneShow()
 
             Catch __ex As Exception
-                DbgLog("[Private_Menu_色卡_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -2162,7 +2015,6 @@ Namespace InventorAddIn
             Try
                 ModifySerialNumber()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_修改序号_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -2170,7 +2022,6 @@ Namespace InventorAddIn
             Try
                 SameDiameterHoleColoring()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_孔着色_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -2178,7 +2029,6 @@ Namespace InventorAddIn
             Try
                 FormFaceColoringShow()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_面着色_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -2186,7 +2036,6 @@ Namespace InventorAddIn
             Try
                 FormCleanUpRedundantFilesShow()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_清理冗余文件_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -2194,7 +2043,6 @@ Namespace InventorAddIn
             Try
                 SetBaseQuantityByEach()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_设置基础数量_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -2202,7 +2050,6 @@ Namespace InventorAddIn
             Try
                 CopyMaterialFromBasicPart()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_复制材料_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -2210,7 +2057,6 @@ Namespace InventorAddIn
             Try
                 FormPlaceOpenComponentShow()
             Catch __ex As Exception
-                DbgLog("[Private_Menu_插入零部件_Buttondef] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
             End Try
         End Sub
 
@@ -2222,7 +2068,6 @@ Namespace InventorAddIn
 
         Public Sub Deactivate() Implements Inventor.ApplicationAddInServer.Deactivate
 
-            DbgLog("Deactivate begin")
 
             ' This method is called by Inventor when the AddIn is unloaded.
             ' The AddIn will be unloaded either manually by the user or
@@ -2237,7 +2082,6 @@ Namespace InventorAddIn
             System.GC.WaitForPendingFinalizers()
             System.GC.Collect()
 
-            DbgLog("Deactivate end")
 
         End Sub
 

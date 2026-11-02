@@ -33,7 +33,7 @@ Module IptModule
         End If
 
         If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject And ThisApplication.ActiveDocumentType <> kPartDocumentObject Then
-            MessageBox.Show("该功能仅适用于零部件。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+            MessageBox.Show("该功能仅适用于零部件。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
             Exit Sub
         End If
 
@@ -61,7 +61,7 @@ Module IptModule
                 ElseIf IsFileExists(strDWGDrawingFullDocumentName) = True Then
                     ThisApplication.Documents.Open(strDWGDrawingFullDocumentName)
                 Else
-                    If MessageBox.Show(oInventorDocument.FullDocumentName & vbCrLf & vbCrLf & "没有找到对应的DWG/IDW工程图，是否创建DWG格式工程图？", AIPTool，
+                    If MessageBox.Show(oInventorDocument.FullDocumentName & vbCrLf & vbCrLf & "没有找到对应的DWG/IDW工程图，是否创建DWG格式工程图？", GLTool，
                                        MessageBoxButtons.YesNo， MessageBoxIcon.Question） = DialogResult.Yes Then
                         CreatNewDWGDrawingDocument()
                     End If
@@ -78,7 +78,7 @@ Module IptModule
             ElseIf IsFileExists(strDWGDrawingFullDocumentName) = True Then
                 ThisApplication.Documents.Open(strDWGDrawingFullDocumentName)
             Else
-                If MessageBox.Show(oInventorDocument.FullDocumentName & vbCrLf & vbCrLf & "没有找到对应的DWG/IDW工程图，是否创建DWG格式工程图？", AIPTool，
+                If MessageBox.Show(oInventorDocument.FullDocumentName & vbCrLf & vbCrLf & "没有找到对应的DWG/IDW工程图，是否创建DWG格式工程图？", GLTool，
                                        MessageBoxButtons.YesNo， MessageBoxIcon.Question） = DialogResult.Yes Then
                     CreatNewDWGDrawingDocument()
                 End If
@@ -89,7 +89,7 @@ Module IptModule
         str模型匹配检查标记 = 1
 
         'Catch ex As Exception
-        '       MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        '       MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         'End Try
     End Sub
 
@@ -106,7 +106,7 @@ Module IptModule
             End If
 
             If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject And ThisApplication.ActiveDocumentType <> kPartDocumentObject Then
-                MessageBox.Show("该功能仅适用于零部件。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                MessageBox.Show("该功能仅适用于零部件。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
                 Exit Sub
             End If
 
@@ -190,7 +190,7 @@ Module IptModule
             SetDocumentIpropertyFromFileNameSub(oNewInventorDocument, False)
 
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -208,7 +208,7 @@ Module IptModule
             End If
 
             If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject And ThisApplication.ActiveDocumentType <> kPartDocumentObject Then
-                MessageBox.Show("该功能仅适用于零部件。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                MessageBox.Show("该功能仅适用于零部件。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
                 Exit Sub
             End If
 
@@ -251,16 +251,16 @@ Module IptModule
 
             If IsFileExists(strStpFullFileName) Then
                 SetStatusBarText("另存为STEP完成")
-                If MessageBox.Show($"是否打开文件：{strStpFullFileName}？“, AIPTool， MessageBoxButtons.YesNo， MessageBoxIcon.Question） = DialogResult.Yes Then
+                If MessageBox.Show($"是否打开文件：{strStpFullFileName}？“, GLTool， MessageBoxButtons.YesNo， MessageBoxIcon.Question） = DialogResult.Yes Then
                     ProcessStart(strStpFullFileName)
                 End If
             Else
-                SetStatusBarText(AIPTool)
-                MessageBox.Show("另存为STEP错误。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                SetStatusBarText(GLTool)
+                MessageBox.Show("另存为STEP错误。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
 
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -326,7 +326,7 @@ Module IptModule
         End if
 
         'if ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-        '     MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        '     MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         '    Exit Sub
         'End if
 
@@ -346,7 +346,7 @@ Module IptModule
         Dim replacementPart As Document = ThisApplication.Documents.Open(replacementFileName, False)
         Dim doReplace As Boolean = True
         if (replacementPart.InternalName <> docToReplace.InternalName) Then
-            MessageBox.Show($"更换零件 {replacementPart.DisplayName} 似乎与原始零件关系不密切，因此无法使用。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
+            MessageBox.Show($"更换零件 {replacementPart.DisplayName} 似乎与原始零件关系不密切，因此无法使用。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
             doReplace = False
         End if
         replacementPart.ReleaseReference()
@@ -376,7 +376,7 @@ Module IptModule
             Next
         End if
         if (basePartList.Count = 0) Then
-            MessageBox.Show($"在文档中未找到基本零件： {oInventorDocument.DisplayName}。"， AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show($"在文档中未找到基本零件： {oInventorDocument.DisplayName}。"， GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         ElseIf (basePartList.Count = 1) Then
             Return basePartList(0)
         Else
@@ -471,7 +471,6 @@ Module IptModule
             Dim desc As FileDescriptor = docDesc.ReferencedFileDescriptor
             if (desc.ReferenceMissing) Then Continue For
             Console.WriteLine("Referenced RelativeFileName = " & desc.RelativeFileName)
-            Trace.WriteLine("Referenced RelativeFileName = " & desc.RelativeFileName)
             if (String.Equals(desc.FullFileName, fileNameToReplace, StringComparison.OrdinalIgnoreCase)) Then
                 desc.ReplaceReference(replacementFileName)
                 Exit For
@@ -493,7 +492,7 @@ Module IptModule
 
         Dim lodType As LevelOfDetailEnum = repMgr.ActiveLevelOfDetailRepresentation.LevelOfDetail
         if (lodType <> LevelOfDetailEnum.kMasterLevelOfDetail) Then
-            MessageBox.Show("此规则只能在主要详细等级中运行。", AIPTool， MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("此规则只能在主要详细等级中运行。", GLTool， MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End if
         Return True
@@ -513,7 +512,7 @@ Module IptModule
             End If
 
             If ThisApplication.ActiveDocumentType <> DocumentTypeEnum.kPartDocumentObject Then
-                  MessageBox.Show(”该功能仅适用于零件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                  MessageBox.Show(”该功能仅适用于零件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
@@ -525,9 +524,9 @@ Module IptModule
 
             Select Case IsMatching
                 Case True
-                    MessageBox.Show("材料设置与厚度匹配。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
+                    MessageBox.Show("材料设置与厚度匹配。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
                 Case False
-                    MessageBox.Show("材料设置与厚度不匹配。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                    MessageBox.Show("材料设置与厚度不匹配。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
             End Select
 
         Catch
@@ -610,7 +609,7 @@ Module IptModule
         End If
 
         If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject And ThisApplication.ActiveDocumentType <> kPartDocumentObject Then
-            MessageBox.Show("该功能仅适用于零部件。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+            MessageBox.Show("该功能仅适用于零部件。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
             Exit Sub
         End If
 
@@ -635,9 +634,9 @@ Module IptModule
 
             End If
 
-            MessageBox.Show("设置基础数量为【每个】完成。", AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show("设置基础数量为【每个】完成。", GLTool, MessageBoxButtons.OK, MessageBoxIcon.Information)
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -653,7 +652,7 @@ Module IptModule
         End If
 
         If ThisApplication.ActiveDocumentType <> kPartDocumentObject Then
-            MessageBox.Show("该功能仅适用于零件。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+            MessageBox.Show("该功能仅适用于零件。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
             Exit Sub
         End If
 
@@ -664,7 +663,7 @@ Module IptModule
         oInventorPartDocument = CType（oInventorDocument, PartDocument)
 
         If oInventorPartDocument.ReferencedDocumentDescriptors.Count = 0 Then
-            MessageBox.Show("未找到基础文件。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+            MessageBox.Show("未找到基础文件。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
             Return
         End If
 
@@ -672,7 +671,7 @@ Module IptModule
         oInventorBasicPartDocument = oInventorPartDocument.ReferencedDocumentDescriptors.Item(1).ReferencedDocument
 
         If oInventorBasicPartDocument Is Nothing Then
-            MessageBox.Show("未找到基础文件。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+            MessageBox.Show("未找到基础文件。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
             Return
         End If
 
@@ -689,12 +688,12 @@ Module IptModule
 
         '如果不是钣金件，退出
         If (oInventorPartDocument.SubType <> "{9C464203-9BAE-11D3-8BAD-0060B0CE6BB4}") Then
-            MessageBox.Show("复制材料完成。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
+            MessageBox.Show("复制材料完成。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
             Return
         End If
 
         If (oInventorBasicPartDocument.SubType <> "{9C464203-9BAE-11D3-8BAD-0060B0CE6BB4}") Then
-            MessageBox.Show("复制材料完成。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
+            MessageBox.Show("复制材料完成。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
             Return
         End If
 
@@ -710,7 +709,7 @@ Module IptModule
         oSheetMetalComponentDefinition.UseSheetMetalStyleThickness = False
         oSheetMetalComponentDefinition.Thickness.Expression = strBasicThickness
 
-        MessageBox.Show("复制材料完成。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
+        MessageBox.Show("复制材料完成。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
 
 
     End Sub

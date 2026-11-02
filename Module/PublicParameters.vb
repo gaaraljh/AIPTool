@@ -14,11 +14,11 @@ Imports Inventor.SelectionFilterEnum
 Imports System.Timers
 
 Public Module PublicParameters
-    Public Const AIPTool As String = "AIPTool"
+    Public Const GLTool As String = "GLTool"
 
     Public Const GitWeb As String = "https://gitcode.net/leaky114/inventoraddin"
     Public Const Bilibili As String = "https://space.bilibili.com/116515938"
-    Public Const Github As String = "https://github.com/gaaraljh/AIPTool"
+    Public Const Github As String = "https://github.com/gaaraljh/GLTool"
 
     Public strLargeSmallIconNames As String = "快速打开,按列表打开文件,保存关闭,关闭,打开工程图,提取iProperty,打开文件夹"
     Public strLargeSmallIconSets As String   '大小图标
@@ -308,7 +308,7 @@ Autodesk Inventor 表达视图(*.ipn)|*.ipn|"
                             Case 1
                                 If BeforeOrAfter = EventTimingEnum.kAfter Then
                                     If CheckDrawingDocumentNameToReferencedDocument(oInventorDocument) = False Then
-                                        MessageBox.Show("本文件名与模型参考不匹配。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                                        MessageBox.Show("本文件名与模型参考不匹配。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
                                     End If
                                 End If
                                 str模型匹配检查标记 = 2
@@ -324,7 +324,6 @@ Autodesk Inventor 表达视图(*.ipn)|*.ipn|"
             End If
 
         Catch __ex As Exception
-            DbgLog("[Public_ThisApplicationEvents_OnOpenDocument] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
         End Try
     End Sub
 
@@ -342,7 +341,7 @@ Autodesk Inventor 表达视图(*.ipn)|*.ipn|"
 
                 '获取文件只读属性
                 Dim oDef1 As ButtonDefinition
-                oDef1 = ThisApplication.CommandManager.ControlDefinitions.Item("AIPToolInName文件只读")
+                oDef1 = ThisApplication.CommandManager.ControlDefinitions.Item("GLToolInName文件只读")
 
                 oDef1.Pressed = GetFileReadOnly(oInventorDocument.FullDocumentName)
             Else
@@ -350,7 +349,6 @@ Autodesk Inventor 表达视图(*.ipn)|*.ipn|"
             End If
 
         Catch __ex As Exception
-            DbgLog("[Public_ThisApplicationEvents_OnActivateDocument] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
         End Try
     End Sub
 
@@ -379,7 +377,6 @@ Autodesk Inventor 表达视图(*.ipn)|*.ipn|"
         End If
 
         Catch __ex As Exception
-            DbgLog("[Public_ThisApplicationEvents_OnSaveDocument] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
         End Try
     End Sub
 
@@ -498,7 +495,7 @@ Autodesk Inventor 表达视图(*.ipn)|*.ipn|"
     End Sub
 
     ' 内置预览图磁盘缓存目录
-    Private ReadOnly ThumbnailCacheFolder As String = IO.Path.Combine(IO.Path.GetTempPath(), "AIPToolThumbCache")
+    Private ReadOnly ThumbnailCacheFolder As String = IO.Path.Combine(IO.Path.GetTempPath(), "GLToolThumbCache")
 
     ''' <summary>
     ''' 从 Inventor 文件二进制流中直接提取内置的预览图（PNG），无需打开或渲染文档，取到的是文件中最大的一张
@@ -643,7 +640,7 @@ Autodesk Inventor 表达视图(*.ipn)|*.ipn|"
         Try
             '使用固定名称的 bmp 临时文件，避免 jpg 压缩与解码的开销
             Dim tempFile As String = IO.Path.Combine(IO.Path.GetTempPath(),
-                                                     "AIPToolThumbnail" & intWidth & "x" & intHeight & ".bmp")
+                                                     "GLToolThumbnail" & intWidth & "x" & intHeight & ".bmp")
 
             Dim oActiveView As Inventor.View
             oActiveView = oInventorDocument.Views.Item(1)
@@ -751,37 +748,11 @@ Autodesk Inventor 表达视图(*.ipn)|*.ipn|"
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
 
-    ''' <summary>
-    ''' 诊断日志（.NET 8 迁移排障用，定位完成后可删除）。
-    ''' .NET 8 下任何线程上的未处理异常都会直接终止进程，因此所有回调都必须包 Try/Catch 并记日志。
-    ''' </summary>
-    Private m_logHeaderDone As Boolean = False
-
-    Public Sub DbgLog(ByVal msg As String)
-        Try
-            Dim logPath As String = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "AIPTool_debug.log")
-            If Not m_logHeaderDone Then
-                m_logHeaderDone = True
-                Dim head As String = "==== PID " & System.Diagnostics.Process.GetCurrentProcess().Id.ToString() &
-                                     "  " & DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") & " =====" & vbCrLf
-                Dim hb() As Byte = System.Text.Encoding.UTF8.GetBytes(head)
-                Using hfs As New System.IO.FileStream(logPath, System.IO.FileMode.Append, System.IO.FileAccess.Write, System.IO.FileShare.ReadWrite)
-                    hfs.Write(hb, 0, hb.Length)
-                End Using
-            End If
-            Dim line As String = DateTime.Now.ToString("HH:mm:ss.fff") & " " & msg & vbCrLf
-            Dim buf() As Byte = System.Text.Encoding.UTF8.GetBytes(line)
-            Using fs As New System.IO.FileStream(logPath, System.IO.FileMode.Append, System.IO.FileAccess.Write, System.IO.FileShare.ReadWrite)
-                fs.Write(buf, 0, buf.Length)
-            End Using
-        Catch : End Try
-    End Sub
     Public Sub m_timer_Elapsed(sender As Object, e As ElapsedEventArgs) Handles m_timer.Elapsed
         Try
         AutoSaveDocument()
         Catch __ex As Exception
-            DbgLog("[Public_m_timer_Elapsed] 未处理异常: " & __ex.GetType().Name & ": " & __ex.Message)
         End Try
     End Sub
 
-End Module
+End Module

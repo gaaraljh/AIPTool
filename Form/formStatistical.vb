@@ -30,7 +30,7 @@ Public Class FormStatistical
     Private strFullDocumentName As String
 
     Private Sub FrmStatisticalWeight_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
         Me.TopMost = True
 
         Dim toolTip As New ToolTip With {
@@ -650,7 +650,7 @@ Public Class FormStatistical
                 End If
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 

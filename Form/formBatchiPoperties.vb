@@ -48,7 +48,7 @@ Public Class formBatchiPoperties
         Dim oInventorDocDocument As Inventor.Document
 
         If lvw文件列表.Items.Count = 0 Then
-            MessageBox.Show(”未添加文件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”未添加文件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -66,7 +66,7 @@ Public Class formBatchiPoperties
 
             Case 0
                 If cmb项目名.Text = "" Then
-                    MessageBox.Show(”请选择项目。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    MessageBox.Show(”请选择项目。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                     OInteractionEvents.Stop()
                     btn确定.Enabled = True
                     Exit Sub
@@ -123,7 +123,7 @@ Public Class formBatchiPoperties
             Case 1
 
                 If txt特性名.Text = "" Then
-                    MessageBox.Show(”请输入新特性的名字。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    MessageBox.Show(”请输入新特性的名字。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                     OInteractionEvents.Stop()
                     btn确定.Enabled = True
                     Exit Sub
@@ -198,7 +198,7 @@ Public Class formBatchiPoperties
         'OInteractionEvents.SetCursor(CursorTypeEnum.kCursorTypeDefault)
         OInteractionEvents.Stop()
 
-        MessageBox.Show(”量产iProperty完成。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        MessageBox.Show(”量产iProperty完成。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
     End Sub
 
@@ -207,7 +207,7 @@ Public Class formBatchiPoperties
     End Sub
 
     Private Sub FrmiPoperties_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
 
         Dim items As String() = {"标题", "主题", "作者", "主管", "单位", "类别", "关键词", "注释", "零件代号", "库存编号", "描述",
             "修订号", "项目", "设计人", "工程师", "批准人", "成本中心", "成本", "供应商", "目录 Web 链接", "检测人",

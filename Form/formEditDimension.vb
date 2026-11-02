@@ -540,7 +540,7 @@ Public Class FormEditDimension
     Private Sub FrmChangeValue_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         On Error Resume Next
 
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
 
         ' 创建ToolTip控件并设置相关属性
         Dim toolTip As New ToolTip With {

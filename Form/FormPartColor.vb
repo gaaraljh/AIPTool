@@ -5,7 +5,7 @@ Public Class FormPartColor
 
     Private Sub Frm_Color_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        Me.Icon = My.Resources.AIPTool24
+        Me.Icon = My.Resources.GLTool24
 
         '设置按钮图标
         Btn_Part.Image = My.Resources.零件32.ToBitmap

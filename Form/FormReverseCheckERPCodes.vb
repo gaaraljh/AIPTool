@@ -64,7 +64,7 @@ Public Class FormReverseCheckERPCodes
     End Sub
 
     Private Sub FrmERPCodeSearch_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
         Me.TopMost = True
         Me.Height = 124
     End Sub

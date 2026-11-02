@@ -20,7 +20,7 @@ Public NotInheritable Class FormImportCodeToBomExcel
         strBomExcelFile = txtExcel文件.Text
 
         If IsFileExists(strBomExcelFile) = False Then
-            MessageBox.Show(”BOM文件不存在。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”BOM文件不存在。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -150,7 +150,7 @@ Public NotInheritable Class FormImportCodeToBomExcel
     End Sub
 
     Private Sub FrmImportCodeToBomExcel_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
         Me.TopMost = True
         Dim toolTip As New ToolTip With {
             .AutoPopDelay = 0,

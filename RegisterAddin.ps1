@@ -1,13 +1,13 @@
 <#
 .SYNOPSIS
-    Register / unregister the AIPTool (.NET 8) Inventor AddIn.
+    Register / unregister the GLTool (.NET 8) Inventor AddIn.
 
 .DESCRIPTION
     .NET 8 no longer supports RegisterForComInterop. This script registers the
     AddIn the ".NET Core COM host (comhost)" way instead of regasm:
 
       HKLM\SOFTWARE\Classes\CLSID\{4D6D2EAC-11B9-4BB1-9244-86AB8D5F8014}\InprocServer32
-          = <AddInDir>\AIPTool.comhost.dll     (ThreadingModel = Both)
+          = <AddInDir>\GLTool.comhost.dll     (ThreadingModel = Both)
       HKLM\SOFTWARE\Classes\InventorAddIn.StandardAddInServer\CLSID
           = {4D6D2EAC-11B9-4BB1-9244-86AB8D5F8014}
       HKLM\SOFTWARE\Autodesk\Inventor\RegistryVersion<Ver>\AddIns\InventorAddIn.StandardAddInServer
@@ -16,7 +16,7 @@
     Notes:
       * Run as ADMINISTRATOR (writes to HKLM).
       * Build the project first; the output folder must contain
-        AIPTool.dll, AIPTool.comhost.dll and AIPTool.runtimeconfig.json.
+        GLTool.dll, GLTool.comhost.dll and GLTool.runtimeconfig.json.
       * .NET 8 Desktop Runtime (Microsoft.WindowsDesktop.App 8.0.x) must be installed.
       * Pass the Inventor version with -InventorVersion, e.g. 2026 -> 30.0.
 
@@ -46,7 +46,7 @@ $ErrorActionPreference = 'Stop'
 
 $ClsId       = '{4D6D2EAC-11B9-4BB1-9244-86AB8D5F8014}'
 $ProgId      = 'InventorAddIn.StandardAddInServer'
-$DisplayName = 'AIPTool'
+$DisplayName = 'GLTool'
 $Description = 'A Inventor AddIn For Inventor 2016-2026 (.NET 8)'
 
 if ([string]::IsNullOrWhiteSpace($AddInDir)) {
@@ -54,8 +54,8 @@ if ([string]::IsNullOrWhiteSpace($AddInDir)) {
 }
 $AddInDir = (Resolve-Path $AddInDir).Path
 
-$comhost = Join-Path $AddInDir 'AIPTool.comhost.dll'
-$managed = Join-Path $AddInDir 'AIPTool.dll'
+$comhost = Join-Path $AddInDir 'GLTool.comhost.dll'
+$managed = Join-Path $AddInDir 'GLTool.dll'
 $regVer  = 'RegistryVersion' + $InventorVersion
 
 # ---- administrator check ----
@@ -75,7 +75,7 @@ if ($Unregister) {
     Remove-KeyIfExists "HKLM:\SOFTWARE\Classes\CLSID\$ClsId"
     Remove-KeyIfExists "HKLM:\SOFTWARE\Classes\$ProgId"
     Remove-KeyIfExists "HKLM:\SOFTWARE\Autodesk\Inventor\$regVer\AddIns\$ProgId"
-    Write-Host "Unregistered AIPTool ($ProgId)."
+    Write-Host "Unregistered GLTool ($ProgId)."
     return
 }
 
@@ -91,7 +91,7 @@ Set-ItemProperty -Path "$clsidKey\InprocServer32" -Name '(default)' -Value $comh
 Set-ItemProperty -Path "$clsidKey\InprocServer32" -Name 'ThreadingModel' -Value 'Both' -Type String
 Set-ItemProperty -Path $clsidKey -Name 'ProgID' -Value $ProgId -Type String
 Set-ItemProperty -Path $clsidKey -Name 'Class' -Value 'StandardAddInServer' -Type String
-Set-ItemProperty -Path $clsidKey -Name 'Assembly' -Value 'AIPTool' -Type String
+Set-ItemProperty -Path $clsidKey -Name 'Assembly' -Value 'GLTool' -Type String
 
 # ---- ProgID ----
 $progKey = "HKLM:\SOFTWARE\Classes\$ProgId"
@@ -111,4 +111,4 @@ Set-ItemProperty -Path $addinKey -Name 'Description'  -Value $Description -Type 
 Write-Host "Registered:"
 Write-Host "  COM host : $comhost"
 Write-Host "  Inventor : HKEY_LOCAL_MACHINE\SOFTWARE\Autodesk\Inventor\$regVer\AddIns\$ProgId"
-Write-Host "Restart Inventor to load AIPTool."
+Write-Host "Restart Inventor to load GLTool."

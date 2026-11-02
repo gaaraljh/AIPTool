@@ -47,7 +47,7 @@ Public Class FormUseriProperty
     End Sub
 
     Private Sub FormUseriProperty_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
         Me.TopMost = True
 
         Dim toolTip As New ToolTip With {
@@ -147,10 +147,9 @@ Public Class FormUseriProperty
             strUseriPropertyIniFile = IO.Path.Combine(strDirs(0), "UseriProperty.ini")
         End If
 
-        DbgLog("[FormUseriProperty] ini路径=" & strUseriPropertyIniFile & " 存在=" & IsFileExists(strUseriPropertyIniFile).ToString())
 
         If IsFileExists(strUseriPropertyIniFile) = False Then
-            MessageBox.Show("无配置文件,请手动配置！", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
+            MessageBox.Show("无配置文件,请手动配置！", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
 
             Using oStreamWriter As New StreamWriter(strUseriPropertyIniFile, False, Encoding.Default)
                 oStreamWriter.WriteLine("#不要修改#号行。")
@@ -181,11 +180,9 @@ Public Class FormUseriProperty
 
         If intControlCount <= 0 Then intControlCount = intCustomLineCount
         If intControlCount <= 0 Then
-            DbgLog("[FormUseriProperty] 控件数为0（未找到 数量= 或 自定义= 行），窗口将空白。首行=" & If(lines.Length > 0, lines(0), "(空文件)"))
             Exit Sub
         End If
 
-        DbgLog("[FormUseriProperty] intControlCount=" & intControlCount & " intCustomLineCount=" & intCustomLineCount)
 
         ' 仅创建一次控件（数量已确定，避免 ReDim(-1) 越界）
         CreateControls(intControlCount)
@@ -277,7 +274,7 @@ Public Class FormUseriProperty
         strUseriPropertyIniFile = IO.Path.Combine(My.Application.Info.DirectoryPath, "UseriProperty.ini")
 
         If IsFileExists(strUseriPropertyIniFile) = False Then
-            MessageBox.Show("无配置文件,请手动配置！", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
+            MessageBox.Show("无配置文件,请手动配置！", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
 
             Dim file As New StreamWriter(strUseriPropertyIniFile)
             file.WriteLine("#不要修改#号行。")

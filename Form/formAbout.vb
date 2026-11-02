@@ -15,7 +15,7 @@ Public NotInheritable Class FormAbout
         End If
         Me.Text = String.Format("关于 {0}", ApplicationTitle)
 
-        Me.Icon = My.Resources.AIPTool24
+        Me.Icon = My.Resources.GLTool24
         Me.picWeiXin.Image = My.Resources.微信打赏
 
         Me.lblProductName.Text = String.Format("产品 {0}", My.Application.Info.ProductName)

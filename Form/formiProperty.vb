@@ -9,9 +9,9 @@ Public Class FormiProperty
 
         SetPropitem(oInventorDocument, Map_DrawingNnumber, txt图号.Text)
         SetPropitem(oInventorDocument, Map_PartName, txt文件名.Text)
-        SetPropitem(oInventorDocument, Map_Describe, cmb描述.Text)
+        SetDescription(oInventorDocument, cmb描述.Text)
         SetPropitem(oInventorDocument, "生产数量", txt生产数量.Text)
-        SetPropitem(oInventorDocument, Map_Vendor, cmb供应商.Text)
+        SetVendor(oInventorDocument, cmb供应商.Text)
         SetPropitem(oInventorDocument, Map_Price, IIf(txt价格.Text = "", "0", txt价格.Text))
 
         If oInventorDocument.DocumentType = Inventor.DocumentTypeEnum.kPartDocumentObject Then
@@ -42,7 +42,7 @@ Public Class FormiProperty
     End Sub
 
     Private Sub FrmChangeIpro_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
         Me.TopMost = True
 
         '加载自定义描述
@@ -100,7 +100,8 @@ Public Class FormiProperty
                     Case Map_Describe, "描述", "Description"
                         cmb描述.Text = propitem.Value
                     Case Map_Vendor, "供应商", "Vendor"
-                        cmb供应商.Text = propitem.Value
+                        ' cmb供应商 是 DropDownList，直接赋 Text 在值不在预设项时不会显示
+                        SetComboValue(cmb供应商, propitem.Value)
                     Case Map_Price, "成本", "价格", "Cost"
                         txt价格.Text = propitem.Value
                     Case "质量", "重量", "Mass"
@@ -108,6 +109,14 @@ Public Class FormiProperty
                 End Select
             Next
         Next
+
+        ' 描述：显式从标准“Design Tracking Properties”读取 描述/Description，
+        '       避免被其它同名（或空值）属性覆盖导致显示不正确（兼容中英文 Inventor）
+        cmb描述.Text = GetDescription(oInventorDocument)
+
+        ' 供应商：同描述，显式从标准“Design Tracking Properties”读取 Vendor（内部名，跨语言一致）。
+        '         用 SetComboValue 显示（cmb供应商 是 DropDownList，值不在预设项时需加入再选中）
+        SetComboValue(cmb供应商, GetVendor(oInventorDocument))
 
         ' 生产数量：专门读取自定义（用户定义）属性集中的该项，存在则显示于 txt生产数量
         Try
@@ -121,15 +130,172 @@ Public Class FormiProperty
             Dim oInventorPartDocument As Inventor.PartDocument = oInventorDocument
             cmb材料.Items.Clear()
 
+            ' 材料库：读取该零件可用的全部材料
             For Each oMaterial In oInventorPartDocument.Materials
                 cmb材料.Items.Add(oMaterial.Name)
             Next
             cmb材料.DropDownStyle = ComboBoxStyle.DropDownList
-            cmb材料.Text = oInventorPartDocument.ComponentDefinition.Material.Name.ToString
+
+            ' 当前材料：有则直接显示（无材料时不能取 .Name，否则会中断整个 Load）
+            Try
+                If oInventorPartDocument.ComponentDefinition.Material IsNot Nothing Then
+                    SetComboValue(cmb材料, oInventorPartDocument.ComponentDefinition.Material.Name)
+                End If
+            Catch
+            End Try
         Else
             cmb材料.Enabled = False
         End If
 
+    End Sub
+
+    ''' <summary>
+    ''' 把值显示在下拉框中：若值不在列表中则先加入再选中。
+    ''' 用于 DropDownList 样式的下拉框（直接赋 Text 在值不在预设项时不会显示）。
+    ''' </summary>
+    Private Sub SetComboValue(ByVal cmb As ComboBox, ByVal value As Object)
+        If cmb Is Nothing Then Exit Sub
+
+        Dim strValue As String = If(value Is Nothing, "", value.ToString())
+        If strValue = "" Then
+            cmb.SelectedIndex = -1
+            Exit Sub
+        End If
+
+        Dim intIndex As Integer = -1
+        For i As Integer = 0 To cmb.Items.Count - 1
+            If String.Equals(cmb.Items(i).ToString(), strValue, StringComparison.OrdinalIgnoreCase) Then
+                intIndex = i
+                Exit For
+            End If
+        Next
+
+        If intIndex < 0 Then
+            cmb.Items.Add(strValue)
+            ' Sorted=True 时新增项会重排，重新定位
+            For i As Integer = 0 To cmb.Items.Count - 1
+                If String.Equals(cmb.Items(i).ToString(), strValue, StringComparison.OrdinalIgnoreCase) Then
+                    intIndex = i
+                    Exit For
+                End If
+            Next
+        End If
+
+        If intIndex >= 0 Then cmb.SelectedIndex = intIndex
+    End Sub
+
+    ''' <summary>
+    ''' 读取文件“描述/Description”属性（兼容中英文 Inventor）。
+    ''' 优先取“Design Tracking Properties”的 Description（内部名，跨语言一致），
+    ''' 兜底扫描所有属性集里首个 DisplayName 为 描述/Description 且非空的值。
+    ''' </summary>
+    Private Function GetDescription(ByVal oDoc As Inventor.Document) As String
+        Try
+            Dim ps As PropertySet = oDoc.PropertySets.Item("Design Tracking Properties")
+            Try
+                Dim oValue As Object = ps.Item("Description").Value
+                If oValue IsNot Nothing AndAlso oValue.ToString() <> "" Then Return oValue.ToString()
+            Catch
+            End Try
+        Catch
+        End Try
+
+        Try
+            For Each pset As PropertySet In oDoc.PropertySets
+                For Each p As [Property] In pset
+                    If p.DisplayName = "描述" OrElse p.DisplayName = "Description" Then
+                        If p.Value IsNot Nothing AndAlso p.Value.ToString() <> "" Then Return p.Value.ToString()
+                    End If
+                Next
+            Next
+        Catch
+        End Try
+        Return ""
+    End Function
+
+    ''' <summary>
+    ''' 将内容写入文件“描述/Description”属性（兼容中英文 Inventor）。
+    ''' 优先写“Design Tracking Properties”的 Description（内部名，跨语言一致），
+    ''' 兜底扫描更新所有属性集里首个 DisplayName 为 描述/Description 的属性。
+    ''' </summary>
+    Private Sub SetDescription(ByVal oDoc As Inventor.Document, ByVal strValue As String)
+        Try
+            Dim ps As PropertySet = oDoc.PropertySets.Item("Design Tracking Properties")
+            ps.Item("Description").Value = strValue
+            oDoc.Update()
+            Return
+        Catch
+        End Try
+
+        Try
+            For Each pset As PropertySet In oDoc.PropertySets
+                For Each p As [Property] In pset
+                    If p.DisplayName = "描述" OrElse p.DisplayName = "Description" Then
+                        p.Value = strValue
+                        oDoc.Update()
+                        Return
+                    End If
+                Next
+            Next
+        Catch
+        End Try
+    End Sub
+
+    ''' <summary>
+    ''' 读取文件“供应商/Vendor”属性（兼容中英文 Inventor）。
+    ''' 优先取“Design Tracking Properties”的 Vendor（内部名，跨语言一致），
+    ''' 兜底扫描所有属性集里首个 DisplayName 为 供应商/Vendor 且非空的值。
+    ''' </summary>
+    Private Function GetVendor(ByVal oDoc As Inventor.Document) As String
+        Try
+            Dim ps As PropertySet = oDoc.PropertySets.Item("Design Tracking Properties")
+            Try
+                Dim oValue As Object = ps.Item("Vendor").Value
+                If oValue IsNot Nothing AndAlso oValue.ToString() <> "" Then Return oValue.ToString()
+            Catch
+            End Try
+        Catch
+        End Try
+
+        Try
+            For Each pset As PropertySet In oDoc.PropertySets
+                For Each p As [Property] In pset
+                    If p.DisplayName = "供应商" OrElse p.DisplayName = "Vendor" Then
+                        If p.Value IsNot Nothing AndAlso p.Value.ToString() <> "" Then Return p.Value.ToString()
+                    End If
+                Next
+            Next
+        Catch
+        End Try
+        Return ""
+    End Function
+
+    ''' <summary>
+    ''' 将内容写入文件“供应商/Vendor”属性（兼容中英文 Inventor）。
+    ''' 优先写“Design Tracking Properties”的 Vendor（内部名，跨语言一致），
+    ''' 兜底扫描更新所有属性集里首个 DisplayName 为 供应商/Vendor 的属性。
+    ''' </summary>
+    Private Sub SetVendor(ByVal oDoc As Inventor.Document, ByVal strValue As String)
+        Try
+            Dim ps As PropertySet = oDoc.PropertySets.Item("Design Tracking Properties")
+            ps.Item("Vendor").Value = strValue
+            oDoc.Update()
+            Return
+        Catch
+        End Try
+
+        Try
+            For Each pset As PropertySet In oDoc.PropertySets
+                For Each p As [Property] In pset
+                    If p.DisplayName = "供应商" OrElse p.DisplayName = "Vendor" Then
+                        p.Value = strValue
+                        oDoc.Update()
+                        Return
+                    End If
+                Next
+            Next
+        Catch
+        End Try
     End Sub
 
     Private Sub Btn向上1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn向上1.Click
@@ -178,7 +344,7 @@ Public Class FormiProperty
         '            txtERP编码.Text = strPartNum
         '        Case Else
         '            If txtERP编码.Text <> strPartNum Then
-        '                If MessageBox.Show($"查询到不同的ERP编码：{strPartNum}，是否更新？", AIPTool，
+        '                If MessageBox.Show($"查询到不同的ERP编码：{strPartNum}，是否更新？", GLTool，
         '                                   MessageBoxButtons.YesNo， MessageBoxIcon.Question） = DialogResult.Yes Then
         '                    txtERP编码.Text = strPartNum
         '                End If
@@ -186,7 +352,7 @@ Public Class FormiProperty
         '    End Select
         'Else
         '    Me.TopMost = False
-        '    MessageBox.Show(”未查询到ERP编码。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        '    MessageBox.Show(”未查询到ERP编码。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Information)
         '    Me.TopMost = True
         'End If
 

@@ -14,7 +14,7 @@ Public Class FormBatchChangeFileNames
             End If
 
             If ThisApplication.ActiveDocumentType <> kAssemblyDocumentObject Then
-                MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
@@ -44,12 +44,12 @@ Public Class FormBatchChangeFileNames
 
             Me.TopMost = False
 
-            MessageBox.Show(“部件替换文件名完成。", AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show(“部件替换文件名完成。", GLTool, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
             Me.Close()
 
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -59,7 +59,7 @@ Public Class FormBatchChangeFileNames
     End Sub
 
     Private Sub FrmChangeIpro_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
         Me.TopMost = True
     End Sub
 

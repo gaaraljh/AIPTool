@@ -5717,7 +5717,7 @@ Public Class clsBomTool
 			MessageBox.Show("部分文件打开失败：" & vbCrLf & String.Join(vbCrLf, errList.ToArray()), "BOM工具", MessageBoxButtons.OK, MessageBoxIcon.Warning)
 		End If
 		' 打开后关闭 BOM 窗口
-		g_frm.Close()
+		'g_frm.Close()
 	End Sub
 
 	' ★ 检查由本规则打开的文档是否有属性改动，有则提示是否写回 BOM 表
@@ -6082,7 +6082,7 @@ Public Class clsBomTool
 	Public Function Run(Optional ByVal hostForm As System.Windows.Forms.Form = Nothing) As Boolean
 
 		If Not CheckDocumentType() Then Return False
-		If Not CheckEnvironment() Then Return False
+		'If Not CheckEnvironment() Then Return False
 
 		InitScaledConstants()
 
@@ -7346,7 +7346,6 @@ Public Class clsBomTool
 		If g_grid IsNot Nothing Then RemoveHandler g_grid.CellValueChanged, AddressOf OnCellValueChanged
 		Try
 			If g_isRefreshing OrElse g_isLoading Then Return  ' ★ 刷新/加载期间跳过，防止误触发
-			System.Diagnostics.Debug.WriteLine("[CVC] row=" & e.RowIndex & " col=" & e.ColumnIndex & " colName=" & If(e.ColumnIndex >= 0 AndAlso e.ColumnIndex < g_grid.Columns.Count, g_grid.Columns(e.ColumnIndex).Name, "??") & " val=" & If(e.RowIndex >= 0 AndAlso e.RowIndex < g_grid.Rows.Count AndAlso e.ColumnIndex >= 0 AndAlso e.ColumnIndex < g_grid.Columns.Count, SafeStr(g_grid.Rows(e.RowIndex).Cells(e.ColumnIndex).Value), "??") & " isRefreshing=" & g_isRefreshing)
 			If e.RowIndex < 0 OrElse e.RowIndex >= g_grid.Rows.Count Then Return
 			If e.ColumnIndex < 0 OrElse e.ColumnIndex >= g_grid.Columns.Count Then Return
 			Dim colName As String = g_grid.Columns(e.ColumnIndex).Name

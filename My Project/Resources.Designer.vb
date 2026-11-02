@@ -39,7 +39,7 @@ Namespace My.Resources
         Friend ReadOnly Property ResourceManager() As Global.System.Resources.ResourceManager
             Get
                 If Object.ReferenceEquals(resourceMan, Nothing) Then
-                    Dim temp As Global.System.Resources.ResourceManager = New Global.System.Resources.ResourceManager("AIPTool.Resources", GetType(Resources).Assembly)
+                    Dim temp As Global.System.Resources.ResourceManager = New Global.System.Resources.ResourceManager("GLTool.Resources", GetType(Resources).Assembly)
                     resourceMan = temp
                 End If
                 Return resourceMan
@@ -63,9 +63,9 @@ Namespace My.Resources
         '''<summary>
         '''  查找 System.Drawing.Bitmap 类型的本地化资源。
         '''</summary>
-        Friend ReadOnly Property AIPTool() As System.Drawing.Bitmap
+        Friend ReadOnly Property GLTool() As System.Drawing.Bitmap
             Get
-                Dim obj As Object = ResourceManager.GetObject("AIPTool", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("GLTool", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -73,9 +73,9 @@ Namespace My.Resources
         '''<summary>
         '''  查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
         '''</summary>
-        Friend ReadOnly Property AIPTool24() As System.Drawing.Icon
+        Friend ReadOnly Property GLTool24() As System.Drawing.Icon
             Get
-                Dim obj As Object = ResourceManager.GetObject("AIPTool24", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("GLTool24", resourceCulture)
                 Return CType(obj,System.Drawing.Icon)
             End Get
         End Property
@@ -83,9 +83,9 @@ Namespace My.Resources
         '''<summary>
         '''  查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
         '''</summary>
-        Friend ReadOnly Property AIPTool32() As System.Drawing.Icon
+        Friend ReadOnly Property GLTool32() As System.Drawing.Icon
             Get
-                Dim obj As Object = ResourceManager.GetObject("AIPTool32", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("GLTool32", resourceCulture)
                 Return CType(obj,System.Drawing.Icon)
             End Get
         End Property
@@ -93,9 +93,9 @@ Namespace My.Resources
         '''<summary>
         '''  查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
         '''</summary>
-        Friend ReadOnly Property AIPTool48() As System.Drawing.Icon
+        Friend ReadOnly Property GLTool48() As System.Drawing.Icon
             Get
-                Dim obj As Object = ResourceManager.GetObject("AIPTool48", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("GLTool48", resourceCulture)
                 Return CType(obj,System.Drawing.Icon)
             End Get
         End Property

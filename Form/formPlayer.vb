@@ -23,7 +23,7 @@ Public Class FormPlayer
         oInventorDocument = ThisApplication.ActiveDocument
 
         If oInventorDocument.DocumentType <> kAssemblyDocumentObject Then
-            MessageBox.Show(”该功能仅适用于部件。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”该功能仅适用于部件。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -43,11 +43,11 @@ Public Class FormPlayer
                     kFlushConstraintObject, kInsertConstraintObject, kMateConstraintObject, kTangentConstraintObject, kTransitionalConstraintObject
                     oAssemblyConstraint = oselect
                 Case Else
-                    MessageBox.Show("选择一个约束。"， AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
+                    MessageBox.Show("选择一个约束。"， GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
                     Exit Sub
             End Select
         Else
-            MessageBox.Show("选择一个约束。"， AIPTool, MessageBoxButtons.OK， MessageBoxIcon.Error)
+            MessageBox.Show("选择一个约束。"， GLTool, MessageBoxButtons.OK， MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -189,11 +189,11 @@ Public Class FormPlayer
                     kFlushConstraintObject, kInsertConstraintObject, kMateConstraintObject, kTangentConstraintObject, kTransitionalConstraintObject
                     oAssemblyConstraint = oselect
                 Case Else
-                    MessageBox.Show("选择一个约束。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                    MessageBox.Show("选择一个约束。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
                     Exit Sub
             End Select
         Else
-            MessageBox.Show("选择一个约束。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+            MessageBox.Show("选择一个约束。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
             Exit Sub
         End If
 
@@ -270,6 +270,6 @@ Public Class FormPlayer
     End Sub
 
     Private Sub FrmPlayer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
     End Sub
 End Class

@@ -19,7 +19,7 @@ Public Class FormSpecification
     Private Sub FrmSpecification_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         On Error Resume Next
 
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
 
         '加载间距
 
@@ -31,7 +31,7 @@ Public Class FormSpecification
         strSpecificationIni = IO.Path.Combine(My.Application.Info.DirectoryPath, "Specification.ini")
 
         If IsFileExists(strSpecificationIni) = False Then
-            MessageBox.Show("未找到配置文件 Specification.ini", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
+            MessageBox.Show("未找到配置文件 Specification.ini", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -50,6 +50,12 @@ Public Class FormSpecification
         Loop
         TreeView基础数据树.ExpandAll()
         boolIsBasicChange = False
+
+        ' 载入时默认选中基础数据树的第一项，并显示其列表内容
+        If TreeView基础数据树.Nodes.Count > 0 Then
+            TreeView基础数据树.SelectedNode = TreeView基础数据树.Nodes(0)
+            显示基础数据列表(TreeView基础数据树.Nodes(0).Text)
+        End If
 
         'oPrasentNode = TreeView自定义.Nodes.Add("技术要求")
         intNumber = 1
@@ -71,20 +77,24 @@ Public Class FormSpecification
         End If
 
         If boolIsBasicChange = True Then
-            If MessageBox.Show($"{TreeView基础数据树.SelectedNode.Text} 已修改，是否保存？", AIPTool，
+            If MessageBox.Show($"{TreeView基础数据树.SelectedNode.Text} 已修改，是否保存？", GLTool，
                                MessageBoxButtons.YesNo， MessageBoxIcon.Question) = DialogResult.Yes Then
                 保存基础数据ToolStripButton.PerformClick()
             End If
         End If
 
+        显示基础数据列表(e.Node.Text)
+
+        boolIsBasicChange = False
+    End Sub
+
+    ''' <summary>按节点名称从 Specification.ini 读取并显示该节点的基础数据列表</summary>
+    Private Sub 显示基础数据列表(ByVal strChildNodeName As String)
         lst基础数据列表.Items.Clear()
 
-        Dim strChildNodeName As String
         Dim strChildNodeValue As String
         Dim intNumber As Integer
         intNumber = 1
-
-        strChildNodeName = e.Node.Text
 
         GroupBox基础数据.Text = "基础数据 > " & strChildNodeName
 
@@ -94,8 +104,6 @@ Public Class FormSpecification
             intNumber += 1
             strChildNodeValue = GetStrFromINI(strChildNodeName, intNumber.ToString, "", strSpecificationIni)
         Loop
-
-        boolIsBasicChange = False
     End Sub
 
     Private Sub 删除选中项ToolStripButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles 删除选中项ToolStripButton.Click
@@ -108,7 +116,7 @@ Public Class FormSpecification
     Private Sub 添加自定义ToolStripButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles 添加自定义ToolStripButton.Click
         Dim strChildNodeValue As String
         Me.TopMost = False
-        strChildNodeValue = InputBox("输入技术要求。 ", AIPTool)
+        strChildNodeValue = InputBox("输入技术要求。 ", GLTool)
         If strChildNodeValue <> "" Then
             lst技术要求文本.Items.Add(strChildNodeValue)
             boolIsUserChange = True
@@ -229,7 +237,7 @@ Public Class FormSpecification
             lst技术要求文本.Items.Add(strChildNodeValue)
             boolIsUserChange = True
         Else
-            MessageBox.Show("请选择基础数据。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
+            MessageBox.Show("请选择基础数据。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -241,7 +249,7 @@ Public Class FormSpecification
         End If
 
         If boolIsUserChange = True Then
-            If MessageBox.Show($"{TreeView自定义.SelectedNode.Text}已修改，是否保存？", AIPTool，
+            If MessageBox.Show($"{TreeView自定义.SelectedNode.Text}已修改，是否保存？", GLTool，
                                MessageBoxButtons.YesNo， MessageBoxIcon.Question) = DialogResult.Yes Then
                 保存自定义ToolStripButton.PerformClick()
             End If
@@ -278,7 +286,7 @@ Public Class FormSpecification
         If strChildNodeName <> "" Then
             TreeView自定义.Nodes.Add(strChildNodeName)
             If boolIsUserChange = True Then
-                If MessageBox.Show($"{TreeView自定义.SelectedNode.Text}已修改，是否保存？", AIPTool，
+                If MessageBox.Show($"{TreeView自定义.SelectedNode.Text}已修改，是否保存？", GLTool，
                                    MessageBoxButtons.YesNo， MessageBoxIcon.Question) = DialogResult.Yes Then
                     保存自定义ToolStripButton.PerformClick()
                 End If
@@ -352,7 +360,7 @@ Public Class FormSpecification
         oInventorDocument = ThisApplication.ActiveDocument
 
         If oInventorDocument.DocumentType <> kDrawingDocumentObject Then
-            MessageBox.Show(”该功能仅适用于工程图。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”该功能仅适用于工程图。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 

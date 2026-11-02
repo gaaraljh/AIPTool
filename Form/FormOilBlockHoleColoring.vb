@@ -7,7 +7,7 @@ Public Class FormOilBlockHoleColoring
 
     Private oPartFeatureList As New List(Of PartFeature)
     Private Sub FormOilBlockHoleColoring_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
         ' 创建ToolTip控件并设置相关属性
         Dim toolTip As New ToolTip With {
             .AutoPopDelay = 0,
@@ -98,7 +98,7 @@ Public Class FormOilBlockHoleColoring
 
         Me.TopMost = False
 
-        Dim msg As DialogResult = MessageBox.Show($"油路块孔着色。{vbCrLf}是——油路块孔着色。{vbCrLf}否——清除着色。", AIPTool，
+        Dim msg As DialogResult = MessageBox.Show($"油路块孔着色。{vbCrLf}是——油路块孔着色。{vbCrLf}否——清除着色。", GLTool，
                                      MessageBoxButtons.YesNoCancel， MessageBoxIcon.Question)
 
         Me.TopMost = True

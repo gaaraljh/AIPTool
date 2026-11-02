@@ -42,7 +42,7 @@ Public Class FormQuitOpen
     End Sub
 
     Private Sub FrmQuitOpen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
         SetWindowSizeAndCenter(Me, 0.5, 0.32)
         lvw文件列表.AutoResizeColumn(0, ColumnHeaderAutoResizeStyle.ColumnContent)
 

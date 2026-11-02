@@ -8,13 +8,13 @@ Imports System.Text
 Public Class FormBorderTitle
 
     Private Sub FormBorderTitle_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
 
         Dim strTitleBlock As String
         strTitleBlock = IO.Path.Combine(My.Application.Info.DirectoryPath, "TitleBlock.ini")
 
         If IsFileExists(strTitleBlock) = False Then
-            MessageBox.Show(”无配置文件,请手动配置。”, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”无配置文件,请手动配置。”, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
 
             Using oStreamWriter As New StreamWriter(strTitleBlock, False, Encoding.Default)
                 oStreamWriter.WriteLine("#号行勿修改")

@@ -4,7 +4,7 @@ Imports System.Windows.Forms
 Imports Inventor
 Public Class FormFaceColoring
     Private Sub FormFaceColor_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
         ' 创建ToolTip控件并设置相关属性
         Dim toolTip As New ToolTip With {
             .AutoPopDelay = 0,

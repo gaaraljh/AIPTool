@@ -24,102 +24,102 @@ Partial Class FormPlaceOpenComponent
     '不要使用代码编辑器修改它。
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Me.btn插入到部件 = New System.Windows.Forms.Button()
-        Me.PictureBox缩略图 = New System.Windows.Forms.PictureBox()
-        Me.BtnClose = New System.Windows.Forms.Button()
-        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.Dgw列表 = New System.Windows.Forms.DataGridView()
-        CType(Me.PictureBox缩略图, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Dgw列表, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SuspendLayout()
-        '
-        'btn插入到部件
-        '
-        Me.btn插入到部件.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btn插入到部件.Location = New System.Drawing.Point(525, 442)
-        Me.btn插入到部件.Margin = New System.Windows.Forms.Padding(4, 6, 4, 6)
-        Me.btn插入到部件.Name = "btn插入到部件"
-        Me.btn插入到部件.Size = New System.Drawing.Size(152, 56)
-        Me.btn插入到部件.TabIndex = 2
-        Me.btn插入到部件.Text = "插入到部件"
-        Me.btn插入到部件.UseVisualStyleBackColor = True
-        '
-        'PictureBox缩略图
-        '
-        Me.PictureBox缩略图.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.PictureBox缩略图.Location = New System.Drawing.Point(385, 20)
-        Me.PictureBox缩略图.Margin = New System.Windows.Forms.Padding(4, 6, 4, 6)
-        Me.PictureBox缩略图.Name = "PictureBox缩略图"
-        Me.PictureBox缩略图.Size = New System.Drawing.Size(321, 400)
-        Me.PictureBox缩略图.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox缩略图.TabIndex = 1
-        Me.PictureBox缩略图.TabStop = False
-        '
-        'BtnClose
-        '
-        Me.BtnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.BtnClose.Location = New System.Drawing.Point(13, 501)
-        Me.BtnClose.Margin = New System.Windows.Forms.Padding(4, 6, 4, 6)
-        Me.BtnClose.Name = "BtnClose"
-        Me.BtnClose.Size = New System.Drawing.Size(94, 22)
-        Me.BtnClose.TabIndex = 4
-        Me.BtnClose.Text = "关闭窗口"
-        Me.BtnClose.UseVisualStyleBackColor = True
-        Me.BtnClose.Visible = False
-        '
-        'Dgw列表
-        '
-        Me.Dgw列表.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Dgw列表.BackgroundColor = System.Drawing.SystemColors.Window
-        Me.Dgw列表.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.Dgw列表.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle1.Padding = New System.Windows.Forms.Padding(0, 1, 0, 1)
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.Dgw列表.DefaultCellStyle = DataGridViewCellStyle1
-        Me.Dgw列表.GridColor = System.Drawing.SystemColors.Window
-        Me.Dgw列表.Location = New System.Drawing.Point(13, 20)
-        Me.Dgw列表.Name = "Dgw列表"
-        Me.Dgw列表.RowHeadersWidth = 62
-        Me.Dgw列表.RowTemplate.Height = 28
-        Me.Dgw列表.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.Dgw列表.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.Dgw列表.Size = New System.Drawing.Size(329, 400)
-        Me.Dgw列表.TabIndex = 5
-        '
-        'FormPlaceOpenComponent
-        '
-        Me.AcceptButton = Me.btn插入到部件
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.CancelButton = Me.BtnClose
-        Me.ClientSize = New System.Drawing.Size(722, 538)
-        Me.Controls.Add(Me.Dgw列表)
-        Me.Controls.Add(Me.BtnClose)
-        Me.Controls.Add(Me.btn插入到部件)
-        Me.Controls.Add(Me.PictureBox缩略图)
-        Me.KeyPreview = True
-        Me.Margin = New System.Windows.Forms.Padding(4, 6, 4, 6)
-        Me.MaximizeBox = False
-        Me.MinimizeBox = False
-        Me.Name = "FormPlaceOpenComponent"
-        Me.ShowInTaskbar = False
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "插入打开的零部件"
-        CType(Me.PictureBox缩略图, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Dgw列表, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ResumeLayout(False)
+        components = New System.ComponentModel.Container()
+        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormPlaceOpenComponent))
+        btn插入到部件 = New Button()
+        PictureBox缩略图 = New PictureBox()
+        BtnClose = New Button()
+        ToolTip1 = New ToolTip(components)
+        Dgw列表 = New DataGridView()
+        CType(PictureBox缩略图, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Dgw列表, System.ComponentModel.ISupportInitialize).BeginInit()
+        SuspendLayout()
+        ' 
+        ' btn插入到部件
+        ' 
+        btn插入到部件.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        btn插入到部件.DialogResult = DialogResult.Cancel
+        btn插入到部件.Location = New System.Drawing.Point(758, 524)
+        btn插入到部件.Margin = New Padding(4, 8, 4, 8)
+        btn插入到部件.Name = "btn插入到部件"
+        btn插入到部件.Size = New Size(169, 54)
+        btn插入到部件.TabIndex = 2
+        btn插入到部件.Text = "插入到部件"
+        btn插入到部件.UseVisualStyleBackColor = True
+        ' 
+        ' PictureBox缩略图
+        ' 
+        PictureBox缩略图.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        PictureBox缩略图.Location = New System.Drawing.Point(481, 25)
+        PictureBox缩略图.Margin = New Padding(4, 8, 4, 8)
+        PictureBox缩略图.Name = "PictureBox缩略图"
+        PictureBox缩略图.Size = New Size(444, 483)
+        PictureBox缩略图.SizeMode = PictureBoxSizeMode.Zoom
+        PictureBox缩略图.TabIndex = 1
+        PictureBox缩略图.TabStop = False
+        ' 
+        ' BtnClose
+        ' 
+        BtnClose.DialogResult = DialogResult.Cancel
+        BtnClose.Location = New System.Drawing.Point(14, 627)
+        BtnClose.Margin = New Padding(4, 8, 4, 8)
+        BtnClose.Name = "BtnClose"
+        BtnClose.Size = New Size(104, 28)
+        BtnClose.TabIndex = 4
+        BtnClose.Text = "关闭窗口"
+        BtnClose.UseVisualStyleBackColor = True
+        BtnClose.Visible = False
+        ' 
+        ' Dgw列表
+        ' 
+        Dgw列表.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        Dgw列表.BackgroundColor = SystemColors.Window
+        Dgw列表.BorderStyle = BorderStyle.None
+        Dgw列表.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = SystemColors.Window
+        DataGridViewCellStyle1.Font = New Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        DataGridViewCellStyle1.ForeColor = SystemColors.ControlText
+        DataGridViewCellStyle1.Padding = New Padding(0, 1, 0, 1)
+        DataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight
+        DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.False
+        Dgw列表.DefaultCellStyle = DataGridViewCellStyle1
+        Dgw列表.GridColor = SystemColors.Window
+        Dgw列表.Location = New System.Drawing.Point(14, 25)
+        Dgw列表.Margin = New Padding(3, 4, 3, 4)
+        Dgw列表.Name = "Dgw列表"
+        Dgw列表.RowHeadersWidth = 62
+        Dgw列表.RowTemplate.Height = 28
+        Dgw列表.ScrollBars = ScrollBars.Vertical
+        Dgw列表.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        Dgw列表.Size = New Size(444, 483)
+        Dgw列表.TabIndex = 5
+        ' 
+        ' FormPlaceOpenComponent
+        ' 
+        AcceptButton = btn插入到部件
+        AutoScaleDimensions = New SizeF(10F, 25F)
+        AutoScaleMode = AutoScaleMode.Font
+        CancelButton = BtnClose
+        ClientSize = New Size(940, 584)
+        Controls.Add(Dgw列表)
+        Controls.Add(BtnClose)
+        Controls.Add(btn插入到部件)
+        Controls.Add(PictureBox缩略图)
+        Icon = CType(resources.GetObject("$this.Icon"), Icon)
+        KeyPreview = True
+        Margin = New Padding(4, 8, 4, 8)
+        MaximizeBox = False
+        MinimizeBox = False
+        Name = "FormPlaceOpenComponent"
+        ShowInTaskbar = False
+        StartPosition = FormStartPosition.CenterScreen
+        Text = "插入打开的零部件"
+        CType(PictureBox缩略图, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Dgw列表, System.ComponentModel.ISupportInitialize).EndInit()
+        ResumeLayout(False)
 
     End Sub
     Friend WithEvents btn插入到部件 As Button

@@ -96,7 +96,7 @@ Public NotInheritable Class FormSearchERPCode
     End Sub
 
     Private Sub FrmSearchERPCode_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
         Me.TopMost = True
         Me.Height = 156
     End Sub

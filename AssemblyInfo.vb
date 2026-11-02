@@ -8,10 +8,10 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("AIPTool")>
+<Assembly: AssemblyTitle("GLTool")>
 <Assembly: AssemblyDescription("A Inventor AddIn For Inventor 2016-2026")>
-<Assembly: AssemblyCompany("https://github.com/gaaraljh/AIPTool")>
-<Assembly: AssemblyProduct("AIPTool")>
+<Assembly: AssemblyCompany("https://github.com/gaaraljh/GLTool")>
+<Assembly: AssemblyProduct("GLTool")>
 <Assembly: AssemblyCopyright("Copyright ©  2016-2026")>
 <Assembly: AssemblyTrademark("")>
 

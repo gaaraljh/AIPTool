@@ -90,10 +90,10 @@ Partial Class FormFormatConversion
         Lvw文件列表.Columns.AddRange(New ColumnHeader() {ColumnHeader文件名})
         Lvw文件列表.ContextMenuStrip = cms右键菜单
         Lvw文件列表.FullRowSelect = True
-        Lvw文件列表.Location = New System.Drawing.Point(4, 355)
+        Lvw文件列表.Location = New System.Drawing.Point(4, 377)
         Lvw文件列表.Margin = New Padding(4, 5, 4, 5)
         Lvw文件列表.Name = "Lvw文件列表"
-        Lvw文件列表.Size = New Size(1214, 779)
+        Lvw文件列表.Size = New Size(1836, 757)
         Lvw文件列表.Sorting = SortOrder.Ascending
         Lvw文件列表.TabIndex = 37
         Lvw文件列表.UseCompatibleStateImageBehavior = False
@@ -131,7 +131,7 @@ Partial Class FormFormatConversion
         ToolStrip文档格式.Location = New System.Drawing.Point(0, 232)
         ToolStrip文档格式.Name = "ToolStrip文档格式"
         ToolStrip文档格式.Padding = New Padding(0, 0, 3, 0)
-        ToolStrip文档格式.Size = New Size(1222, 58)
+        ToolStrip文档格式.Size = New Size(1844, 58)
         ToolStrip文档格式.TabIndex = 38
         ToolStrip文档格式.Text = "ToolStrip1"
         ' 
@@ -240,7 +240,7 @@ Partial Class FormFormatConversion
         加载方式ToolStrip.Location = New System.Drawing.Point(0, 174)
         加载方式ToolStrip.Name = "加载方式ToolStrip"
         加载方式ToolStrip.Padding = New Padding(0, 0, 3, 0)
-        加载方式ToolStrip.Size = New Size(1222, 58)
+        加载方式ToolStrip.Size = New Size(1844, 58)
         加载方式ToolStrip.TabIndex = 39
         加载方式ToolStrip.Text = "加载方式"
         ' 
@@ -316,7 +316,7 @@ Partial Class FormFormatConversion
         转换格式ToolStrip.Location = New System.Drawing.Point(0, 116)
         转换格式ToolStrip.Name = "转换格式ToolStrip"
         转换格式ToolStrip.Padding = New Padding(0, 0, 3, 0)
-        转换格式ToolStrip.Size = New Size(1222, 58)
+        转换格式ToolStrip.Size = New Size(1844, 58)
         转换格式ToolStrip.TabIndex = 40
         转换格式ToolStrip.Text = "转换格式"
         ' 
@@ -408,7 +408,7 @@ Partial Class FormFormatConversion
         ToolStrip1.Location = New System.Drawing.Point(0, 58)
         ToolStrip1.Name = "ToolStrip1"
         ToolStrip1.Padding = New Padding(0, 0, 3, 0)
-        ToolStrip1.Size = New Size(1222, 58)
+        ToolStrip1.Size = New Size(1844, 58)
         ToolStrip1.TabIndex = 41
         ToolStrip1.Text = "ToolStrip1"
         ' 
@@ -488,7 +488,7 @@ Partial Class FormFormatConversion
         开始转换ToolStrip.Location = New System.Drawing.Point(0, 0)
         开始转换ToolStrip.Name = "开始转换ToolStrip"
         开始转换ToolStrip.Padding = New Padding(0, 0, 3, 0)
-        开始转换ToolStrip.Size = New Size(1222, 58)
+        开始转换ToolStrip.Size = New Size(1844, 58)
         开始转换ToolStrip.TabIndex = 42
         开始转换ToolStrip.Text = "开始转换"
         ' 
@@ -538,31 +538,33 @@ Partial Class FormFormatConversion
         ' 
         TableLayoutPanel1.ColumnCount = 1
         TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100F))
-        TableLayoutPanel1.Controls.Add(Lvw文件列表, 0, 5)
+        TableLayoutPanel1.Controls.Add(Lvw文件列表, 0, 6)
         TableLayoutPanel1.Dock = DockStyle.Fill
         TableLayoutPanel1.Location = New System.Drawing.Point(0, 0)
         TableLayoutPanel1.Name = "TableLayoutPanel1"
-        TableLayoutPanel1.RowCount = 6
+        TableLayoutPanel1.RowCount = 7
         TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 70F))
         TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 70F))
         TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 70F))
         TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 70F))
-        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 70F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 31F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 61F))
         TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
-        TableLayoutPanel1.Size = New Size(1222, 1139)
+        TableLayoutPanel1.Size = New Size(1844, 1139)
         TableLayoutPanel1.TabIndex = 43
         ' 
         ' FormFormatConversion
         ' 
         AutoScaleDimensions = New SizeF(10F, 25F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(1222, 1139)
+        ClientSize = New Size(1844, 1139)
         Controls.Add(ToolStrip文档格式)
         Controls.Add(加载方式ToolStrip)
         Controls.Add(转换格式ToolStrip)
         Controls.Add(ToolStrip1)
         Controls.Add(开始转换ToolStrip)
         Controls.Add(TableLayoutPanel1)
+        Icon = CType(resources.GetObject("$this.Icon"), Icon)
         Margin = New Padding(4, 5, 4, 5)
         Name = "FormFormatConversion"
         StartPosition = FormStartPosition.CenterScreen
@@ -619,7 +621,6 @@ Partial Class FormFormatConversion
     Friend WithEvents ToolStripSeparator5 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents 移出文件ToolStripButton As System.Windows.Forms.ToolStripButton
     Friend WithEvents 清空列表ToolStripButton As System.Windows.Forms.ToolStripButton
-    Friend WithEvents 指定文件夹ToolStripTextBox As System.Windows.Forms.ToolStripTextBox
     Friend WithEvents 静默转换ToolStripButton As System.Windows.Forms.ToolStripButton
     Friend WithEvents 转换后关闭ToolStripButton As System.Windows.Forms.ToolStripButton
     Friend WithEvents 开始转换ToolStrip As System.Windows.Forms.ToolStrip
@@ -631,4 +632,5 @@ Partial Class FormFormatConversion
     Friend WithEvents 替换ToolStripButton As ToolStripButton
     Friend WithEvents 黑色PDFToolStripButton As ToolStripButton
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
+    Friend WithEvents 指定文件夹ToolStripTextBox As ToolStripTextBox
 End Class

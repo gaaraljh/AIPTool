@@ -20,7 +20,7 @@ Module DrawingBalloon
             End If
 
             If ThisApplication.ActiveDocumentType <> kDrawingDocumentObject Then
-                MessageBox.Show(”该功能仅适用于工程图。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于工程图。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Function
             End If
 
@@ -31,12 +31,12 @@ Module DrawingBalloon
             oActiveSheet = oInventorDrawingDocument.ActiveSheet
 
             If oActiveSheet.Balloons.Count = 0 Then
-                MessageBox.Show("该工程图无序号，请添加【序号】。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                MessageBox.Show("该工程图无序号，请添加【序号】。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
                 Exit Function
             End If
 
             If oActiveSheet.PartsLists.Count = 0 Then
-                MessageBox.Show("该工程图无明细表，请插入一个【明细表】。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                MessageBox.Show("该工程图无明细表，请插入一个【明细表】。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
                 Exit Function
             End If
 
@@ -87,14 +87,14 @@ Module DrawingBalloon
             oTransaction.End() '事务结束，完成修改操作
 
             If Strings.Len(strList) > 1 Then
-                MessageBox.Show($"明细表：{strList} 无序号。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
+                MessageBox.Show($"明细表：{strList} 无序号。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information）
             Else
-                MessageBox.Show("检查序号完成。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Information)
+                MessageBox.Show("检查序号完成。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Information)
             End If
 
 
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
 
@@ -190,7 +190,7 @@ Module DrawingBalloon
         End If
 
         If ThisApplication.ActiveDocumentType <> kDrawingDocumentObject Then
-            MessageBox.Show(”该功能仅适用于工程图。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”该功能仅适用于工程图。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Function
         End If
 
@@ -210,12 +210,12 @@ Module DrawingBalloon
         oActiveSheet = oInventorDrawingDocument.ActiveSheet
 
         If oActiveSheet.PartsLists.Count = 0 Then
-            MessageBox.Show("该工程图无明细表。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+            MessageBox.Show("该工程图无明细表。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
             Return False
             Exit Function
         End If
 
-        Dim userInput As String = InputBox("输入第一个序号", AIPTool, 1)
+        Dim userInput As String = InputBox("输入第一个序号", GLTool, 1)
 
         Dim intFirstBalloonNumber As Integer
         If String.IsNullOrEmpty(userInput) Then
@@ -433,7 +433,7 @@ Module DrawingBalloon
         '事务结束，完成修改操作
         oTransaction.End()
         'Catch ex As Exception
-        '       MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        '       MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         'End Try
 
     End Function
@@ -452,7 +452,7 @@ Module DrawingBalloon
             End If
 
             If ThisApplication.ActiveDocumentType <> kDrawingDocumentObject Then
-                MessageBox.Show(”该功能仅适用于工程图。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于工程图。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
@@ -467,11 +467,11 @@ Module DrawingBalloon
             oActiveSheet = oInventorDrawingDocument.ActiveSheet
 
             If oActiveSheet.PartsLists.Count = 0 Then
-                MessageBox.Show("该工程图无明细表", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                MessageBox.Show("该工程图无明细表", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
                 Exit Sub
             End If
 
-            Dim strFirstBalloonNumber As String = InputBox("输入第一个序号", AIPTool, 1)
+            Dim strFirstBalloonNumber As String = InputBox("输入第一个序号", GLTool, 1)
             Dim intFirstBalloonNumber As Integer
 
             If String.IsNullOrEmpty(strFirstBalloonNumber) Then
@@ -556,7 +556,7 @@ Module DrawingBalloon
 
             oActiveBalloonStyle.TextStyle = oOldBalloonTextStyle
 
-            'If MessageBox.Show("是否重写BOM序号？", AIPTool, MessageBoxButtons.YesNo, MessageBoxIcon.Question,
+            'If MessageBox.Show("是否重写BOM序号？", GLTool, MessageBoxButtons.YesNo, MessageBoxIcon.Question,
             '                   MessageBoxDefaultButton.Button1) = vbYes Then
             '    'Threading.Thread.Sleep(2000)
             ReWriteBOM()
@@ -584,7 +584,7 @@ Module DrawingBalloon
             End If
 
             If ThisApplication.ActiveDocumentType <> kDrawingDocumentObject Then
-                MessageBox.Show(”该功能仅适用于工程图。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(”该功能仅适用于工程图。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
@@ -595,7 +595,7 @@ Module DrawingBalloon
             oActiveSheet = oInventorDrawingDocument.ActiveSheet
 
             If oActiveSheet.PartsLists.Count = 0 Then
-                MessageBox.Show("该工程图无明细表。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+                MessageBox.Show("该工程图无明细表。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
                 Exit Sub
             End If
 
@@ -605,7 +605,7 @@ Module DrawingBalloon
             oPartsList.Sort("序号", True)
 
         Catch ex As Exception
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
     End Sub
@@ -627,7 +627,7 @@ Module DrawingBalloon
         oInventorDocument = ThisApplication.ActiveDocument
 
         If oInventorDocument.DocumentType <> kDrawingDocumentObject Then
-            MessageBox.Show(”该功能仅适用于工程图。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”该功能仅适用于工程图。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -646,7 +646,7 @@ Module DrawingBalloon
         oActiveSheet = oInventorDrawingDocument.ActiveSheet
 
         If oActiveSheet.PartsLists.Count = 0 Then
-            MessageBox.Show("该工程图无明细表。", AIPTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
+            MessageBox.Show("该工程图无明细表。", GLTool， MessageBoxButtons.OK， MessageBoxIcon.Error）
             Exit Sub
         End If
 
@@ -688,10 +688,10 @@ Module DrawingBalloon
 
             oTransaction.End()
         Catch ex As FormatException
-            MessageBox.Show(”请输入有效的数字格式“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”请输入有效的数字格式“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         Catch ex As ArgumentException
 
-            MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
 

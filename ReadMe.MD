@@ -1,10 +1,10 @@
-# AIPTool是什么?
-AIPTool是Autodesk Inventor 插件，基于原Leaky114开源的XHTool插件（现已闭源）修改使用。
+# GLTool是什么?
+GLTool是Autodesk Inventor 插件，基于原Leaky114开源的XHTool插件（现已闭源）修改使用。
 
-# AIPTool支持哪些版本?
+# GLTool支持哪些版本?
 目前测试支持到Inventor2016-2026版。 
 
-# AIPTool有哪些功能?
+# GLTool有哪些功能?
 - iProperty自动填写
 - 部件内修改零部件文件名
 - 检查是否存在零件对应工程图

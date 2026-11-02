@@ -26,7 +26,7 @@ Public Class FormSetReadOnly
     End Sub
 
     Private Sub FrmSetWrite_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
 
         Dim imageList As New ImageList()
         imageList.Images.Add(My.Resources.部件16.ToBitmap)
@@ -324,7 +324,7 @@ Public Class FormSetReadOnly
         Try
             oAssemblyDocument = ThisApplication.Documents.ItemByName(strCurrentAssemblyDocumentFulFileName)
         Catch
-            MessageBox.Show($"没有打开文件：{strCurrentAssemblyDocumentFulFileName}。", AIPTool，
+            MessageBox.Show($"没有打开文件：{strCurrentAssemblyDocumentFulFileName}。", GLTool，
                             MessageBoxButtons.OK， MessageBoxIcon.Error）
             e.Node.Remove()
             Exit Sub

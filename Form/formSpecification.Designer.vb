@@ -71,7 +71,7 @@ Partial Class FormSpecification
         ' 
         btn关闭.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         btn关闭.DialogResult = DialogResult.Cancel
-        btn关闭.Location = New System.Drawing.Point(1235, 1022)
+        btn关闭.Location = New System.Drawing.Point(1232, 1126)
         btn关闭.Margin = New Padding(4, 6, 4, 6)
         btn关闭.Name = "btn关闭"
         btn关闭.Size = New Size(124, 58)
@@ -84,11 +84,12 @@ Partial Class FormSpecification
         GroupBox基础数据.Controls.Add(ToolStrip基础数据)
         GroupBox基础数据.Controls.Add(TreeView基础数据树)
         GroupBox基础数据.Controls.Add(lst基础数据列表)
+        GroupBox基础数据.Font = New Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         GroupBox基础数据.Location = New System.Drawing.Point(20, 17)
         GroupBox基础数据.Margin = New Padding(4, 6, 4, 6)
         GroupBox基础数据.Name = "GroupBox基础数据"
         GroupBox基础数据.Padding = New Padding(4, 6, 4, 6)
-        GroupBox基础数据.Size = New Size(1339, 465)
+        GroupBox基础数据.Size = New Size(1336, 555)
         GroupBox基础数据.TabIndex = 0
         GroupBox基础数据.TabStop = False
         GroupBox基础数据.Text = "基础数据"
@@ -98,10 +99,10 @@ Partial Class FormSpecification
         ToolStrip基础数据.Font = New Font("宋体", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(134))
         ToolStrip基础数据.ImageScalingSize = New Size(24, 24)
         ToolStrip基础数据.Items.AddRange(New ToolStripItem() {配置文件ToolStripButton, 保存基础数据ToolStripButton, ToolStripSeparator2, 添加基础数据ToolStripButton, 修改基础数据ToolStripButton, 删除基础数据ToolStripButton})
-        ToolStrip基础数据.Location = New System.Drawing.Point(4, 30)
+        ToolStrip基础数据.Location = New System.Drawing.Point(4, 36)
         ToolStrip基础数据.Name = "ToolStrip基础数据"
         ToolStrip基础数据.Padding = New Padding(0, 0, 3, 0)
-        ToolStrip基础数据.Size = New Size(1331, 31)
+        ToolStrip基础数据.Size = New Size(1328, 31)
         ToolStrip基础数据.TabIndex = 0
         ToolStrip基础数据.Text = "ToolStrip2"
         ' 
@@ -163,7 +164,7 @@ Partial Class FormSpecification
         TreeView基础数据树.Location = New System.Drawing.Point(22, 92)
         TreeView基础数据树.Margin = New Padding(4, 6, 4, 6)
         TreeView基础数据树.Name = "TreeView基础数据树"
-        TreeView基础数据树.Size = New Size(346, 366)
+        TreeView基础数据树.Size = New Size(346, 456)
         TreeView基础数据树.TabIndex = 1
         ' 
         ' lst基础数据列表
@@ -176,7 +177,7 @@ Partial Class FormSpecification
         lst基础数据列表.Location = New System.Drawing.Point(412, 94)
         lst基础数据列表.Margin = New Padding(4, 6, 4, 6)
         lst基础数据列表.Name = "lst基础数据列表"
-        lst基础数据列表.Size = New Size(905, 364)
+        lst基础数据列表.Size = New Size(902, 454)
         lst基础数据列表.TabIndex = 2
         ' 
         ' GroupBox技术要求
@@ -189,11 +190,11 @@ Partial Class FormSpecification
         GroupBox技术要求.Controls.Add(lst技术要求文本)
         GroupBox技术要求.Controls.Add(txt标题文本)
         GroupBox技术要求.Font = New Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        GroupBox技术要求.Location = New System.Drawing.Point(20, 494)
+        GroupBox技术要求.Location = New System.Drawing.Point(24, 584)
         GroupBox技术要求.Margin = New Padding(4, 6, 4, 6)
         GroupBox技术要求.Name = "GroupBox技术要求"
         GroupBox技术要求.Padding = New Padding(4, 6, 4, 6)
-        GroupBox技术要求.Size = New Size(1339, 519)
+        GroupBox技术要求.Size = New Size(1336, 519)
         GroupBox技术要求.TabIndex = 1
         GroupBox技术要求.TabStop = False
         GroupBox技术要求.Text = "技术要求"
@@ -240,7 +241,7 @@ Partial Class FormSpecification
         ToolStrip自定义数据.Location = New System.Drawing.Point(4, 36)
         ToolStrip自定义数据.Name = "ToolStrip自定义数据"
         ToolStrip自定义数据.Padding = New Padding(0, 0, 3, 0)
-        ToolStrip自定义数据.Size = New Size(1331, 35)
+        ToolStrip自定义数据.Size = New Size(1328, 35)
         ToolStrip自定义数据.TabIndex = 0
         ToolStrip自定义数据.Text = "ToolStrip1"
         ' 
@@ -390,7 +391,7 @@ Partial Class FormSpecification
         lst技术要求文本.Location = New System.Drawing.Point(412, 150)
         lst技术要求文本.Margin = New Padding(4, 6, 4, 6)
         lst技术要求文本.Name = "lst技术要求文本"
-        lst技术要求文本.Size = New Size(905, 334)
+        lst技术要求文本.Size = New Size(902, 334)
         lst技术要求文本.TabIndex = 1
         ' 
         ' txt标题文本
@@ -405,7 +406,7 @@ Partial Class FormSpecification
         ' 
         ' btn取消导入
         ' 
-        btn取消导入.Location = New System.Drawing.Point(209, 1021)
+        btn取消导入.Location = New System.Drawing.Point(185, 1115)
         btn取消导入.Margin = New Padding(4, 6, 4, 6)
         btn取消导入.Name = "btn取消导入"
         btn取消导入.Size = New Size(124, 58)
@@ -416,7 +417,7 @@ Partial Class FormSpecification
         ' 
         ' btn确定导入
         ' 
-        btn确定导入.Location = New System.Drawing.Point(67, 1020)
+        btn确定导入.Location = New System.Drawing.Point(53, 1115)
         btn确定导入.Margin = New Padding(4, 6, 4, 6)
         btn确定导入.Name = "btn确定导入"
         btn确定导入.Size = New Size(124, 58)
@@ -428,7 +429,7 @@ Partial Class FormSpecification
         ' btn插入
         ' 
         btn插入.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
-        btn插入.Location = New System.Drawing.Point(1099, 1025)
+        btn插入.Location = New System.Drawing.Point(1100, 1126)
         btn插入.Margin = New Padding(4, 6, 4, 6)
         btn插入.Name = "btn插入"
         btn插入.Size = New Size(124, 58)
@@ -441,7 +442,7 @@ Partial Class FormSpecification
         AutoScaleDimensions = New SizeF(10F, 25F)
         AutoScaleMode = AutoScaleMode.Font
         CancelButton = btn关闭
-        ClientSize = New Size(1379, 1106)
+        ClientSize = New Size(1376, 1199)
         Controls.Add(btn确定导入)
         Controls.Add(btn取消导入)
         Controls.Add(GroupBox技术要求)

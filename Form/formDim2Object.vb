@@ -90,7 +90,7 @@ Public Class FormDim2Object
     End Sub
 
     Private Sub FrmDim2Object_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
         ' 创建ToolTip控件并设置相关属性
         Dim toolTip As New ToolTip With {
             .AutoPopDelay = 0,
@@ -146,11 +146,11 @@ Public Class FormDim2Object
                     kFlushConstraintObject, kInsertConstraintObject, kMateConstraintObject, kTangentConstraintObject, kTransitionalConstraintObject
                     oAssemblyConstraint = oselect
                 Case Else
-                    MessageBox.Show(”选择一个约束。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    MessageBox.Show(”选择一个约束。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
                     Exit Sub
             End Select
         Else
-            MessageBox.Show(”选择一个约束。“, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(”选择一个约束。“, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -410,7 +410,7 @@ Public Class FormDim2Object
 
         End Using
 
-        If MessageBox.Show("数据文件导出完成，是否打开？", AIPTool, MessageBoxButtons.YesNo, MessageBoxIcon.Information) = DialogResult.Yes Then
+        If MessageBox.Show("数据文件导出完成，是否打开？", GLTool, MessageBoxButtons.YesNo, MessageBoxIcon.Information) = DialogResult.Yes Then
           ProcessStart(strCsvFullFileName)
         End If
 

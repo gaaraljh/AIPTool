@@ -40,7 +40,7 @@ Public Class FormSwitchLables
     End Sub
 
     Private Sub FrmTable_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Icon = My.Resources.AIPTool48
+        Me.Icon = My.Resources.GLTool48
 
         'Dim stopwatch As New Stopwatch()
         'stopwatch.Start()  ' 开始计时
@@ -133,7 +133,7 @@ Public Class FormSwitchLables
                 AddHandler PictureBoxes(i).MouseLeave, AddressOf PictureBox_MouseLeave
 
             Catch ex As Exception
-                   MessageBox.Show(ex.Message, AIPTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                   MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         Next
 
@@ -285,7 +285,7 @@ Public Class FormSwitchLables
         txt列间距.Text = int图框列间距.ToString
 
         Dim obutton As ButtonDefinition
-        obutton = ThisApplication.CommandManager.ControlDefinitions.Item("AIPToolInName切换文档")
+        obutton = ThisApplication.CommandManager.ControlDefinitions.Item("GLToolInName切换文档")
         Txt快捷键.Text = obutton.DefaultShortcut
 
         Dim windowWidth As Integer = Me.ClientSize.Width
@@ -314,7 +314,7 @@ Public Class FormSwitchLables
         int图框列间距 = txt列间距.Text
 
         Dim obutton As ButtonDefinition
-        obutton = ThisApplication.CommandManager.ControlDefinitions.Item("AIPToolInName切换文档")
+        obutton = ThisApplication.CommandManager.ControlDefinitions.Item("GLToolInName切换文档")
         obutton.DefaultShortcut = Txt快捷键.Text
 
         ini.WriteStrINI("切换文档", "每行数量", int每行数量.ToString, IniFile)
