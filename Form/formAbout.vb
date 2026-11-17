@@ -19,7 +19,7 @@ Public NotInheritable Class FormAbout
         Me.picWeiXin.Image = My.Resources.微信打赏
 
         Me.lblProductName.Text = String.Format("产品 {0}", My.Application.Info.ProductName)
-        Me.lblVersion.Text = String.Format("版本 {0}", My.Application.Info.Version.ToString)
+        Me.lblVersion.Text = String.Format("版本 {0}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString())
         Me.lblCopyright.Text = String.Format("版权 {0}", My.Application.Info.Copyright)
         Me.lblCompanyName.Text = String.Format("公司 {0}", My.Application.Info.CompanyName)
         Me.txtDescription.Text = $“{My.Application.Info.Description}{vbCrLf}{IO.Path.Combine(My.Application.Info.DirectoryPath, My.Application.Info.AssemblyName & ".dll")}”

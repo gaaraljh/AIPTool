@@ -28,7 +28,14 @@ Public Class ClsRightMouseOpenDrawing
         If oDoc.DocumentType <> DocumentTypeEnum.kPartDocumentObject AndAlso
            oDoc.DocumentType <> DocumentTypeEnum.kAssemblyDocumentObject Then Return
 
-        '选中或未选中零部件都显示（OpenDrawingFile 内部已按 SelectSet 区分处理）
+        '未选中时显示（打开当前文档的工程图）；有选中时，仅当全部为零部件（ComponentOccurrence）才显示，
+        '约束、特征、面等非零部件不显示（OpenDrawingFile 只处理 ComponentOccurrence）
+        If oDoc.SelectSet.Count > 0 Then
+            For Each oSelected As Object In oDoc.SelectSet
+                If Not TypeOf oSelected Is ComponentOccurrence Then Return
+            Next
+        End If
+
         CommandBar.Controls.AddButton(m_打开工程图_Buttondef, 3)
     End Sub
 

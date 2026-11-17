@@ -21,9 +21,21 @@
     <OptionStrict>Off</OptionStrict>
     <OptionInfer>On</OptionInfer>
 
-    <!-- AssemblyInfo.vb 为手工维护，关闭自动生成以避免程序集特性重复 -->
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <!-- 程序集信息由 SDK 根据以下属性生成，可在 VS 项目属性 → 应用程序 → 程序集信息 中图形化修改 -->
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
+
+    <AssemblyTitle>GLTool</AssemblyTitle>
+    <Description>A Inventor AddIn For Inventor 2016-2026</Description>
+    <Company>https://github.com/gaaraljh/GLTool</Company>
+    <Product>GLTool</Product>
+    <Copyright>Copyright ©  2016-2026</Copyright>
+    <Trademark></Trademark>
+    <Version>1.26.11.19</Version>
+    <AssemblyVersion>2026.11.20</AssemblyVersion>
+    <FileVersion>1.26.11.19</FileVersion>
+    <InformationalVersion>1.26.11.19</InformationalVersion>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 
     <!-- 生成 comhost，供 Inventor 通过 COM 加载 .NET 8 组件 -->
     <EnableComHosting>true</EnableComHosting>
