@@ -38,6 +38,15 @@ Partial Class FormOption
         TabPage其他 = New TabPage()
         Label4 = New Label()
         cbx中间符号 = New ComboBox()
+        gbBOM配置 = New GroupBox()
+        btnBOM重置 = New Button()
+        lblBOM配置提示 = New Label()
+        dgvBOM配置 = New DataGridView()
+        colBOM说明 = New DataGridViewTextBoxColumn()
+        colBOM节 = New DataGridViewTextBoxColumn()
+        colBOM键 = New DataGridViewTextBoxColumn()
+        colBOM值 = New DataGridViewTextBoxColumn()
+        colBOM备注 = New DataGridViewTextBoxColumn()
         GroupBox自动保存 = New GroupBox()
         cmb时间间隔 = New ComboBox()
         chk启用自动保存 = New CheckBox()
@@ -187,8 +196,11 @@ Partial Class FormOption
         lbl图号 = New Label()
         cmb图号 = New ComboBox()
         TabControl = New TabControl()
+        GroupBox1 = New GroupBox()
         ContextMenuStrip配置文件.SuspendLayout()
         TabPage其他.SuspendLayout()
+        gbBOM配置.SuspendLayout()
+        CType(dgvBOM配置, System.ComponentModel.ISupportInitialize).BeginInit()
         GroupBox自动保存.SuspendLayout()
         GroupBox截图.SuspendLayout()
         TabPage展开图.SuspendLayout()
@@ -216,12 +228,13 @@ Partial Class FormOption
         GroupBox对称零件iProperty映射.SuspendLayout()
         GroupBoxiProperty映射.SuspendLayout()
         TabControl.SuspendLayout()
+        GroupBox1.SuspendLayout()
         SuspendLayout()
         ' 
         ' btn确定
         ' 
         btn确定.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
-        btn确定.Location = New System.Drawing.Point(767, 716)
+        btn确定.Location = New System.Drawing.Point(880, 716)
         btn确定.Margin = New Padding(4, 5, 4, 5)
         btn确定.Name = "btn确定"
         btn确定.Size = New Size(124, 59)
@@ -232,7 +245,7 @@ Partial Class FormOption
         ' 
         btn关闭.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         btn关闭.DialogResult = DialogResult.Cancel
-        btn关闭.Location = New System.Drawing.Point(918, 716)
+        btn关闭.Location = New System.Drawing.Point(1031, 716)
         btn关闭.Margin = New Padding(4, 5, 4, 5)
         btn关闭.Name = "btn关闭"
         btn关闭.Size = New Size(124, 59)
@@ -307,12 +320,13 @@ Partial Class FormOption
         ' 
         TabPage其他.Controls.Add(Label4)
         TabPage其他.Controls.Add(cbx中间符号)
+        TabPage其他.Controls.Add(gbBOM配置)
         TabPage其他.Controls.Add(GroupBox自动保存)
         TabPage其他.Controls.Add(GroupBox截图)
         TabPage其他.Location = New System.Drawing.Point(4, 34)
         TabPage其他.Margin = New Padding(4, 5, 4, 5)
         TabPage其他.Name = "TabPage其他"
-        TabPage其他.Size = New Size(1032, 640)
+        TabPage其他.Size = New Size(1152, 640)
         TabPage其他.TabIndex = 4
         TabPage其他.Text = "其他"
         TabPage其他.UseVisualStyleBackColor = True
@@ -335,6 +349,91 @@ Partial Class FormOption
         cbx中间符号.Name = "cbx中间符号"
         cbx中间符号.Size = New Size(126, 33)
         cbx中间符号.TabIndex = 49
+        ' 
+        ' gbBOM配置
+        ' 
+        gbBOM配置.Controls.Add(btnBOM重置)
+        gbBOM配置.Controls.Add(lblBOM配置提示)
+        gbBOM配置.Controls.Add(dgvBOM配置)
+        gbBOM配置.Location = New System.Drawing.Point(6, 6)
+        gbBOM配置.Margin = New Padding(4, 5, 4, 5)
+        gbBOM配置.Name = "gbBOM配置"
+        gbBOM配置.Padding = New Padding(4, 5, 4, 5)
+        gbBOM配置.Size = New Size(1142, 420)
+        gbBOM配置.TabIndex = 51
+        gbBOM配置.TabStop = False
+        gbBOM配置.Text = "BOM 工具配置（中文标签，直接修改值后点「确定」保存）"
+        ' 
+        ' btnBOM重置
+        ' 
+        btnBOM重置.Location = New System.Drawing.Point(870, 370)
+        btnBOM重置.Name = "btnBOM重置"
+        btnBOM重置.Size = New Size(130, 33)
+        btnBOM重置.TabIndex = 2
+        btnBOM重置.Text = "重新读取"
+        btnBOM重置.UseVisualStyleBackColor = True
+        ' 
+        ' lblBOM配置提示
+        ' 
+        lblBOM配置提示.AutoSize = True
+        lblBOM配置提示.Location = New System.Drawing.Point(10, 374)
+        lblBOM配置提示.Name = "lblBOM配置提示"
+        lblBOM配置提示.Size = New Size(784, 25)
+        lblBOM配置提示.TabIndex = 1
+        lblBOM配置提示.Text = "说明：以上为 BOM 工具的设置，修改「当前值」列后点窗体底部「确定」保存到配置文件。"
+        ' 
+        ' dgvBOM配置
+        ' 
+        dgvBOM配置.AllowUserToAddRows = False
+        dgvBOM配置.AllowUserToDeleteRows = False
+        dgvBOM配置.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        dgvBOM配置.Columns.AddRange(New DataGridViewColumn() {colBOM说明, colBOM节, colBOM键, colBOM值, colBOM备注})
+        dgvBOM配置.Location = New System.Drawing.Point(8, 30)
+        dgvBOM配置.Margin = New Padding(4, 5, 4, 5)
+        dgvBOM配置.Name = "dgvBOM配置"
+        dgvBOM配置.RowHeadersVisible = False
+        dgvBOM配置.RowHeadersWidth = 62
+        dgvBOM配置.Size = New Size(1134, 340)
+        dgvBOM配置.TabIndex = 0
+        ' 
+        ' colBOM说明
+        ' 
+        colBOM说明.HeaderText = "配置项（中文说明）"
+        colBOM说明.MinimumWidth = 8
+        colBOM说明.Name = "colBOM说明"
+        colBOM说明.ReadOnly = True
+        colBOM说明.Width = 230
+        ' 
+        ' colBOM节
+        ' 
+        colBOM节.HeaderText = "配置节"
+        colBOM节.MinimumWidth = 8
+        colBOM节.Name = "colBOM节"
+        colBOM节.ReadOnly = True
+        colBOM节.Width = 120
+        ' 
+        ' colBOM键
+        ' 
+        colBOM键.HeaderText = "键"
+        colBOM键.MinimumWidth = 8
+        colBOM键.Name = "colBOM键"
+        colBOM键.ReadOnly = True
+        colBOM键.Width = 150
+        ' 
+        ' colBOM值
+        ' 
+        colBOM值.HeaderText = "当前值（可修改）"
+        colBOM值.MinimumWidth = 8
+        colBOM值.Name = "colBOM值"
+        colBOM值.Width = 260
+        ' 
+        ' colBOM备注
+        ' 
+        colBOM备注.HeaderText = "说明"
+        colBOM备注.MinimumWidth = 8
+        colBOM备注.Name = "colBOM备注"
+        colBOM备注.ReadOnly = True
+        colBOM备注.Width = 370
         ' 
         ' GroupBox自动保存
         ' 
@@ -458,22 +557,14 @@ Partial Class FormOption
         ' 
         ' TabPage展开图
         ' 
-        TabPage展开图.Controls.Add(chk保存展开图到指定文件夹)
-        TabPage展开图.Controls.Add(txt工艺文字高)
-        TabPage展开图.Controls.Add(txt标记孔径上限)
-        TabPage展开图.Controls.Add(lbl工艺文字高)
-        TabPage展开图.Controls.Add(cmb图号材质)
-        TabPage展开图.Controls.Add(lbl图号材质)
-        TabPage展开图.Controls.Add(lbl标记孔径上限)
-        TabPage展开图.Controls.Add(chk展开图隐藏螺纹特征)
+        TabPage展开图.Controls.Add(GroupBox1)
         TabPage展开图.Controls.Add(GroupBox展开图模板)
-        TabPage展开图.Controls.Add(chk展开图标注)
         TabPage展开图.Controls.Add(GroupBox下)
         TabPage展开图.Controls.Add(GroupBox上)
         TabPage展开图.Location = New System.Drawing.Point(4, 34)
         TabPage展开图.Margin = New Padding(4, 5, 4, 5)
         TabPage展开图.Name = "TabPage展开图"
-        TabPage展开图.Size = New Size(1032, 640)
+        TabPage展开图.Size = New Size(1152, 640)
         TabPage展开图.TabIndex = 3
         TabPage展开图.Text = "展开图"
         TabPage展开图.UseVisualStyleBackColor = True
@@ -481,7 +572,7 @@ Partial Class FormOption
         ' chk保存展开图到指定文件夹
         ' 
         chk保存展开图到指定文件夹.AutoSize = True
-        chk保存展开图到指定文件夹.Location = New System.Drawing.Point(503, 541)
+        chk保存展开图到指定文件夹.Location = New System.Drawing.Point(23, 113)
         chk保存展开图到指定文件夹.Margin = New Padding(4, 5, 4, 5)
         chk保存展开图到指定文件夹.Name = "chk保存展开图到指定文件夹"
         chk保存展开图到指定文件夹.Size = New Size(247, 29)
@@ -491,7 +582,7 @@ Partial Class FormOption
         ' 
         ' txt工艺文字高
         ' 
-        txt工艺文字高.Location = New System.Drawing.Point(629, 472)
+        txt工艺文字高.Location = New System.Drawing.Point(169, 183)
         txt工艺文字高.Margin = New Padding(4, 5, 4, 5)
         txt工艺文字高.Name = "txt工艺文字高"
         txt工艺文字高.Size = New Size(57, 31)
@@ -500,7 +591,7 @@ Partial Class FormOption
         ' 
         ' txt标记孔径上限
         ' 
-        txt标记孔径上限.Location = New System.Drawing.Point(327, 472)
+        txt标记孔径上限.Location = New System.Drawing.Point(169, 242)
         txt标记孔径上限.Margin = New Padding(4, 5, 4, 5)
         txt标记孔径上限.Name = "txt标记孔径上限"
         txt标记孔径上限.Size = New Size(57, 31)
@@ -510,7 +601,7 @@ Partial Class FormOption
         ' lbl工艺文字高
         ' 
         lbl工艺文字高.AutoSize = True
-        lbl工艺文字高.Location = New System.Drawing.Point(500, 480)
+        lbl工艺文字高.Location = New System.Drawing.Point(23, 185)
         lbl工艺文字高.Margin = New Padding(4, 0, 4, 0)
         lbl工艺文字高.Name = "lbl工艺文字高"
         lbl工艺文字高.Size = New Size(107, 25)
@@ -522,7 +613,7 @@ Partial Class FormOption
         cmb图号材质.DropDownStyle = ComboBoxStyle.DropDownList
         cmb图号材质.FormattingEnabled = True
         cmb图号材质.Items.AddRange(New Object() {"无材质", "材质前缀", "材质后缀"})
-        cmb图号材质.Location = New System.Drawing.Point(327, 534)
+        cmb图号材质.Location = New System.Drawing.Point(169, 303)
         cmb图号材质.Margin = New Padding(4, 5, 4, 5)
         cmb图号材质.Name = "cmb图号材质"
         cmb图号材质.Size = New Size(140, 33)
@@ -531,7 +622,7 @@ Partial Class FormOption
         ' lbl图号材质
         ' 
         lbl图号材质.AutoSize = True
-        lbl图号材质.Location = New System.Drawing.Point(187, 541)
+        lbl图号材质.Location = New System.Drawing.Point(23, 306)
         lbl图号材质.Margin = New Padding(4, 0, 4, 0)
         lbl图号材质.Name = "lbl图号材质"
         lbl图号材质.Size = New Size(126, 25)
@@ -541,7 +632,7 @@ Partial Class FormOption
         ' lbl标记孔径上限
         ' 
         lbl标记孔径上限.AutoSize = True
-        lbl标记孔径上限.Location = New System.Drawing.Point(187, 480)
+        lbl标记孔径上限.Location = New System.Drawing.Point(23, 245)
         lbl标记孔径上限.Margin = New Padding(4, 0, 4, 0)
         lbl标记孔径上限.Name = "lbl标记孔径上限"
         lbl标记孔径上限.Size = New Size(126, 25)
@@ -551,7 +642,7 @@ Partial Class FormOption
         ' chk展开图隐藏螺纹特征
         ' 
         chk展开图隐藏螺纹特征.AutoSize = True
-        chk展开图隐藏螺纹特征.Location = New System.Drawing.Point(20, 538)
+        chk展开图隐藏螺纹特征.Location = New System.Drawing.Point(169, 38)
         chk展开图隐藏螺纹特征.Margin = New Padding(4, 5, 4, 5)
         chk展开图隐藏螺纹特征.Name = "chk展开图隐藏螺纹特征"
         chk展开图隐藏螺纹特征.Size = New Size(114, 29)
@@ -568,14 +659,14 @@ Partial Class FormOption
         GroupBox展开图模板.Margin = New Padding(4, 5, 4, 5)
         GroupBox展开图模板.Name = "GroupBox展开图模板"
         GroupBox展开图模板.Padding = New Padding(4, 5, 4, 5)
-        GroupBox展开图模板.Size = New Size(990, 121)
+        GroupBox展开图模板.Size = New Size(1130, 121)
         GroupBox展开图模板.TabIndex = 25
         GroupBox展开图模板.TabStop = False
         GroupBox展开图模板.Text = "展开图模板"
         ' 
         ' btn展开图模板
         ' 
-        btn展开图模板.Location = New System.Drawing.Point(917, 36)
+        btn展开图模板.Location = New System.Drawing.Point(1080, 39)
         btn展开图模板.Margin = New Padding(4, 5, 4, 5)
         btn展开图模板.Name = "btn展开图模板"
         btn展开图模板.Size = New Size(42, 52)
@@ -588,7 +679,7 @@ Partial Class FormOption
         txt展开图模板.Margin = New Padding(4, 5, 4, 5)
         txt展开图模板.Name = "txt展开图模板"
         txt展开图模板.ReadOnly = True
-        txt展开图模板.Size = New Size(764, 31)
+        txt展开图模板.Size = New Size(939, 31)
         txt展开图模板.TabIndex = 8
         ' 
         ' lbl展开图模板
@@ -604,7 +695,7 @@ Partial Class FormOption
         ' chk展开图标注
         ' 
         chk展开图标注.AutoSize = True
-        chk展开图标注.Location = New System.Drawing.Point(20, 478)
+        chk展开图标注.Location = New System.Drawing.Point(23, 42)
         chk展开图标注.Margin = New Padding(4, 5, 4, 5)
         chk展开图标注.Name = "chk展开图标注"
         chk展开图标注.Size = New Size(133, 29)
@@ -620,11 +711,11 @@ Partial Class FormOption
         GroupBox下.Controls.Add(btn向下颜色)
         GroupBox下.Controls.Add(lbl线宽下)
         GroupBox下.Controls.Add(lbl线型下)
-        GroupBox下.Location = New System.Drawing.Point(463, 166)
+        GroupBox下.Location = New System.Drawing.Point(399, 168)
         GroupBox下.Margin = New Padding(4, 5, 4, 5)
         GroupBox下.Name = "GroupBox下"
         GroupBox下.Padding = New Padding(4, 5, 4, 5)
-        GroupBox下.Size = New Size(390, 271)
+        GroupBox下.Size = New Size(390, 391)
         GroupBox下.TabIndex = 1
         GroupBox下.TabStop = False
         GroupBox下.Text = "下"
@@ -702,7 +793,7 @@ Partial Class FormOption
         GroupBox上.Margin = New Padding(4, 5, 4, 5)
         GroupBox上.Name = "GroupBox上"
         GroupBox上.Padding = New Padding(4, 5, 4, 5)
-        GroupBox上.Size = New Size(390, 271)
+        GroupBox上.Size = New Size(373, 393)
         GroupBox上.TabIndex = 0
         GroupBox上.TabStop = False
         GroupBox上.Text = "上"
@@ -780,7 +871,7 @@ Partial Class FormOption
         TabPage工程图.Location = New System.Drawing.Point(4, 34)
         TabPage工程图.Margin = New Padding(4, 5, 4, 5)
         TabPage工程图.Name = "TabPage工程图"
-        TabPage工程图.Size = New Size(1032, 640)
+        TabPage工程图.Size = New Size(1152, 640)
         TabPage工程图.TabIndex = 2
         TabPage工程图.Text = "工程图"
         TabPage工程图.UseVisualStyleBackColor = True
@@ -789,7 +880,7 @@ Partial Class FormOption
         ' 
         chk强制横向.Anchor = AnchorStyles.None
         chk强制横向.AutoSize = True
-        chk强制横向.Location = New System.Drawing.Point(687, 538)
+        chk强制横向.Location = New System.Drawing.Point(795, 536)
         chk强制横向.Margin = New Padding(4, 5, 4, 5)
         chk强制横向.Name = "chk强制横向"
         chk强制横向.Size = New Size(114, 29)
@@ -800,7 +891,7 @@ Partial Class FormOption
         ' chk逆时针序号
         ' 
         chk逆时针序号.AutoSize = True
-        chk逆时针序号.Location = New System.Drawing.Point(863, 471)
+        chk逆时针序号.Location = New System.Drawing.Point(986, 471)
         chk逆时针序号.Margin = New Padding(4, 5, 4, 5)
         chk逆时针序号.Name = "chk逆时针序号"
         chk逆时针序号.Size = New Size(133, 29)
@@ -812,7 +903,7 @@ Partial Class FormOption
         ' 
         chk模型匹配检查.Anchor = AnchorStyles.None
         chk模型匹配检查.AutoSize = True
-        chk模型匹配检查.Location = New System.Drawing.Point(687, 471)
+        chk模型匹配检查.Location = New System.Drawing.Point(795, 471)
         chk模型匹配检查.Margin = New Padding(4, 5, 4, 5)
         chk模型匹配检查.Name = "chk模型匹配检查"
         chk模型匹配检查.Size = New Size(152, 29)
@@ -832,7 +923,7 @@ Partial Class FormOption
         GroupBox标题栏.Margin = New Padding(4, 5, 4, 5)
         GroupBox标题栏.Name = "GroupBox标题栏"
         GroupBox标题栏.Padding = New Padding(4, 5, 4, 5)
-        GroupBox标题栏.Size = New Size(284, 255)
+        GroupBox标题栏.Size = New Size(423, 255)
         GroupBox标题栏.TabIndex = 32
         GroupBox标题栏.TabStop = False
         GroupBox标题栏.Text = "标题栏"
@@ -850,7 +941,7 @@ Partial Class FormOption
         ' 
         cbx增加后缀.FormattingEnabled = True
         cbx增加后缀.Items.AddRange(New Object() {"-AutoCAD", "-CAD", "-模型"})
-        cbx增加后缀.Location = New System.Drawing.Point(148, 192)
+        cbx增加后缀.Location = New System.Drawing.Point(191, 190)
         cbx增加后缀.Margin = New Padding(3, 4, 3, 4)
         cbx增加后缀.Name = "cbx增加后缀"
         cbx增加后缀.Size = New Size(126, 33)
@@ -903,7 +994,7 @@ Partial Class FormOption
         GroupBox页边距.Margin = New Padding(4, 5, 4, 5)
         GroupBox页边距.Name = "GroupBox页边距"
         GroupBox页边距.Padding = New Padding(4, 5, 4, 5)
-        GroupBox页边距.Size = New Size(651, 120)
+        GroupBox页边距.Size = New Size(720, 120)
         GroupBox页边距.TabIndex = 31
         GroupBox页边距.TabStop = False
         GroupBox页边距.Text = "页边距"
@@ -947,12 +1038,12 @@ Partial Class FormOption
         ' lb页边距
         ' 
         lb页边距.AutoSize = True
-        lb页边距.Location = New System.Drawing.Point(17, 55)
+        lb页边距.Location = New System.Drawing.Point(31, 50)
         lb页边距.Margin = New Padding(4, 0, 4, 0)
         lb页边距.Name = "lb页边距"
-        lb页边距.Size = New Size(303, 25)
+        lb页边距.Size = New Size(513, 25)
         lb页边距.TabIndex = 4
-        lb页边距.Text = "上               下              左              右"
+        lb页边距.Text = "上                           下                             左                             右"
         ' 
         ' GroupBox视图
         ' 
@@ -1124,14 +1215,14 @@ Partial Class FormOption
         GroupBox工程图模板.Margin = New Padding(4, 5, 4, 5)
         GroupBox工程图模板.Name = "GroupBox工程图模板"
         GroupBox工程图模板.Padding = New Padding(4, 5, 4, 5)
-        GroupBox工程图模板.Size = New Size(990, 121)
+        GroupBox工程图模板.Size = New Size(1130, 121)
         GroupBox工程图模板.TabIndex = 24
         GroupBox工程图模板.TabStop = False
         GroupBox工程图模板.Text = "工程图模板"
         ' 
         ' btn选择工程图模板
         ' 
-        btn选择工程图模板.Location = New System.Drawing.Point(917, 36)
+        btn选择工程图模板.Location = New System.Drawing.Point(1080, 39)
         btn选择工程图模板.Margin = New Padding(4, 5, 4, 5)
         btn选择工程图模板.Name = "btn选择工程图模板"
         btn选择工程图模板.Size = New Size(42, 52)
@@ -1144,7 +1235,7 @@ Partial Class FormOption
         txt工程图模板.Margin = New Padding(4, 5, 4, 5)
         txt工程图模板.Name = "txt工程图模板"
         txt工程图模板.ReadOnly = True
-        txt工程图模板.Size = New Size(764, 31)
+        txt工程图模板.Size = New Size(914, 31)
         txt工程图模板.TabIndex = 8
         txt工程图模板.TabStop = False
         ' 
@@ -1178,7 +1269,7 @@ Partial Class FormOption
         TabPage模型.Margin = New Padding(4, 5, 4, 5)
         TabPage模型.Name = "TabPage模型"
         TabPage模型.Padding = New Padding(4, 5, 4, 5)
-        TabPage模型.Size = New Size(1032, 640)
+        TabPage模型.Size = New Size(1152, 640)
         TabPage模型.TabIndex = 1
         TabPage模型.Text = "模型"
         TabPage模型.UseVisualStyleBackColor = True
@@ -1204,7 +1295,7 @@ Partial Class FormOption
         ' 
         ' txt钣金厚度前缀
         ' 
-        txt钣金厚度前缀.Location = New System.Drawing.Point(418, 534)
+        txt钣金厚度前缀.Location = New System.Drawing.Point(568, 478)
         txt钣金厚度前缀.Margin = New Padding(4, 5, 4, 5)
         txt钣金厚度前缀.Name = "txt钣金厚度前缀"
         txt钣金厚度前缀.Size = New Size(161, 31)
@@ -1235,7 +1326,7 @@ Partial Class FormOption
         chk钣金厚度检查.AutoSize = True
         chk钣金厚度检查.Checked = True
         chk钣金厚度检查.CheckState = CheckState.Checked
-        chk钣金厚度检查.Location = New System.Drawing.Point(256, 546)
+        chk钣金厚度检查.Location = New System.Drawing.Point(312, 546)
         chk钣金厚度检查.Margin = New Padding(4, 5, 4, 5)
         chk钣金厚度检查.Name = "chk钣金厚度检查"
         chk钣金厚度检查.Size = New Size(152, 29)
@@ -1321,14 +1412,14 @@ Partial Class FormOption
         GroupBoxERP查询.Margin = New Padding(4, 5, 4, 5)
         GroupBoxERP查询.Name = "GroupBoxERP查询"
         GroupBoxERP查询.Padding = New Padding(4, 5, 4, 5)
-        GroupBoxERP查询.Size = New Size(990, 175)
+        GroupBoxERP查询.Size = New Size(1134, 175)
         GroupBoxERP查询.TabIndex = 22
         GroupBoxERP查询.TabStop = False
         GroupBoxERP查询.Text = "ERP查询"
         ' 
         ' btn选择erp数据库
         ' 
-        btn选择erp数据库.Location = New System.Drawing.Point(863, 34)
+        btn选择erp数据库.Location = New System.Drawing.Point(1069, 39)
         btn选择erp数据库.Margin = New Padding(4, 5, 4, 5)
         btn选择erp数据库.Name = "btn选择erp数据库"
         btn选择erp数据库.Size = New Size(43, 54)
@@ -1337,7 +1428,7 @@ Partial Class FormOption
         ' 
         ' btn更新数据库
         ' 
-        btn更新数据库.Location = New System.Drawing.Point(678, 105)
+        btn更新数据库.Location = New System.Drawing.Point(828, 106)
         btn更新数据库.Margin = New Padding(4, 5, 4, 5)
         btn更新数据库.Name = "btn更新数据库"
         btn更新数据库.Size = New Size(137, 52)
@@ -1347,7 +1438,7 @@ Partial Class FormOption
         ' 
         ' btn打开erp数据库
         ' 
-        btn打开erp数据库.Location = New System.Drawing.Point(837, 105)
+        btn打开erp数据库.Location = New System.Drawing.Point(975, 106)
         btn打开erp数据库.Margin = New Padding(4, 5, 4, 5)
         btn打开erp数据库.Name = "btn打开erp数据库"
         btn打开erp数据库.Size = New Size(137, 52)
@@ -1393,11 +1484,11 @@ Partial Class FormOption
         ' 
         ' txt基础数据文件
         ' 
-        txt基础数据文件.Location = New System.Drawing.Point(170, 39)
+        txt基础数据文件.Location = New System.Drawing.Point(164, 48)
         txt基础数据文件.Margin = New Padding(4, 5, 4, 5)
         txt基础数据文件.Name = "txt基础数据文件"
         txt基础数据文件.ReadOnly = True
-        txt基础数据文件.Size = New Size(677, 31)
+        txt基础数据文件.Size = New Size(891, 31)
         txt基础数据文件.TabIndex = 8
         txt基础数据文件.TabStop = False
         ' 
@@ -1424,7 +1515,7 @@ Partial Class FormOption
         GroupBoxBOM导出项目.Margin = New Padding(4, 5, 4, 5)
         GroupBoxBOM导出项目.Name = "GroupBoxBOM导出项目"
         GroupBoxBOM导出项目.Padding = New Padding(4, 5, 4, 5)
-        GroupBoxBOM导出项目.Size = New Size(990, 175)
+        GroupBoxBOM导出项目.Size = New Size(1138, 175)
         GroupBoxBOM导出项目.TabIndex = 21
         GroupBoxBOM导出项目.TabStop = False
         GroupBoxBOM导出项目.Text = "BOM导出"
@@ -1462,7 +1553,7 @@ Partial Class FormOption
         ' 
         ' btn添加
         ' 
-        btn添加.Location = New System.Drawing.Point(876, 98)
+        btn添加.Location = New System.Drawing.Point(1023, 98)
         btn添加.Margin = New Padding(4, 5, 4, 5)
         btn添加.Name = "btn添加"
         btn添加.Size = New Size(89, 52)
@@ -1474,7 +1565,7 @@ Partial Class FormOption
         ' 
         cmb添加.DropDownStyle = ComboBoxStyle.DropDownList
         cmb添加.FormattingEnabled = True
-        cmb添加.Location = New System.Drawing.Point(558, 104)
+        cmb添加.Location = New System.Drawing.Point(686, 109)
         cmb添加.Margin = New Padding(4, 5, 4, 5)
         cmb添加.Name = "cmb添加"
         cmb添加.Size = New Size(281, 33)
@@ -1513,7 +1604,7 @@ Partial Class FormOption
         TabPage常规.Margin = New Padding(4, 5, 4, 5)
         TabPage常规.Name = "TabPage常规"
         TabPage常规.Padding = New Padding(4, 5, 4, 5)
-        TabPage常规.Size = New Size(1032, 640)
+        TabPage常规.Size = New Size(1152, 640)
         TabPage常规.TabIndex = 0
         TabPage常规.Text = "常规"
         TabPage常规.UseVisualStyleBackColor = True
@@ -1529,7 +1620,7 @@ Partial Class FormOption
         GroupBox快速打印.Margin = New Padding(4, 5, 4, 5)
         GroupBox快速打印.Name = "GroupBox快速打印"
         GroupBox快速打印.Padding = New Padding(4, 5, 4, 5)
-        GroupBox快速打印.Size = New Size(344, 252)
+        GroupBox快速打印.Size = New Size(481, 252)
         GroupBox快速打印.TabIndex = 22
         GroupBox快速打印.TabStop = False
         GroupBox快速打印.Text = "快速打印"
@@ -1539,7 +1630,7 @@ Partial Class FormOption
         cmb另存为.DropDownStyle = ComboBoxStyle.DropDownList
         cmb另存为.FormattingEnabled = True
         cmb另存为.Items.AddRange(New Object() {"不另存", "另存为dwg", "另存为pdf", "另存为dwg和pdf"})
-        cmb另存为.Location = New System.Drawing.Point(17, 172)
+        cmb另存为.Location = New System.Drawing.Point(96, 163)
         cmb另存为.Margin = New Padding(4, 5, 4, 5)
         cmb另存为.Name = "cmb另存为"
         cmb另存为.Size = New Size(234, 33)
@@ -1577,7 +1668,7 @@ Partial Class FormOption
         chk签字.AutoSize = True
         chk签字.Checked = True
         chk签字.CheckState = CheckState.Checked
-        chk签字.Location = New System.Drawing.Point(173, 114)
+        chk签字.Location = New System.Drawing.Point(175, 114)
         chk签字.Margin = New Padding(4, 5, 4, 5)
         chk签字.Name = "chk签字"
         chk签字.Size = New Size(76, 29)
@@ -1665,7 +1756,7 @@ Partial Class FormOption
         GroupBox签字.Margin = New Padding(4, 5, 4, 5)
         GroupBox签字.Name = "GroupBox签字"
         GroupBox签字.Padding = New Padding(4, 5, 4, 5)
-        GroupBox签字.Size = New Size(344, 261)
+        GroupBox签字.Size = New Size(477, 261)
         GroupBox签字.TabIndex = 19
         GroupBox签字.TabStop = False
         GroupBox签字.Text = "签字"
@@ -2014,8 +2105,28 @@ Partial Class FormOption
         TabControl.Margin = New Padding(4, 5, 4, 5)
         TabControl.Name = "TabControl"
         TabControl.SelectedIndex = 0
-        TabControl.Size = New Size(1040, 678)
+        TabControl.Size = New Size(1160, 678)
         TabControl.TabIndex = 0
+        ' 
+        ' GroupBox1
+        ' 
+        GroupBox1.Controls.Add(chk展开图标注)
+        GroupBox1.Controls.Add(chk保存展开图到指定文件夹)
+        GroupBox1.Controls.Add(chk展开图隐藏螺纹特征)
+        GroupBox1.Controls.Add(cmb图号材质)
+        GroupBox1.Controls.Add(txt工艺文字高)
+        GroupBox1.Controls.Add(lbl图号材质)
+        GroupBox1.Controls.Add(lbl标记孔径上限)
+        GroupBox1.Controls.Add(lbl工艺文字高)
+        GroupBox1.Controls.Add(txt标记孔径上限)
+        GroupBox1.Location = New System.Drawing.Point(807, 168)
+        GroupBox1.Margin = New Padding(4, 5, 4, 5)
+        GroupBox1.Name = "GroupBox1"
+        GroupBox1.Padding = New Padding(4, 5, 4, 5)
+        GroupBox1.Size = New Size(333, 391)
+        GroupBox1.TabIndex = 42
+        GroupBox1.TabStop = False
+        GroupBox1.Text = "其他"
         ' 
         ' FormOption
         ' 
@@ -2023,7 +2134,7 @@ Partial Class FormOption
         AutoScaleDimensions = New SizeF(10F, 25F)
         AutoScaleMode = AutoScaleMode.Font
         CancelButton = btn关闭
-        ClientSize = New Size(1063, 795)
+        ClientSize = New Size(1176, 795)
         Controls.Add(TabControl)
         Controls.Add(btn确定)
         Controls.Add(btn关闭)
@@ -2037,12 +2148,14 @@ Partial Class FormOption
         ContextMenuStrip配置文件.ResumeLayout(False)
         TabPage其他.ResumeLayout(False)
         TabPage其他.PerformLayout()
+        gbBOM配置.ResumeLayout(False)
+        gbBOM配置.PerformLayout()
+        CType(dgvBOM配置, System.ComponentModel.ISupportInitialize).EndInit()
         GroupBox自动保存.ResumeLayout(False)
         GroupBox自动保存.PerformLayout()
         GroupBox截图.ResumeLayout(False)
         GroupBox截图.PerformLayout()
         TabPage展开图.ResumeLayout(False)
-        TabPage展开图.PerformLayout()
         GroupBox展开图模板.ResumeLayout(False)
         GroupBox展开图模板.PerformLayout()
         GroupBox下.ResumeLayout(False)
@@ -2084,6 +2197,8 @@ Partial Class FormOption
         GroupBoxiProperty映射.ResumeLayout(False)
         GroupBoxiProperty映射.PerformLayout()
         TabControl.ResumeLayout(False)
+        GroupBox1.ResumeLayout(False)
+        GroupBox1.PerformLayout()
         ResumeLayout(False)
         PerformLayout()
 
@@ -2247,7 +2362,17 @@ Partial Class FormOption
     Friend WithEvents cbx增加后缀 As ComboBox
     Friend WithEvents Label4 As Label
     Friend WithEvents cbx中间符号 As ComboBox
+    Friend WithEvents gbBOM配置 As GroupBox
+    Friend WithEvents dgvBOM配置 As DataGridView
+    Friend WithEvents lblBOM配置提示 As Label
+    Friend WithEvents btnBOM重置 As Button
     Friend WithEvents txtBOM显示列 As TextBox
     Friend WithEvents Label5 As Label
     Friend WithEvents Btn添加2 As Button
+    Friend WithEvents colBOM说明 As DataGridViewTextBoxColumn
+    Friend WithEvents colBOM节 As DataGridViewTextBoxColumn
+    Friend WithEvents colBOM键 As DataGridViewTextBoxColumn
+    Friend WithEvents colBOM值 As DataGridViewTextBoxColumn
+    Friend WithEvents colBOM备注 As DataGridViewTextBoxColumn
+    Friend WithEvents GroupBox1 As GroupBox
 End Class

@@ -1026,29 +1026,29 @@ Public Class clsBomTool
 				Dim _dnoIniPath As String = GetSettingsPath()
 				Dim dnoSec As Dictionary(Of String, String) = ReadSection(_dnoIniPath, "DrawingNo")
 				If dnoSec.Count > 0 Then
-					' 前缀：始终恢复
-					If dnoSec.ContainsKey("Prefix") Then txtPrefix.Text = dnoSec("Prefix")
+					' 前缀：始终恢复（中文键优先，英文旧键兜底）
+					Dim vPrefix = GetOptVal(dnoSec, "图号-前缀", "Prefix")
+					If vPrefix <> "" Then txtPrefix.Text = vPrefix
 					' 分隔符
-					If dnoSec.ContainsKey("Separator") Then
-						rdoDash.Checked = (dnoSec("Separator") = "-")
-						rdoDot.Checked = (dnoSec("Separator") <> "-")
+					Dim vSep = GetOptVal(dnoSec, "图号-分隔符", "Separator")
+					If vSep <> "" Then
+						rdoDash.Checked = (vSep = "-")
+						rdoDot.Checked = (vSep <> "-")
 					End If
 					' 覆盖/跳过标准件
-					If dnoSec.ContainsKey("Overwrite") Then chkOvr.Checked = (dnoSec("Overwrite").ToLower() = "true")
-					If dnoSec.ContainsKey("SkipCC") Then chkSkip.Checked = (dnoSec("SkipCC").ToLower() = "true")
-					' 跳过条件：先暂时解绑SelectedIndexChanged，避免清空值
-					Dim savedSkipProp As String = If(dnoSec.ContainsKey("SkipPropName"), dnoSec("SkipPropName"), "")
-					Dim savedSkipVal As String = If(dnoSec.ContainsKey("SkipPropVal"), dnoSec("SkipPropVal"), "")
-					If Not String.IsNullOrEmpty(savedSkipProp) Then
-						cmbSkipProp.Text = savedSkipProp
-					End If
+					Dim vOvr = GetOptVal(dnoSec, "图号-覆盖标准件", "Overwrite")
+					If vOvr <> "" Then chkOvr.Checked = (vOvr.ToLower() = "true")
+					Dim vSkipCC = GetOptVal(dnoSec, "图号-跳过标准件", "SkipCC")
+					If vSkipCC <> "" Then chkSkip.Checked = (vSkipCC.ToLower() = "true")
+					' 跳过条件
+					Dim savedSkipProp As String = GetOptVal(dnoSec, "图号-跳过条件属性名", "SkipPropName")
+					Dim savedSkipVal As String = GetOptVal(dnoSec, "图号-跳过条件属性值", "SkipPropVal")
+					If Not String.IsNullOrEmpty(savedSkipProp) Then cmbSkipProp.Text = savedSkipProp
 					txtSkipVal.Text = savedSkipVal
-					' 写入条件：同样处理
-					Dim savedOnlyProp As String = If(dnoSec.ContainsKey("OnlyPropName"), dnoSec("OnlyPropName"), "")
-					Dim savedOnlyVal As String = If(dnoSec.ContainsKey("OnlyPropVal"), dnoSec("OnlyPropVal"), "")
-					If Not String.IsNullOrEmpty(savedOnlyProp) Then
-						cmbOnlyProp.Text = savedOnlyProp
-					End If
+					' 写入条件
+					Dim savedOnlyProp As String = GetOptVal(dnoSec, "图号-仅写条件属性名", "OnlyPropName")
+					Dim savedOnlyVal As String = GetOptVal(dnoSec, "图号-仅写条件属性值", "OnlyPropVal")
+					If Not String.IsNullOrEmpty(savedOnlyProp) Then cmbOnlyProp.Text = savedOnlyProp
 					txtOnlyVal.Text = savedOnlyVal
 				End If
 			Catch : End Try
@@ -1057,35 +1057,17 @@ Public Class clsBomTool
 
 			frm.ShowDialog()
 
-			' ── ShowDialog返回后立即保存图号设置到ini（控件仍在内存）──
+			' ── ShowDialog返回后立即保存图号设置到主配置文件（控件仍在内存）──
 			Try
-				Dim _dnoSavePath As String = GetSettingsPath()
-				Dim iniDir2 As String = System.IO.Path.GetDirectoryName(_dnoSavePath)
-				If Not String.IsNullOrEmpty(iniDir2) AndAlso Not System.IO.Directory.Exists(iniDir2) Then
-					System.IO.Directory.CreateDirectory(iniDir2)
-				End If
-				Dim iniLines2 As New List(Of String)()
-				If System.IO.File.Exists(_dnoSavePath) Then
-					Dim allLines2() As String = System.IO.File.ReadAllLines(_dnoSavePath, System.Text.Encoding.UTF8)
-					Dim inDnoSec2 As Boolean = False
-					For Each ln2 As String In allLines2
-						If ln2.Trim().ToLower() = "[drawingno]" Then inDnoSec2 = True : Continue For
-						If ln2.Trim().StartsWith("[") AndAlso ln2.Trim().ToLower() <> "[drawingno]" Then inDnoSec2 = False
-						If Not inDnoSec2 Then iniLines2.Add(ln2)
-					Next
-				End If
-				iniLines2.Add("")
-				iniLines2.Add("[DrawingNo]")
-				iniLines2.Add("Prefix=" & _savedPrefix)
-				iniLines2.Add("Separator=" & _savedSep)
-				iniLines2.Add("Overwrite=" & _savedOverwrite)
-				iniLines2.Add("SkipCC=" & _savedSkipCC)
-				iniLines2.Add("SkipPropName=" & _savedSkipPropName)
-				iniLines2.Add("SkipPropVal=" & _savedSkipPropVal)
-				iniLines2.Add("OnlyPropName=" & _savedOnlyPropName)
-				iniLines2.Add("OnlyPropVal=" & _savedOnlyPropVal)
-				Dim iniContent2 As String = String.Join(vbCrLf, iniLines2.ToArray())
-				System.IO.File.WriteAllText(_dnoSavePath, iniContent2, System.Text.Encoding.UTF8)
+				WrIni.BomIniEraseSection("DrawingNo")
+				WrIni.BomIniWrite("DrawingNo", "图号-前缀", _savedPrefix)
+				WrIni.BomIniWrite("DrawingNo", "图号-分隔符", _savedSep)
+				WrIni.BomIniWrite("DrawingNo", "图号-覆盖标准件", _savedOverwrite)
+				WrIni.BomIniWrite("DrawingNo", "图号-跳过标准件", _savedSkipCC)
+				WrIni.BomIniWrite("DrawingNo", "图号-跳过条件属性名", _savedSkipPropName)
+				WrIni.BomIniWrite("DrawingNo", "图号-跳过条件属性值", _savedSkipPropVal)
+				WrIni.BomIniWrite("DrawingNo", "图号-仅写条件属性名", _savedOnlyPropName)
+				WrIni.BomIniWrite("DrawingNo", "图号-仅写条件属性值", _savedOnlyPropVal)
 			Catch ex3 As Exception
 
 			End Try
@@ -1360,9 +1342,7 @@ Public Class clsBomTool
 	' ── 属性写入工程图 界面 ──
 	Sub ShowWritePropToDrawingDialog()
 		Try
-			' ── ini：记忆上次属性选择 ──
-			Dim iniPath5 As String = System.IO.Path.Combine(
-			System.IO.Path.GetDirectoryName(g_asmDoc.FullDocumentName), ".dwj_prop2dwg.ini")
+			' 属性选择统一保存到主配置文件（PropToDrawing 节）
 			Dim dlg As New Form()
 			dlg.Text = "属性写入工程图（文字）"
 			Try
@@ -1728,8 +1708,8 @@ Public Class clsBomTool
 										  Dim _skipPV5x As String = txtSkipVal5.Text.Trim()
 										  Dim _onlyPN5x As String = cmbOnly5.Text.Trim()
 										  Dim _onlyPV5x As String = txtOnlyVal5.Text.Trim()
-										  ' 保存属性选择到ini
-										  Try : System.IO.File.WriteAllText(iniPath5, propInput, System.Text.Encoding.UTF8) : Catch : End Try
+										  ' 保存属性选择到主配置文件
+										  Try : WrIni.BomIniWrite("PropToDrawing", "写入工程图-属性列表", propInput) : Catch : End Try
 										  ' 解析属性名列表（逗号分隔）
 										  Dim propNames() As String = propInput.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
 										  ' ── 执行前扫描：检查哪些零件缺少属性 ──
@@ -1894,26 +1874,29 @@ Public Class clsBomTool
 			' ── 窗口加载时自动扫描属性 ──
 			AddHandler dlg.Shown, Sub(ss, es)
 									  Try
-										  ' 从ini读取上次所有设置
-										  If System.IO.File.Exists(iniPath5) Then
-											  Try
-												  Dim sec5 As Dictionary(Of String, String) = ReadSection(iniPath5, "PropToDrawing")
-												  If sec5.Count > 0 Then
-													  If sec5.ContainsKey("Props") AndAlso Not String.IsNullOrEmpty(sec5("Props")) Then
-														  txtProps.Text = sec5("Props") : txtProps.ForeColor = System.Drawing.Color.Black
-													  End If
-													  If sec5.ContainsKey("SkipCC") Then chkSkipCC5.Checked = (sec5("SkipCC").ToLower() = "true")
-													  If sec5.ContainsKey("OnlyPart") Then chkOnlyPart5.Checked = (sec5("OnlyPart").ToLower() = "true")
-													  If sec5.ContainsKey("OnlyAssy") Then chkOnlyAssy5.Checked = (sec5("OnlyAssy").ToLower() = "true")
-													  If sec5.ContainsKey("OnlyWeld") Then chkOnlyWeld5.Checked = (sec5("OnlyWeld").ToLower() = "true")
-													  If sec5.ContainsKey("SkipPropName") Then cmbSkip5.Text = sec5("SkipPropName")
-													  If sec5.ContainsKey("SkipPropVal") AndAlso Not String.IsNullOrEmpty(sec5("SkipPropVal")) Then
-														  txtSkipVal5.Text = sec5("SkipPropVal") : txtSkipVal5.ForeColor = System.Drawing.Color.Black
-													  End If
-													  If sec5.ContainsKey("OnlyPropName") Then cmbOnly5.Text = sec5("OnlyPropName")
-													  If sec5.ContainsKey("OnlyPropVal") AndAlso Not String.IsNullOrEmpty(sec5("OnlyPropVal")) Then
-														  txtOnlyVal5.Text = sec5("OnlyPropVal") : txtOnlyVal5.ForeColor = System.Drawing.Color.Black
-													  End If
+										  ' 从主配置文件读取上次所有设置
+										  If True Then
+										  Try
+										  Dim sec5 As Dictionary(Of String, String) = ReadSection(IniFile, "PropToDrawing")
+										  If sec5.Count > 0 Then
+													  Dim v5Props = GetOptVal(sec5, "写入工程图-属性列表", "Props")
+													  If Not String.IsNullOrEmpty(v5Props) Then txtProps.Text = v5Props : txtProps.ForeColor = System.Drawing.Color.Black
+													  Dim v5SkipCC = GetOptVal(sec5, "写入工程图-跳过标准件", "SkipCC")
+													  If v5SkipCC <> "" Then chkSkipCC5.Checked = (v5SkipCC.ToLower() = "true")
+													  Dim v5Part = GetOptVal(sec5, "写入工程图-仅零件", "OnlyPart")
+													  If v5Part <> "" Then chkOnlyPart5.Checked = (v5Part.ToLower() = "true")
+													  Dim v5Assy = GetOptVal(sec5, "写入工程图-仅部件", "OnlyAssy")
+													  If v5Assy <> "" Then chkOnlyAssy5.Checked = (v5Assy.ToLower() = "true")
+													  Dim v5Weld = GetOptVal(sec5, "写入工程图-仅焊接件", "OnlyWeld")
+													  If v5Weld <> "" Then chkOnlyWeld5.Checked = (v5Weld.ToLower() = "true")
+													  Dim v5SkipPN = GetOptVal(sec5, "写入工程图-跳过条件属性名", "SkipPropName")
+													  If v5SkipPN <> "" Then cmbSkip5.Text = v5SkipPN
+													  Dim v5SkipPV = GetOptVal(sec5, "写入工程图-跳过条件属性值", "SkipPropVal")
+													  If Not String.IsNullOrEmpty(v5SkipPV) Then txtSkipVal5.Text = v5SkipPV : txtSkipVal5.ForeColor = System.Drawing.Color.Black
+													  Dim v5OnlyPN = GetOptVal(sec5, "写入工程图-仅写条件属性名", "OnlyPropName")
+													  If v5OnlyPN <> "" Then cmbOnly5.Text = v5OnlyPN
+													  Dim v5OnlyPV = GetOptVal(sec5, "写入工程图-仅写条件属性值", "OnlyPropVal")
+													  If Not String.IsNullOrEmpty(v5OnlyPV) Then txtOnlyVal5.Text = v5OnlyPV : txtOnlyVal5.ForeColor = System.Drawing.Color.Black
 												  End If
 											  Catch : End Try
 										  End If
@@ -1986,30 +1969,28 @@ Public Class clsBomTool
 										  lstResult.Items.Clear() : lstResult.Items.Add("扫描失败: " & ex2.Message)
 									  End Try
 								  End Sub
-			' 关闭时保存属性到ini
+			' 关闭时保存属性到主配置文件
 			AddHandler dlg.FormClosing, Sub(sf, ef)
-											ef.Cancel = False
-											Try
-												Dim iniLines5 As New List(Of String)()
-												Dim cur5 As String = txtProps.Text.Trim()
-												If cur5 = "双击下方列表选择属性名" Then cur5 = ""
-												Dim sv5 As String = txtSkipVal5.Text.Trim()
-												If sv5 = "点击▼选择或手动输入" Then sv5 = ""
-												Dim ov5 As String = txtOnlyVal5.Text.Trim()
-												If ov5 = "点击▼选择或手动输入" Then ov5 = ""
-												iniLines5.Add("[PropToDrawing]")
-												iniLines5.Add("Props=" & cur5)
-												iniLines5.Add("SkipCC=" & chkSkipCC5.Checked.ToString().ToLower())
-												iniLines5.Add("OnlyPart=" & chkOnlyPart5.Checked.ToString().ToLower())
-												iniLines5.Add("OnlyAssy=" & chkOnlyAssy5.Checked.ToString().ToLower())
-												iniLines5.Add("OnlyWeld=" & chkOnlyWeld5.Checked.ToString().ToLower())
-												iniLines5.Add("SkipPropName=" & cmbSkip5.Text.Trim())
-												iniLines5.Add("SkipPropVal=" & sv5)
-												iniLines5.Add("OnlyPropName=" & cmbOnly5.Text.Trim())
-												iniLines5.Add("OnlyPropVal=" & ov5)
-												System.IO.File.WriteAllText(iniPath5, String.Join(vbCrLf, iniLines5.ToArray()), System.Text.Encoding.UTF8)
-											Catch : End Try
-										End Sub
+										ef.Cancel = False
+										Try
+											Dim cur5 As String = txtProps.Text.Trim()
+											If cur5 = "双击下方列表选择属性名" Then cur5 = ""
+											Dim sv5 As String = txtSkipVal5.Text.Trim()
+											If sv5 = "点击▼选择或手动输入" Then sv5 = ""
+											Dim ov5 As String = txtOnlyVal5.Text.Trim()
+											If ov5 = "点击▼选择或手动输入" Then ov5 = ""
+											WrIni.BomIniEraseSection("PropToDrawing")
+											WrIni.BomIniWrite("PropToDrawing", "写入工程图-属性列表", cur5)
+											WrIni.BomIniWrite("PropToDrawing", "写入工程图-跳过标准件", chkSkipCC5.Checked.ToString().ToLower())
+											WrIni.BomIniWrite("PropToDrawing", "写入工程图-仅零件", chkOnlyPart5.Checked.ToString().ToLower())
+											WrIni.BomIniWrite("PropToDrawing", "写入工程图-仅部件", chkOnlyAssy5.Checked.ToString().ToLower())
+											WrIni.BomIniWrite("PropToDrawing", "写入工程图-仅焊接件", chkOnlyWeld5.Checked.ToString().ToLower())
+											WrIni.BomIniWrite("PropToDrawing", "写入工程图-跳过条件属性名", cmbSkip5.Text.Trim())
+											WrIni.BomIniWrite("PropToDrawing", "写入工程图-跳过条件属性值", sv5)
+											WrIni.BomIniWrite("PropToDrawing", "写入工程图-仅写条件属性名", cmbOnly5.Text.Trim())
+											WrIni.BomIniWrite("PropToDrawing", "写入工程图-仅写条件属性值", ov5)
+										Catch : End Try
+									End Sub
 			AddHandler dlg.KeyDown, Sub(sk, ek)
 										If ek.KeyCode = Keys.Escape Then dlg.Close()
 									End Sub
@@ -2861,82 +2842,28 @@ Public Class clsBomTool
 	End Function
 
 	Function GetSettingsPath() As String
-		' 存到每个用户自己的 AppData\Roaming\DWJ_BOM 目录
-		' 跨机器通用：每台机器每个用户都有独立的设置文件
-		Try
-			Dim appData As String = System.Environment.GetFolderPath(
-			System.Environment.SpecialFolder.ApplicationData)
-			Dim iniDir As String = System.IO.Path.Combine(appData, "DWJ_BOM")
-			If Not System.IO.Directory.Exists(iniDir) Then
-				System.IO.Directory.CreateDirectory(iniDir)
-			End If
-			Return System.IO.Path.Combine(iniDir, "DWJ_BOM_Settings.ini")
-		Catch : End Try
-		' 备用：用户文档目录
-		Return System.IO.Path.Combine(
-		System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments),
-		"DWJ_BOM_Settings.ini")
+		' 统一使用主配置文件（IniFile = ConfigFile.ini），不再单独保存 BOM 设置文件
+		Return IniFile
 	End Function
 
 	Function ReadSection(filePath As String, section As String) As Dictionary(Of String, String)
-		Dim result As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
-		If Not System.IO.File.Exists(filePath) Then Return result
-		Try
-			Dim inSection As Boolean = False
-			For Each line As String In System.IO.File.ReadAllLines(filePath, System.Text.Encoding.UTF8)
-				Dim trimmed As String = line.Trim()
-				If trimmed.StartsWith("[") AndAlso trimmed.EndsWith("]") Then
-					inSection = (trimmed.ToLower() = "[" & section.ToLower() & "]")
-					Continue For
-				End If
-				If inSection AndAlso trimmed.Contains("=") Then
-					Dim eqIdx As Integer = trimmed.IndexOf("="c)
-					Dim key As String = trimmed.Substring(0, eqIdx).Trim()
-					Dim val As String = trimmed.Substring(eqIdx + 1).Trim()
-					If Not String.IsNullOrEmpty(key) Then result(key) = val
-				End If
-			Next
-		Catch ' 忽略：iLogic环境下此操作可能失败，不打断流程
-		End Try
-		Return result
+		' filePath 参数保留兼容，实际统一从主配置文件读取
+		Return WrIni.BomIniReadSection(section)
 	End Function
 
 	Function SaveThemeIni() As Boolean
 		Try
-			If String.IsNullOrEmpty(g_settingsFile) Then g_settingsFile = GetSettingsPath()
-			Dim content As String = ""
-			If System.IO.File.Exists(g_settingsFile) Then
-				content = System.IO.File.ReadAllText(g_settingsFile, System.Text.Encoding.UTF8)
-			End If
-			If Not content.Contains("[Options]") Then
-				content &= vbCrLf & "[Options]" & vbCrLf
-			End If
-			Dim keys() As String = {"Theme", "CustTitleBar", "CustColHeader", "CustColMgr", "CustFuncDrop", "CustWinBg", "CustExcelBtn", "CustRefresh", "CustRowAlt", "CustRowWhite", "CustCellText"}
-			For Each k As String In keys
-				Dim val As String = ""
-				Select Case k
-					Case "Theme" : val = g_theme.ToString()
-					Case "CustTitleBar" : val = ColorToStr(g_custTitleBar)
-					Case "CustColHeader" : val = ColorToStr(g_custColHeader)
-					Case "CustColMgr" : val = ColorToStr(g_custColMgr)
-					Case "CustFuncDrop" : val = ColorToStr(g_custFuncDrop)
-					Case "CustWinBg" : val = ColorToStr(g_custWinBg)
-					Case "CustExcelBtn" : val = ColorToStr(g_custExcelBtn)
-					Case "CustRefresh" : val = ColorToStr(g_custRefresh)
-					Case "CustRowAlt" : val = ColorToStr(g_custRowAlt)
-					Case "CustRowWhite" : val = ColorToStr(g_custRowWhite)
-					Case "CustCellText" : val = ColorToStr(g_custCellText)
-				End Select
-				If System.Text.RegularExpressions.Regex.IsMatch(content, "(?m)^" & k & "=") Then
-					content = System.Text.RegularExpressions.Regex.Replace(content, "(?m)^" & k & "=.*$", k & "=" & val)
-				Else
-					Dim optIdx As Integer = content.IndexOf("[Options]")
-					Dim nextSec As Integer = content.IndexOf(vbCrLf & "[", optIdx + 1)
-					If nextSec < 0 Then nextSec = content.Length
-					content = content.Substring(0, nextSec) & k & "=" & val & vbCrLf & content.Substring(nextSec)
-				End If
-			Next
-			System.IO.File.WriteAllText(g_settingsFile, content, System.Text.Encoding.UTF8)
+			WrIni.BomIniWrite("Options", "主题编号", g_theme.ToString())
+			WrIni.BomIniWrite("Options", "自定义主题-标题栏颜色", ColorToStr(g_custTitleBar))
+			WrIni.BomIniWrite("Options", "自定义主题-列头颜色", ColorToStr(g_custColHeader))
+			WrIni.BomIniWrite("Options", "自定义主题-列管理颜色", ColorToStr(g_custColMgr))
+			WrIni.BomIniWrite("Options", "自定义主题-功能下拉颜色", ColorToStr(g_custFuncDrop))
+			WrIni.BomIniWrite("Options", "自定义主题-窗口背景颜色", ColorToStr(g_custWinBg))
+			WrIni.BomIniWrite("Options", "自定义主题-Excel按钮颜色", ColorToStr(g_custExcelBtn))
+			WrIni.BomIniWrite("Options", "自定义主题-刷新按钮颜色", ColorToStr(g_custRefresh))
+			WrIni.BomIniWrite("Options", "自定义主题-间隔行颜色", ColorToStr(g_custRowAlt))
+			WrIni.BomIniWrite("Options", "自定义主题-白底行颜色", ColorToStr(g_custRowWhite))
+			WrIni.BomIniWrite("Options", "自定义主题-表格文字颜色", ColorToStr(g_custCellText))
 			Return True
 		Catch ' 忽略：iLogic环境下此操作可能失败，不打断流程
 			Return False
@@ -2944,80 +2871,67 @@ Public Class clsBomTool
 	End Function
 
 	Sub SaveSettings()
-		' 确保路径有效
-		If String.IsNullOrEmpty(g_settingsFile) Then g_settingsFile = GetSettingsPath()
 		Try
-			Dim sb As New System.Text.StringBuilder()
-			sb.AppendLine("[CustomCols]")
+			'自定义列
+			WrIni.BomIniEraseSection("CustomCols")
 			Dim customNames As New List(Of String)
 			For Each cd As ColDef In g_colDefs
 				If cd.IsCustom Then customNames.Add(cd.Header & "|" & cd.PropName)
 			Next
-			sb.AppendLine("cols=" & String.Join(",", customNames.ToArray()))
-			' 保存内置可选列状态（存在=true，已删除=false）
-			sb.AppendLine("[BuiltinCols]")
+			WrIni.BomIniWrite("CustomCols", "cols", String.Join(",", customNames.ToArray()))
+
+			'内置可选列状态（存在=true，已删除=false）
+			WrIni.BomIniEraseSection("BuiltinCols")
 			Dim builtinOptional() As String = {"cFile", "cDno", "cPno", "cCat", "cQty", "cMat", "cDesc", "cBom", "cDwg", "cThumb"}
 			For Each bcn As String In builtinOptional
 				Dim exists As Boolean = g_grid IsNot Nothing AndAlso g_grid.Columns.Contains(bcn)
-				sb.AppendLine(bcn & "=" & exists.ToString().ToLower())
+				WrIni.BomIniWrite("BuiltinCols", bcn, exists.ToString().ToLower())
 			Next
-			sb.AppendLine("[ColOrder]")
+
+			'列顺序与列宽
+			WrIni.BomIniEraseSection("ColOrder")
 			For Each cd As ColDef In g_colDefs
 				If g_grid IsNot Nothing AndAlso g_grid.Columns.Contains(cd.ColName) Then
 					Dim col As DataGridViewColumn = g_grid.Columns(cd.ColName)
-					sb.AppendLine(cd.ColName & "=" & col.DisplayIndex.ToString() & "," & col.Width.ToString())
+					WrIni.BomIniWrite("ColOrder", cd.ColName, col.DisplayIndex.ToString() & "," & col.Width.ToString())
 				End If
 			Next
-			sb.AppendLine("[Options]")
+
+			'选项
+			WrIni.BomIniEraseSection("Options")
 			Dim hideCC As Boolean = (g_chkSkipCC IsNot Nothing AndAlso g_chkSkipCC.Checked)
 			Dim onlyPart As Boolean = (g_chkOnlyPart IsNot Nothing AndAlso g_chkOnlyPart.Checked)
 			Dim onlyAssy As Boolean = (g_chkOnlyAssy IsNot Nothing AndAlso g_chkOnlyAssy.Checked)
 			Dim onlySheet As Boolean = (g_chkOnlySheet IsNot Nothing AndAlso g_chkOnlySheet.Checked)
 			Dim onlyWeld2 As Boolean = (g_chkOnlyWeld IsNot Nothing AndAlso g_chkOnlyWeld.Checked)
 			Dim skipVirt As Boolean = (g_chkSkipVirtual IsNot Nothing AndAlso g_chkSkipVirtual.Checked)
-			sb.AppendLine("HideContentCenter=" & hideCC.ToString().ToLower())
-			sb.AppendLine("SkipVirtual=" & skipVirt.ToString().ToLower())
-			sb.AppendLine("OnlyPart=" & onlyPart.ToString().ToLower())
-			sb.AppendLine("OnlyAssy=" & onlyAssy.ToString().ToLower())
-			sb.AppendLine("OnlySheet=" & onlySheet.ToString().ToLower())
-			sb.AppendLine("OnlyWeld=" & onlyWeld2.ToString().ToLower())
+			WrIni.BomIniWrite("Options", "隐藏标准件", hideCC.ToString().ToLower())
+			WrIni.BomIniWrite("Options", "跳过虚拟件", skipVirt.ToString().ToLower())
+			WrIni.BomIniWrite("Options", "仅显示零件", onlyPart.ToString().ToLower())
+			WrIni.BomIniWrite("Options", "仅显示部件", onlyAssy.ToString().ToLower())
+			WrIni.BomIniWrite("Options", "仅显示钣金件", onlySheet.ToString().ToLower())
+			WrIni.BomIniWrite("Options", "仅显示焊接件", onlyWeld2.ToString().ToLower())
 			Dim savedRowH As Integer = g_grid.RowTemplate.Height
 			Dim savedColW As String = If(g_txtColW IsNot Nothing, g_txtColW.Text.Trim(), "100")
-			sb.AppendLine("RowHeight=" & savedRowH.ToString())
-			sb.AppendLine("ColWidth=" & savedColW)
-			sb.AppendLine("Theme=" & g_theme.ToString())
-			sb.AppendLine("CustTitleBar=" & ColorToStr(g_custTitleBar))
-			sb.AppendLine("CustColHeader=" & ColorToStr(g_custColHeader))
-			sb.AppendLine("CustColMgr=" & ColorToStr(g_custColMgr))
-			sb.AppendLine("CustFuncDrop=" & ColorToStr(g_custFuncDrop))
-			sb.AppendLine("CustWinBg=" & ColorToStr(g_custWinBg))
-			sb.AppendLine("CustExcelBtn=" & ColorToStr(g_custExcelBtn))
-			sb.AppendLine("CustRefresh=" & ColorToStr(g_custRefresh))
-			sb.AppendLine("CustRowAlt=" & ColorToStr(g_custRowAlt))
-			sb.AppendLine("CustRowWhite=" & ColorToStr(g_custRowWhite))
-			sb.AppendLine("CustCellText=" & ColorToStr(g_custCellText))
-			' 保留已有的 [PropConcat] 节'
-			Try
-				If System.IO.File.Exists(g_settingsFile) Then
-					Dim existContent As String = System.IO.File.ReadAllText(g_settingsFile, System.Text.Encoding.UTF8)
-					Dim pcIdx As Integer = existContent.IndexOf("[PropConcat]", StringComparison.OrdinalIgnoreCase)
-					If pcIdx >= 0 Then
-						Dim pcEnd As Integer = existContent.IndexOf(vbCrLf & "[", pcIdx + 1)
-						Dim pcSection As String = If(pcEnd >= 0, existContent.Substring(pcIdx, pcEnd - pcIdx), existContent.Substring(pcIdx))
-						sb.AppendLine("")
-						sb.Append(pcSection.Trim())
-						sb.AppendLine("")
-					End If
-				End If
-			Catch : End Try
-			System.IO.File.WriteAllText(g_settingsFile, sb.ToString(), System.Text.Encoding.UTF8)
+			WrIni.BomIniWrite("Options", "表格行高", savedRowH.ToString())
+			WrIni.BomIniWrite("Options", "列宽", savedColW)
+			WrIni.BomIniWrite("Options", "主题编号", g_theme.ToString())
+			WrIni.BomIniWrite("Options", "自定义主题-标题栏颜色", ColorToStr(g_custTitleBar))
+			WrIni.BomIniWrite("Options", "自定义主题-列头颜色", ColorToStr(g_custColHeader))
+			WrIni.BomIniWrite("Options", "自定义主题-列管理颜色", ColorToStr(g_custColMgr))
+			WrIni.BomIniWrite("Options", "自定义主题-功能下拉颜色", ColorToStr(g_custFuncDrop))
+			WrIni.BomIniWrite("Options", "自定义主题-窗口背景颜色", ColorToStr(g_custWinBg))
+			WrIni.BomIniWrite("Options", "自定义主题-Excel按钮颜色", ColorToStr(g_custExcelBtn))
+			WrIni.BomIniWrite("Options", "自定义主题-刷新按钮颜色", ColorToStr(g_custRefresh))
+			WrIni.BomIniWrite("Options", "自定义主题-间隔行颜色", ColorToStr(g_custRowAlt))
+			WrIni.BomIniWrite("Options", "自定义主题-白底行颜色", ColorToStr(g_custRowWhite))
+			WrIni.BomIniWrite("Options", "自定义主题-表格文字颜色", ColorToStr(g_custCellText))
 		Catch ex As Exception
 
 		End Try
 	End Sub
 
 	Sub LoadSettings()
-		If Not System.IO.File.Exists(g_settingsFile) Then Return
 		g_isLoading = True
 		Try
 			Dim customSec As Dictionary(Of String, String) = ReadSection(g_settingsFile, "CustomCols")
@@ -3132,41 +3046,23 @@ Public Class clsBomTool
 				SyncChkFlowOrder()
 			End If
 			Dim optSec As Dictionary(Of String, String) = ReadSection(g_settingsFile, "Options")
-			If g_chkSkipCC IsNot Nothing Then
-				If optSec.ContainsKey("HideContentCenter") Then
-					g_chkSkipCC.Checked = (optSec("HideContentCenter").ToLower() = "true")
-				ElseIf optSec.ContainsKey("SkipContentCenter") Then
-					g_chkSkipCC.Checked = (optSec("SkipContentCenter").ToLower() = "true")
-				End If
-			End If
-			If g_chkSkipVirtual IsNot Nothing Then
-				If optSec.ContainsKey("SkipVirtual") Then
-					g_chkSkipVirtual.Checked = (optSec("SkipVirtual").ToLower() = "true")
-				End If
-			End If
-			If g_chkOnlyPart IsNot Nothing Then
-				If optSec.ContainsKey("OnlyPart") Then
-					g_chkOnlyPart.Checked = (optSec("OnlyPart").ToLower() = "true")
-				End If
-			End If
-			If g_chkOnlyAssy IsNot Nothing Then
-				If optSec.ContainsKey("OnlyAssy") Then
-					g_chkOnlyAssy.Checked = (optSec("OnlyAssy").ToLower() = "true")
-				End If
-			End If
-			If g_chkOnlySheet IsNot Nothing Then
-				If optSec.ContainsKey("OnlySheet") Then
-					g_chkOnlySheet.Checked = (optSec("OnlySheet").ToLower() = "true")
-				End If
-			End If
-			If g_chkOnlyWeld IsNot Nothing Then
-				If optSec.ContainsKey("OnlyWeld") Then
-					g_chkOnlyWeld.Checked = (optSec("OnlyWeld").ToLower() = "true")
-				End If
-			End If
-			If optSec.ContainsKey("RowHeight") Then
+			' 读取键：中文键优先，英文旧键兜底（兼容旧配置）
+			Dim cnHideCC = GetOptVal(optSec, "隐藏标准件", "HideContentCenter")
+			If g_chkSkipCC IsNot Nothing AndAlso cnHideCC <> "" Then g_chkSkipCC.Checked = (cnHideCC.ToLower() = "true")
+			Dim vSkipVirt = GetOptVal(optSec, "跳过虚拟件", "SkipVirtual")
+			If g_chkSkipVirtual IsNot Nothing AndAlso vSkipVirt <> "" Then g_chkSkipVirtual.Checked = (vSkipVirt.ToLower() = "true")
+			Dim vOnlyPart = GetOptVal(optSec, "仅显示零件", "OnlyPart")
+			If g_chkOnlyPart IsNot Nothing AndAlso vOnlyPart <> "" Then g_chkOnlyPart.Checked = (vOnlyPart.ToLower() = "true")
+			Dim vOnlyAssy = GetOptVal(optSec, "仅显示部件", "OnlyAssy")
+			If g_chkOnlyAssy IsNot Nothing AndAlso vOnlyAssy <> "" Then g_chkOnlyAssy.Checked = (vOnlyAssy.ToLower() = "true")
+			Dim vOnlySheet = GetOptVal(optSec, "仅显示钣金件", "OnlySheet")
+			If g_chkOnlySheet IsNot Nothing AndAlso vOnlySheet <> "" Then g_chkOnlySheet.Checked = (vOnlySheet.ToLower() = "true")
+			Dim vOnlyWeld = GetOptVal(optSec, "仅显示焊接件", "OnlyWeld")
+			If g_chkOnlyWeld IsNot Nothing AndAlso vOnlyWeld <> "" Then g_chkOnlyWeld.Checked = (vOnlyWeld.ToLower() = "true")
+			Dim vRowH = GetOptVal(optSec, "表格行高", "RowHeight")
+			If vRowH <> "" Then
 				Dim rh As Integer
-				If Integer.TryParse(optSec("RowHeight"), rh) AndAlso rh >= 10 AndAlso rh <= 500 Then
+				If Integer.TryParse(vRowH, rh) AndAlso rh >= 10 AndAlso rh <= 500 Then
 					g_grid.RowTemplate.Height = rh
 					For Each dgvRow As DataGridViewRow In g_grid.Rows
 						dgvRow.Height = rh
@@ -3174,30 +3070,32 @@ Public Class clsBomTool
 					If g_txtRowH IsNot Nothing Then g_txtRowH.Text = rh.ToString()
 				End If
 			End If
-			If optSec.ContainsKey("ColWidth") Then
+			Dim vColW = GetOptVal(optSec, "列宽", "ColWidth")
+			If vColW <> "" Then
 				Dim cw As Integer
-				If Integer.TryParse(optSec("ColWidth"), cw) AndAlso cw >= 10 AndAlso cw <= 2000 Then
+				If Integer.TryParse(vColW, cw) AndAlso cw >= 10 AndAlso cw <= 2000 Then
 					If g_txtColW IsNot Nothing Then g_txtColW.Text = cw.ToString()
 				End If
 			End If
-			If optSec.ContainsKey("Theme") Then
+			Dim vTheme = GetOptVal(optSec, "主题编号", "Theme")
+			If vTheme <> "" Then
 				Dim th As Integer
-				If Integer.TryParse(optSec("Theme"), th) AndAlso th >= 0 AndAlso th <= 8 Then
+				If Integer.TryParse(vTheme, th) AndAlso th >= 0 AndAlso th <= 8 Then
 					g_theme = th
 					If g_cmbTheme IsNot Nothing AndAlso Not g_cmbTheme.IsDisposed AndAlso g_cmbTheme.SelectedIndex <> g_theme Then g_cmbTheme.SelectedIndex = g_theme
 				End If
 			End If
-			' 自定义主题颜色
-			g_custTitleBar = StrToColor(optSec, "CustTitleBar", System.Drawing.Color.FromArgb(108, 92, 231))
-			g_custColHeader = StrToColor(optSec, "CustColHeader", System.Drawing.Color.FromArgb(108, 92, 231))
-			g_custColMgr = StrToColor(optSec, "CustColMgr", System.Drawing.Color.FromArgb(243, 240, 255))
-			g_custFuncDrop = StrToColor(optSec, "CustFuncDrop", System.Drawing.Color.FromArgb(228, 222, 252))
-			g_custWinBg = StrToColor(optSec, "CustWinBg", System.Drawing.Color.FromArgb(245, 243, 255))
-			g_custExcelBtn = StrToColor(optSec, "CustExcelBtn", System.Drawing.Color.FromArgb(159, 149, 239))
-			g_custRefresh = StrToColor(optSec, "CustRefresh", System.Drawing.Color.FromArgb(225, 112, 85))
-			g_custRowAlt = StrToColor(optSec, "CustRowAlt", System.Drawing.Color.FromArgb(253, 252, 255))
-			g_custRowWhite = StrToColor(optSec, "CustRowWhite", System.Drawing.Color.FromArgb(255, 255, 255))
-			g_custCellText = StrToColor(optSec, "CustCellText", System.Drawing.Color.FromArgb(0, 0, 0))
+			' 自定义主题颜色（中文键优先，英文旧键兜底）
+			g_custTitleBar = StrToColor2(optSec, "自定义主题-标题栏颜色", "CustTitleBar", System.Drawing.Color.FromArgb(108, 92, 231))
+			g_custColHeader = StrToColor2(optSec, "自定义主题-列头颜色", "CustColHeader", System.Drawing.Color.FromArgb(108, 92, 231))
+			g_custColMgr = StrToColor2(optSec, "自定义主题-列管理颜色", "CustColMgr", System.Drawing.Color.FromArgb(243, 240, 255))
+			g_custFuncDrop = StrToColor2(optSec, "自定义主题-功能下拉颜色", "CustFuncDrop", System.Drawing.Color.FromArgb(228, 222, 252))
+			g_custWinBg = StrToColor2(optSec, "自定义主题-窗口背景颜色", "CustWinBg", System.Drawing.Color.FromArgb(245, 243, 255))
+			g_custExcelBtn = StrToColor2(optSec, "自定义主题-Excel按钮颜色", "CustExcelBtn", System.Drawing.Color.FromArgb(159, 149, 239))
+			g_custRefresh = StrToColor2(optSec, "自定义主题-刷新按钮颜色", "CustRefresh", System.Drawing.Color.FromArgb(225, 112, 85))
+			g_custRowAlt = StrToColor2(optSec, "自定义主题-间隔行颜色", "CustRowAlt", System.Drawing.Color.FromArgb(253, 252, 255))
+			g_custRowWhite = StrToColor2(optSec, "自定义主题-白底行颜色", "CustRowWhite", System.Drawing.Color.FromArgb(255, 255, 255))
+			g_custCellText = StrToColor2(optSec, "自定义主题-表格文字颜色", "CustCellText", System.Drawing.Color.FromArgb(0, 0, 0))
 			RefreshGridRows()
 		Catch ex As Exception
 
@@ -3998,6 +3896,29 @@ Public Class clsBomTool
 	Function StrToColor(sec As Dictionary(Of String, String), key As String, def As System.Drawing.Color) As System.Drawing.Color
 		If sec IsNot Nothing AndAlso sec.ContainsKey(key) Then
 			Dim parts As String() = sec(key).Split(","c)
+			Dim r As Integer, g As Integer, b As Integer
+			If parts.Length = 3 AndAlso Integer.TryParse(parts(0).Trim(), r) AndAlso Integer.TryParse(parts(1).Trim(), g) AndAlso Integer.TryParse(parts(2).Trim(), b) Then
+				If r >= 0 AndAlso r <= 255 AndAlso g >= 0 AndAlso g <= 255 AndAlso b >= 0 AndAlso b <= 255 Then
+					Return System.Drawing.Color.FromArgb(r, g, b)
+				End If
+			End If
+		End If
+		Return def
+	End Function
+
+	'读取配置值：中文键优先，英文旧键兜底
+	Function GetOptVal(sec As Dictionary(Of String, String), cnKey As String, enKey As String) As String
+		If sec Is Nothing Then Return ""
+		If sec.ContainsKey(cnKey) Then Return sec(cnKey)
+		If sec.ContainsKey(enKey) Then Return sec(enKey)
+		Return ""
+	End Function
+
+	'读取颜色：中文键优先，英文旧键兜底
+	Function StrToColor2(sec As Dictionary(Of String, String), cnKey As String, enKey As String, def As System.Drawing.Color) As System.Drawing.Color
+		Dim v As String = GetOptVal(sec, cnKey, enKey)
+		If v <> "" Then
+			Dim parts As String() = v.Split(","c)
 			Dim r As Integer, g As Integer, b As Integer
 			If parts.Length = 3 AndAlso Integer.TryParse(parts(0).Trim(), r) AndAlso Integer.TryParse(parts(1).Trim(), g) AndAlso Integer.TryParse(parts(2).Trim(), b) Then
 				If r >= 0 AndAlso r <= 255 AndAlso g >= 0 AndAlso g <= 255 AndAlso b >= 0 AndAlso b <= 255 Then
@@ -7216,7 +7137,7 @@ Public Class clsBomTool
 									ApplyThemeToForm()
 									If g_theme = 6 Then StartBreathTheme()
 									g_grid.Focus()
-									If System.IO.File.Exists(g_settingsFile) Then
+									If WrIni.BomIniRead("CustomCols", "cols", "") <> "" Then
 										SetStatus("  已恢复上次列设置", C(0, 100, 60))
 									End If
 									' 启动时自动加载内置预览图（从文件二进制流读取，不需要打开文档，极快）
@@ -10603,47 +10524,33 @@ Public Class clsBomTool
 				Dim sec As Dictionary(Of String, String) = ReadSection(iniPath2, "PropConcat")
 				If sec.Count > 0 Then
 					For _ri As Integer = 0 To 7
-						Dim key As String = "Field" & _ri
-						If sec.ContainsKey(key) AndAlso Not String.IsNullOrEmpty(sec(key)) Then txtFields(_ri).Text = sec(key)
+						Dim v As String = GetOptVal(sec, "拼接-字段" & (_ri + 1), "Field" & _ri)
+						If Not String.IsNullOrEmpty(v) Then txtFields(_ri).Text = v
 					Next
-					If sec.ContainsKey("DstProp") AndAlso Not String.IsNullOrEmpty(sec("DstProp")) Then txtDst.Text = sec("DstProp")
+					Dim vDst As String = GetOptVal(sec, "拼接-目标属性", "DstProp")
+					If Not String.IsNullOrEmpty(vDst) Then txtDst.Text = vDst
 					For _ci As Integer = 0 To 6
-						Dim sepKey As String = "Sep" & _ci
-						If sec.ContainsKey(sepKey) AndAlso Not String.IsNullOrEmpty(sec(sepKey)) Then
-							If cmbSeps(_ci) IsNot Nothing Then
-								Dim idx As Integer = cmbSeps(_ci).Items.IndexOf(sec(sepKey))
-								If idx >= 0 Then cmbSeps(_ci).SelectedIndex = idx
-							End If
+						Dim vSep As String = GetOptVal(sec, "拼接-分隔符" & (_ci + 1), "Sep" & _ci)
+						If Not String.IsNullOrEmpty(vSep) AndAlso cmbSeps(_ci) IsNot Nothing Then
+							Dim idx As Integer = cmbSeps(_ci).Items.IndexOf(vSep)
+							If idx >= 0 Then cmbSeps(_ci).SelectedIndex = idx
 						End If
 					Next
 				End If
 			Catch : End Try
 			frm.ShowDialog()
-			' ── ShowDialog 返回后保存到 ini ──'
+			' ── ShowDialog 返回后保存到主配置文件 ──'
 			Try
-				Dim iniPathS As String = GetSettingsPath()
-				Dim iniLinesS As New System.Collections.Generic.List(Of String)()
-				If System.IO.File.Exists(iniPathS) Then
-					Dim allLS() As String = System.IO.File.ReadAllLines(iniPathS, System.Text.Encoding.UTF8)
-					Dim inSecS As Boolean = False
-					For Each lnS As String In allLS
-						If lnS.Trim().ToLower() = "[propconcat]" Then inSecS = True : Continue For
-						If lnS.Trim().StartsWith("[") AndAlso lnS.Trim().ToLower() <> "[propconcat]" Then inSecS = False
-						If Not inSecS Then iniLinesS.Add(lnS)
-					Next
-				End If
-				iniLinesS.Add("")
-				iniLinesS.Add("[PropConcat]")
+				WrIni.BomIniEraseSection("PropConcat")
 				For _si As Integer = 0 To 7
-					iniLinesS.Add("Field" & _si & "=" & txtFields(_si).Text.Trim())
+					WrIni.BomIniWrite("PropConcat", "拼接-字段" & (_si + 1), txtFields(_si).Text.Trim())
 				Next
 				For _ci As Integer = 0 To 6
 					Dim svS As String = ""
 					If cmbSeps(_ci) IsNot Nothing Then svS = CStr(cmbSeps(_ci).SelectedItem)
-					iniLinesS.Add("Sep" & _ci & "=" & svS)
+					WrIni.BomIniWrite("PropConcat", "拼接-分隔符" & (_ci + 1), svS)
 				Next
-				iniLinesS.Add("DstProp=" & txtDst.Text.Trim())
-				System.IO.File.WriteAllText(iniPathS, String.Join(vbCrLf, iniLinesS.ToArray()), System.Text.Encoding.UTF8)
+				WrIni.BomIniWrite("PropConcat", "拼接-目标属性", txtDst.Text.Trim())
 			Catch : End Try
 		Catch ex As Exception
 			MessageBox.Show("属性拼接写入错误：" & ex.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error)

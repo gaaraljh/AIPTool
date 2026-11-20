@@ -261,6 +261,125 @@
         str保存文档类型 = ini.GetStrFromINI("自动保存", "保存文档类型", "当前文档", IniFile)
         str保存间隔时间 = ini.GetStrFromINI("自动保存", "保存间隔时间", "10", IniFile)
 
+        ' 配置已读入内存，清理 BOM 配置节中残留的旧英文键（键名已改中文）
+        BomIniCleanOldEnglishKeys()
+    End Sub
+
+    ' ============================================================================
+    ' BOM 工具（clsBomTool）配置读写接口
+    ' 统一写入主配置文件 IniFile（ConfigFile.ini），不再使用单独的
+    ' DWJ_BOM_Settings.ini / .dwj_prop2dwg.ini 文件。
+    ' ============================================================================
+
+    ''' <summary>
+    ''' 写 BOM 配置项到主配置文件
+    ''' </summary>
+    Public Sub BomIniWrite(ByVal sectionName As String, ByVal keyName As String, ByVal setValue As String)
+        On Error Resume Next
+        ini.WriteStrINI(sectionName, keyName, setValue, IniFile)
+    End Sub
+
+    ''' <summary>
+    ''' 从主配置文件读 BOM 配置项
+    ''' </summary>
+    Public Function BomIniRead(ByVal sectionName As String, ByVal keyName As String, Optional ByVal defaultValue As String = "") As String
+        On Error Resume Next
+        Return ini.GetStrFromINI(sectionName, keyName, defaultValue, IniFile)
+    End Function
+
+    ''' <summary>
+    ''' 删除主配置文件中 BOM 配置的整个节（重写节前先清旧值，避免残留已删除的键）
+    ''' </summary>
+    Public Sub BomIniEraseSection(ByVal sectionName As String)
+        On Error Resume Next
+        ini.EraseSection(sectionName, IniFile)
+    End Sub
+
+    ''' <summary>
+    ''' 读取主配置文件中 BOM 配置的整个节，返回 键-值 字典（键名不区分大小写）
+    ''' </summary>
+    Public Function BomIniReadSection(ByVal sectionName As String) As Dictionary(Of String, String)
+        Dim result As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
+        Try
+            Dim buffer As String = Space(8192)
+            Dim rc As Integer = ini.GetPrivateProfileString(sectionName, Nothing, "", buffer, buffer.Length, IniFile)
+            If rc > 0 Then
+                Dim keys() As String = buffer.Substring(0, rc).Split(New Char() {vbNullChar}, StringSplitOptions.RemoveEmptyEntries)
+                For Each k As String In keys
+                    result(k) = ini.GetStrFromINI(sectionName, k, "", IniFile)
+                Next
+            End If
+        Catch
+        End Try
+        Return result
+    End Function
+
+    ''' <summary>
+    ''' 删除单个旧键（setValue 传 Nothing，Windows API 会删除该键）
+    ''' </summary>
+    Public Sub BomIniDeleteKey(ByVal sectionName As String, ByVal keyName As String)
+        On Error Resume Next
+        ini.WriteStrINI(sectionName, keyName, Nothing, IniFile)
+    End Sub
+
+    ''' <summary>
+    ''' 迁移并清理 BOM 配置旧英文键：若中文键不存在则用旧英文键的值写入中文键，再删除旧英文键。
+    ''' 这样无论何时调用都不会丢失已有配置。
+    ''' </summary>
+    Public Sub BomIniCleanOldEnglishKeys()
+        On Error Resume Next
+        MigrateKey("Options", "HideContentCenter", "隐藏标准件")
+        MigrateKey("Options", "SkipVirtual", "跳过虚拟件")
+        MigrateKey("Options", "OnlyPart", "仅显示零件")
+        MigrateKey("Options", "OnlyAssy", "仅显示部件")
+        MigrateKey("Options", "OnlySheet", "仅显示钣金件")
+        MigrateKey("Options", "OnlyWeld", "仅显示焊接件")
+        MigrateKey("Options", "RowHeight", "表格行高")
+        MigrateKey("Options", "ColWidth", "列宽")
+        MigrateKey("Options", "Theme", "主题编号")
+        MigrateKey("Options", "CustTitleBar", "自定义主题-标题栏颜色")
+        MigrateKey("Options", "CustColHeader", "自定义主题-列头颜色")
+        MigrateKey("Options", "CustColMgr", "自定义主题-列管理颜色")
+        MigrateKey("Options", "CustFuncDrop", "自定义主题-功能下拉颜色")
+        MigrateKey("Options", "CustWinBg", "自定义主题-窗口背景颜色")
+        MigrateKey("Options", "CustExcelBtn", "自定义主题-Excel按钮颜色")
+        MigrateKey("Options", "CustRefresh", "自定义主题-刷新按钮颜色")
+        MigrateKey("Options", "CustRowAlt", "自定义主题-间隔行颜色")
+        MigrateKey("Options", "CustRowWhite", "自定义主题-白底行颜色")
+        MigrateKey("Options", "CustCellText", "自定义主题-表格文字颜色")
+        'DrawingNo
+        MigrateKey("DrawingNo", "Prefix", "图号-前缀")
+        MigrateKey("DrawingNo", "Separator", "图号-分隔符")
+        MigrateKey("DrawingNo", "Overwrite", "图号-覆盖标准件")
+        MigrateKey("DrawingNo", "SkipCC", "图号-跳过标准件")
+        MigrateKey("DrawingNo", "SkipPropName", "图号-跳过条件属性名")
+        MigrateKey("DrawingNo", "SkipPropVal", "图号-跳过条件属性值")
+        MigrateKey("DrawingNo", "OnlyPropName", "图号-仅写条件属性名")
+        MigrateKey("DrawingNo", "OnlyPropVal", "图号-仅写条件属性值")
+        'PropConcat
+        For i As Integer = 0 To 7 : MigrateKey("PropConcat", "Field" & i, "拼接-字段" & (i + 1)) : Next
+        For i As Integer = 0 To 6 : MigrateKey("PropConcat", "Sep" & i, "拼接-分隔符" & (i + 1)) : Next
+        MigrateKey("PropConcat", "DstProp", "拼接-目标属性")
+        'PropToDrawing
+        MigrateKey("PropToDrawing", "Props", "写入工程图-属性列表")
+        MigrateKey("PropToDrawing", "SkipCC", "写入工程图-跳过标准件")
+        MigrateKey("PropToDrawing", "OnlyPart", "写入工程图-仅零件")
+        MigrateKey("PropToDrawing", "OnlyAssy", "写入工程图-仅部件")
+        MigrateKey("PropToDrawing", "OnlyWeld", "写入工程图-仅焊接件")
+        MigrateKey("PropToDrawing", "SkipPropName", "写入工程图-跳过条件属性名")
+        MigrateKey("PropToDrawing", "SkipPropVal", "写入工程图-跳过条件属性值")
+        MigrateKey("PropToDrawing", "OnlyPropName", "写入工程图-仅写条件属性名")
+        MigrateKey("PropToDrawing", "OnlyPropVal", "写入工程图-仅写条件属性值")
+    End Sub
+
+    '迁移单个键：中文键不存在时用旧键的值写入，再删除旧键
+    Private Sub MigrateKey(ByVal sectionName As String, ByVal oldKey As String, ByVal cnKey As String)
+        On Error Resume Next
+        Dim oldVal As String = ini.GetStrFromINI(sectionName, oldKey, ChrW(1), IniFile)
+        If oldVal = ChrW(1) Then Exit Sub   '旧键不存在
+        Dim cnVal As String = ini.GetStrFromINI(sectionName, cnKey, ChrW(1), IniFile)
+        If cnVal = ChrW(1) Then ini.WriteStrINI(sectionName, cnKey, oldVal, IniFile)
+        BomIniDeleteKey(sectionName, oldKey)
     End Sub
 
 End Module

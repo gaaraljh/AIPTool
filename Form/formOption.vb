@@ -10,6 +10,169 @@ Public Class FormOption
 
     Inherits Form
 
+    ' ===== BOM 工具配置项（节 / 键 / 中文说明 / 备注），用于“其他”页的图形化配置 =====
+    Private Structure BomCfgItem
+        Public SectionName As String
+        Public KeyName As String
+        Public CnName As String
+        Public Remark As String
+        Public OriginalValue As String   '从配置读出的原始值（下拉显示主题名时保留，供“自定义主题”回写）
+        Public Sub New(sec As String, key As String, cn As String, remark As String)
+            SectionName = sec : KeyName = key : CnName = cn : Me.Remark = remark : OriginalValue = ""
+        End Sub
+    End Structure
+
+    ' ===== BOM 主题（与 clsBomTool 的下拉一致）=====
+    Private ReadOnly BOM_THEME_NAMES As String() = {
+        "紫色主题", "蓝色主题", "绿色主题", "红色主题", "橙色主题", "粉色主题",
+        "🌈 呼吸灯", "🌙 暗黑主题", "🎨 自定义主题"}
+
+    '10 个自定义主题颜色键的顺序（与配色表列顺序一致）
+    Private ReadOnly BOM_COLOR_KEYS As String() = {
+        "CustTitleBar", "CustColHeader", "CustColMgr", "CustFuncDrop", "CustWinBg",
+        "CustExcelBtn", "CustRefresh", "CustRowAlt", "CustRowWhite", "CustCellText"}
+
+    '各主题配色表(行=主题0-8, 列=10个颜色键)，取自 clsBomTool 主题函数
+    Private ReadOnly BOM_THEME_COLORS(,) As String = {
+        {"108,92,231", "108,92,231", "243,240,255", "228,222,252", "238,235,252", "159,149,239", "225,112,85", "253,252,255", "255,255,255", "0,0,0"},
+        {"0,150,200", "0,150,200", "235,245,255", "210,230,255", "230,240,255", "89,187,219", "225,112,85", "247,251,255", "255,255,255", "0,0,0"},
+        {"30,140,110", "30,140,110", "235,248,244", "205,230,220", "230,242,236", "109,180,161", "225,112,85", "245,252,249", "255,255,255", "0,0,0"},
+        {"220,60,70", "220,60,70", "255,240,240", "250,215,215", "252,230,230", "232,128,135", "225,112,85", "255,248,248", "255,255,255", "0,0,0"},
+        {"255,140,0", "255,140,0", "255,245,235", "255,228,195", "255,238,225", "255,180,89", "225,112,85", "255,252,245", "255,255,255", "0,0,0"},
+        {"230,80,160", "230,80,160", "255,240,248", "250,215,235", "252,228,242", "239,141,193", "225,112,85", "255,248,252", "255,255,255", "0,0,0"},
+        {"108,92,231", "108,92,231", "243,240,255", "228,222,252", "238,235,252", "159,149,239", "225,112,85", "253,252,255", "255,255,255", "0,0,0"},
+        {"90,95,115", "90,95,115", "90,95,115", "90,95,115", "90,95,115", "148,151,164", "225,112,85", "100,105,125", "110,112,120", "235,235,240"},
+        {"108,92,231", "108,92,231", "243,240,255", "228,222,252", "238,235,252", "159,149,239", "225,112,85", "253,252,255", "255,255,255", "0,0,0"}
+    }
+
+    ''' <summary>按颜色键与主题名，取对应的 RGB 颜色值</summary>
+    Private Function GetBomThemeColor(ByVal key As String, ByVal themeName As String) As String
+        Dim ti As Integer = Array.IndexOf(BOM_THEME_NAMES, themeName)
+        Dim ci As Integer = Array.IndexOf(BOM_COLOR_KEYS, key)
+        If ti < 0 OrElse ci < 0 Then Return ""
+        Return BOM_THEME_COLORS(ti, ci)
+    End Function
+
+    ''' <summary>按颜色键与当前 RGB 值，反查属于哪个主题名；不匹配返回“🎨 自定义主题”</summary>
+    Private Function GetBomThemeNameByColor(ByVal key As String, ByVal colorValue As String) As String
+        If String.IsNullOrEmpty(colorValue) Then Return BOM_THEME_NAMES(8)
+        Dim ci As Integer = Array.IndexOf(BOM_COLOR_KEYS, key)
+        If ci < 0 Then Return BOM_THEME_NAMES(8)
+        For ti As Integer = 0 To 7
+            If String.Equals(BOM_THEME_COLORS(ti, ci).Replace(" ", ""), colorValue.Replace(" ", ""), StringComparison.OrdinalIgnoreCase) Then
+                Return BOM_THEME_NAMES(ti)
+            End If
+        Next
+        Return BOM_THEME_NAMES(8)
+    End Function
+
+    Private ReadOnly BOM_CONFIG_ITEMS As New List(Of BomCfgItem) From {
+        New BomCfgItem("Options", "HideContentCenter", "隐藏标准件", "BOM中隐藏 Content Center 标准件"),
+        New BomCfgItem("Options", "SkipVirtual", "跳过虚拟件", "隐藏虚拟件/phantom 结构行"),
+        New BomCfgItem("Options", "OnlyPart", "仅显示零件", "过滤模式：仅 .ipt 普通零件"),
+        New BomCfgItem("Options", "OnlyAssy", "仅显示部件", "过滤模式：仅 .iam 装配体"),
+        New BomCfgItem("Options", "OnlySheet", "仅显示钣金件", "过滤模式：仅钣金件"),
+        New BomCfgItem("Options", "OnlyWeld", "仅显示焊接件", "过滤模式：仅焊接件"),
+        New BomCfgItem("Options", "RowHeight", "表格行高", "BOM表格行高（像素）"),
+        New BomCfgItem("Options", "ColWidth", "列宽", "BOM默认列宽"),
+        New BomCfgItem("Options", "Theme", "主题编号", "0-8，8为自定义主题"),
+        New BomCfgItem("Options", "CustTitleBar", "自定义主题-标题栏颜色", "如 #6C5CE7"),
+        New BomCfgItem("Options", "CustColHeader", "自定义主题-列头颜色", "如 #6C5CE7"),
+        New BomCfgItem("Options", "CustColMgr", "自定义主题-列管理颜色", "如 #F3F0FF"),
+        New BomCfgItem("Options", "CustFuncDrop", "自定义主题-功能下拉颜色", "如 #E4DEFC"),
+        New BomCfgItem("Options", "CustWinBg", "自定义主题-窗口背景颜色", "如 #F5F3FF"),
+        New BomCfgItem("Options", "CustExcelBtn", "自定义主题-Excel按钮颜色", "如 #9F95EF"),
+        New BomCfgItem("Options", "CustRefresh", "自定义主题-刷新按钮颜色", "如 #E17055"),
+        New BomCfgItem("Options", "CustRowAlt", "自定义主题-间隔行颜色", "如 #FDFCFF"),
+        New BomCfgItem("Options", "CustRowWhite", "自定义主题-白底行颜色", "如 #FFFFFF"),
+        New BomCfgItem("Options", "CustCellText", "自定义主题-表格文字颜色", "如 #000000")
+    }
+
+    ''' <summary>
+    ''' 判断某个 BOM 配置项是否为 true/false 布尔项（需要下拉选择）
+    ''' </summary>
+    Private Function IsBomBoolItem(ByVal sec As String, ByVal key As String) As Boolean
+        If sec = "Options" Then
+            Select Case key
+                Case "HideContentCenter", "SkipVirtual", "OnlyPart", "OnlyAssy", "OnlySheet", "OnlyWeld"
+                    Return True
+            End Select
+        End If
+        Return False
+    End Function
+
+    ''' <summary>
+    ''' 判断是否为自定义主题颜色项
+    ''' </summary>
+    Private Function IsBomColorItem(ByVal key As String) As Boolean
+        Return Array.IndexOf(BOM_COLOR_KEYS, key) >= 0
+    End Function
+
+    ''' <summary>
+    ''' 从主配置文件加载 BOM 配置到 DataGridView
+    ''' </summary>
+    Private Sub LoadBomConfigGrid()
+        dgvBOM配置.Rows.Clear()
+        For Each item As BomCfgItem In BOM_CONFIG_ITEMS
+            Dim value As String = WrIni.BomIniRead(item.SectionName, item.CnName, "")
+            item.OriginalValue = value
+            Dim showValue As String = value
+            Dim showRemark As String = item.Remark
+            '颜色项：说明列追加当前实际 RGB，便于查看
+            If IsBomColorItem(item.KeyName) AndAlso Not String.IsNullOrEmpty(value) Then
+                showRemark = "当前 RGB：" & value
+            End If
+            Dim idx As Integer = dgvBOM配置.Rows.Add(item.CnName, item.SectionName, item.KeyName, showValue, showRemark)
+            dgvBOM配置.Rows(idx).Tag = item
+
+            'true/false 项改为下拉框选择
+            If IsBomBoolItem(item.SectionName, item.KeyName) Then
+                Dim boolValue As String = If(value.Trim().ToLower() = "true", "true", "false")
+                Dim boolCell As New DataGridViewComboBoxCell()
+                boolCell.Items.Add("true")
+                boolCell.Items.Add("false")
+                boolCell.Value = boolValue
+                dgvBOM配置.Rows(idx).Cells("colBOM值") = boolCell
+            ElseIf IsBomColorItem(item.KeyName) Then
+                '自定义主题颜色项：下拉显示中文主题名，选中后映射到对应颜色
+                Dim colorCell As New DataGridViewComboBoxCell()
+                For Each tn As String In BOM_THEME_NAMES
+                    colorCell.Items.Add(tn)
+                Next
+                colorCell.Value = GetBomThemeNameByColor(item.KeyName, value)
+                dgvBOM配置.Rows(idx).Cells("colBOM值") = colorCell
+            End If
+        Next
+    End Sub
+
+    ''' <summary>
+    ''' 把 DataGridView 中修改的值写回主配置文件
+    ''' </summary>
+    Private Sub SaveBomConfigGrid()
+        For Each row As DataGridViewRow In dgvBOM配置.Rows
+            If row.IsNewRow OrElse row.Tag Is Nothing Then Continue For
+            Dim item As BomCfgItem = CType(row.Tag, BomCfgItem)
+            Dim value As String = If(row.Cells("colBOM值").Value Is Nothing, "", row.Cells("colBOM值").Value.ToString())
+
+            If IsBomColorItem(item.KeyName) Then
+                '主题名 → 映射为对应颜色；选“自定义主题”则保留文本框原值
+                If value = BOM_THEME_NAMES(8) Then
+                    value = item.OriginalValue
+                Else
+                    Dim mapped As String = GetBomThemeColor(item.KeyName, value)
+                    If mapped <> "" Then value = mapped
+                End If
+            End If
+
+            WrIni.BomIniWrite(item.SectionName, item.CnName, value)
+        Next
+    End Sub
+
+    '重新读取 BOM 配置（放弃表格中的修改）
+    Private Sub btnBOM重置_Click(sender As Object, e As EventArgs) Handles btnBOM重置.Click
+        LoadBomConfigGrid()
+    End Sub
+
     Private Sub Btn添加_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn添加.Click
         'if txtBOM导出项.Text = "" Then
         '    txtBOM导出项.Text = cbo添加.Text
@@ -89,7 +252,7 @@ Public Class FormOption
 
         str去除后缀表 = txt去除后缀.Text
         str增加后缀 = cbx增加后缀.Text
-        str中间符号 = cbx中间符号.text
+        str中间符号 = cbx中间符号.Text
 
         str模型匹配检查 = IIf(chk模型匹配检查.Checked, "1", "-1")
         str逆时针序号 = IIf(chk逆时针序号.Checked, "1", "-1")
@@ -218,6 +381,9 @@ Public Class FormOption
             m_timer.Stop()
         End If
 
+        '保存“其他”页的 BOM 工具配置
+        SaveBomConfigGrid()
+
         WrIni.ConfigFileIniWriteSetting()
 
 
@@ -271,7 +437,8 @@ Public Class FormOption
     Private Sub FrmOption_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Me.Icon = My.Resources.GLTool48
 
-
+        '加载 BOM 工具配置到“其他”页
+        LoadBomConfigGrid()
 
         '加载配置文件
         Dim strComboBoxs As String
@@ -583,9 +750,9 @@ Public Class FormOption
     End Sub
 
     Private Sub Btn颜色下_Click(sender As Object, e As EventArgs) Handles btn向下颜色.Click
-        Dim colorDialog As New ColorDialog()
-        If colorDialog.ShowDialog() = DialogResult.OK Then
-            Dim selectedColor As Drawing.Color = colorDialog.Color
+        Dim colorDialog As New ColorDialog
+        If colorDialog.ShowDialog = DialogResult.OK Then
+            Dim selectedColor = colorDialog.Color
             btn向下颜色.BackColor = selectedColor
             str向下颜色 = String.Format("#{0:X2}{1:X2}{2:X2}", selectedColor.R, selectedColor.G, selectedColor.B)
         End If
@@ -645,5 +812,11 @@ Public Class FormOption
         FormManager.CloseAndDisposeForm(Of FormOption)()
     End Sub
 
+    Private Sub TabPage其他_Click(sender As Object, e As EventArgs)
 
+    End Sub
+
+    Private Sub lb页边距_Click(sender As Object, e As EventArgs) Handles lb页边距.Click
+
+    End Sub
 End Class
