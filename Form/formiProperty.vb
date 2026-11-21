@@ -7,8 +7,8 @@ Public Class FormiProperty
         Dim oInventorDocument As Inventor.Document
         oInventorDocument = ThisApplication.ActiveEditDocument
 
-        SetPropitem(oInventorDocument, Map_DrawingNnumber, txt图号.Text)
-        SetPropitem(oInventorDocument, Map_PartName, txt文件名.Text)
+        SetStockNumber(oInventorDocument, txt图号.Text)
+        SetPartNumber(oInventorDocument, txt名称.Text)
         SetDescription(oInventorDocument, cmb描述.Text)
         SetPropitem(oInventorDocument, "生产数量", txt生产数量.Text)
         SetVendor(oInventorDocument, cmb供应商.Text)
@@ -96,7 +96,7 @@ Public Class FormiProperty
                     Case Map_DrawingNnumber, "库存编号", "图号", "Stock Number"
                         txt图号.Text = propitem.Value
                     Case Map_PartName, "文件名", "零件名称", "零件代号", "Part Number", "File Name"
-                        txt文件名.Text = propitem.Value
+                        txt名称.Text = propitem.Value
                     Case Map_Describe, "描述", "Description"
                         cmb描述.Text = propitem.Value
                     Case Map_Vendor, "供应商", "Vendor"
@@ -108,6 +108,11 @@ Public Class FormiProperty
                 End Select
             Next
         Next
+
+        ' 图号/名称：显式从标准“Design Tracking Properties”读取 Stock Number / Part Number
+        '           （内部名，跨语言一致），避免循环里被同名空属性覆盖导致显示不正确
+        txt图号.Text = GetStockNumber(oInventorDocument)
+        txt名称.Text = GetPartNumber(oInventorDocument)
 
         ' 描述：显式从标准“Design Tracking Properties”读取 描述/Description，
         '       避免被其它同名（或空值）属性覆盖导致显示不正确（兼容中英文 Inventor）
@@ -306,17 +311,123 @@ Public Class FormiProperty
         End Try
     End Sub
 
+    ''' <summary>
+    ''' 读取文件“库存编号/Stock Number”属性（兼容中英文 Inventor）。
+    ''' 优先取“Design Tracking Properties”的 Stock Number（内部名，跨语言一致），
+    ''' 兜底扫描所有属性集里首个 DisplayName 为 库存编号/Stock Number 且非空的值。
+    ''' </summary>
+    Private Function GetStockNumber(ByVal oDoc As Inventor.Document) As String
+        Try
+            Dim ps As PropertySet = oDoc.PropertySets.Item("Design Tracking Properties")
+            Try
+                Dim oValue As Object = ps.Item("Stock Number").Value
+                If oValue IsNot Nothing AndAlso oValue.ToString() <> "" Then Return oValue.ToString()
+            Catch
+            End Try
+        Catch
+        End Try
+
+        Try
+            For Each pset As PropertySet In oDoc.PropertySets
+                For Each p As [Property] In pset
+                    If p.DisplayName = "库存编号" OrElse p.DisplayName = "Stock Number" Then
+                        If p.Value IsNot Nothing AndAlso p.Value.ToString() <> "" Then Return p.Value.ToString()
+                    End If
+                Next
+            Next
+        Catch
+        End Try
+        Return ""
+    End Function
+
+    ''' <summary>写入“库存编号/Stock Number”（优先标准属性内部名，兜底扫描显示名）。</summary>
+    Private Sub SetStockNumber(ByVal oDoc As Inventor.Document, ByVal strValue As String)
+        Try
+            Dim ps As PropertySet = oDoc.PropertySets.Item("Design Tracking Properties")
+            ps.Item("Stock Number").Value = strValue
+            oDoc.Update()
+            Return
+        Catch
+        End Try
+
+        Try
+            For Each pset As PropertySet In oDoc.PropertySets
+                For Each p As [Property] In pset
+                    If p.DisplayName = "库存编号" OrElse p.DisplayName = "Stock Number" Then
+                        p.Value = strValue
+                        oDoc.Update()
+                        Return
+                    End If
+                Next
+            Next
+        Catch
+        End Try
+    End Sub
+
+    ''' <summary>
+    ''' 读取文件“库存代号/零件代号/Part Number”属性（兼容中英文 Inventor）。
+    ''' 优先取“Design Tracking Properties”的 Part Number（内部名，跨语言一致），
+    ''' 兜底扫描所有属性集里首个 DisplayName 为 库存代号/零件代号/Part Number 且非空的值。
+    ''' </summary>
+    Private Function GetPartNumber(ByVal oDoc As Inventor.Document) As String
+        Try
+            Dim ps As PropertySet = oDoc.PropertySets.Item("Design Tracking Properties")
+            Try
+                Dim oValue As Object = ps.Item("Part Number").Value
+                If oValue IsNot Nothing AndAlso oValue.ToString() <> "" Then Return oValue.ToString()
+            Catch
+            End Try
+        Catch
+        End Try
+
+        Try
+            For Each pset As PropertySet In oDoc.PropertySets
+                For Each p As [Property] In pset
+                    If p.DisplayName = "库存代号" OrElse p.DisplayName = "零件代号" OrElse p.DisplayName = "Part Number" Then
+                        If p.Value IsNot Nothing AndAlso p.Value.ToString() <> "" Then Return p.Value.ToString()
+                    End If
+                Next
+            Next
+        Catch
+        End Try
+        Return ""
+    End Function
+
+    ''' <summary>写入“库存代号/零件代号/Part Number”（优先标准属性内部名，兜底扫描显示名）。</summary>
+    Private Sub SetPartNumber(ByVal oDoc As Inventor.Document, ByVal strValue As String)
+        Try
+            Dim ps As PropertySet = oDoc.PropertySets.Item("Design Tracking Properties")
+            ps.Item("Part Number").Value = strValue
+            oDoc.Update()
+            Return
+        Catch
+        End Try
+
+        Try
+            For Each pset As PropertySet In oDoc.PropertySets
+                For Each p As [Property] In pset
+                    If p.DisplayName = "库存代号" OrElse p.DisplayName = "零件代号" OrElse p.DisplayName = "Part Number" Then
+                        p.Value = strValue
+                        oDoc.Update()
+                        Return
+                    End If
+                Next
+            Next
+        Catch
+        End Try
+    End Sub
+
     Private Sub Btn向上1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn向上1.Click
         Dim strTemp As String
         strTemp = txt图号.Text
-        txt图号.Text = txt文件名.Text
-        txt文件名.Text = strTemp
+        txt图号.Text = txt名称.Text
+        txt名称.Text = strTemp
     End Sub
 
     Private Sub Btn向上2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn向上2.Click
         Dim strTemp As String
-        strTemp = txt文件名.Text
-        txt文件名.Text = cmb描述.Text
+        strTemp = txt名称.Text
+        txt名称.Text = cmb描述.Text
         cmb描述.Text = strTemp
     End Sub
 
@@ -432,7 +543,7 @@ Public Class FormiProperty
         SetPropitem(oInventorDocument, Map_PartName, oStockNumPartName.零件名称)
 
         txt图号.Text = oStockNumPartName.图号
-        txt文件名.Text = oStockNumPartName.零件名称
+        txt名称.Text = oStockNumPartName.零件名称
 
     End Sub
 End Class

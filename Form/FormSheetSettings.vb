@@ -259,10 +259,23 @@ Public Class FormSheetSettings
         '标题栏列表
         LoadTitleBlockListToComboBox(oDrawingDocument, oActiveSheet)
 
-        '方向
-        If oActiveSheet.Orientation = PageOrientationTypeEnum.kPortraitPageOrientation Then
-            radioButtonOrientationPortrait.Checked = True
+        '标题栏位置：从图纸上标题栏的实际位置反推所处角落，选中对应 radio（不再固定默认右下）
+        SelectTitleBlockLocationRadio(GetTitleBlockLocationFromSheet(oActiveSheet))
+
+        '方向：按图纸实际宽高判断（竖向=宽<高），比 Orientation 枚举更可靠；
+        '      仅当宽高相等（正方图纸）时才退回枚举判断。
+        '      加载值必须与图纸一致，避免误点"应用"反向改动图纸方向。
+        Dim blnPortrait As Boolean
+        If Math.Abs(oActiveSheet.Width - oActiveSheet.Height) < 0.01 Then
+            blnPortrait = (oActiveSheet.Orientation = PageOrientationTypeEnum.kPortraitPageOrientation)
         Else
+            blnPortrait = (oActiveSheet.Width < oActiveSheet.Height)
+        End If
+        If blnPortrait Then
+            radioButtonOrientationPortrait.Checked = True
+            radioButtonOrientationLandscape.Checked = False
+        Else
+            radioButtonOrientationPortrait.Checked = False
             radioButtonOrientationLandscape.Checked = True
         End If
     End Sub
@@ -301,6 +314,42 @@ Public Class FormSheetSettings
         End Try
     End Sub
 
+    ''' <summary>
+    ''' 根据图纸上标题栏 RangeBox 的中心点，判断它位于哪个角落。
+    ''' Inventor 图纸坐标原点在左下角：X 越大越靠右，Y 越大越靠上。
+    ''' </summary>
+    Private Function GetTitleBlockLocationFromSheet(ByVal sheet As Sheet) As TitleBlockLocationEnum
+        Try
+            If sheet Is Nothing OrElse sheet.TitleBlock Is Nothing Then Return TitleBlockLocationEnum.kBottomRightPosition
+            Dim oBox As Box2d = sheet.TitleBlock.RangeBox
+            Dim dblCenterX As Double = (oBox.MinPoint.X + oBox.MaxPoint.X) / 2.0
+            Dim dblCenterY As Double = (oBox.MinPoint.Y + oBox.MaxPoint.Y) / 2.0
+            Dim blnLeft As Boolean = dblCenterX < (sheet.Width / 2.0)
+            Dim blnBottom As Boolean = dblCenterY < (sheet.Height / 2.0)
+
+            If blnLeft AndAlso blnBottom Then Return TitleBlockLocationEnum.kBottomLeftPosition
+            If blnLeft AndAlso Not blnBottom Then Return TitleBlockLocationEnum.kTopLeftPosition
+            If Not blnLeft AndAlso blnBottom Then Return TitleBlockLocationEnum.kBottomRightPosition
+            Return TitleBlockLocationEnum.kTopRightPosition
+        Catch
+            Return TitleBlockLocationEnum.kBottomRightPosition
+        End Try
+    End Function
+
+    ''' <summary>按角落枚举选中对应的位置单选按钮</summary>
+    Private Sub SelectTitleBlockLocationRadio(ByVal location As TitleBlockLocationEnum)
+        Select Case location
+            Case TitleBlockLocationEnum.kTopLeftPosition
+                radioButtonOrientationTopLeft.Checked = True
+            Case TitleBlockLocationEnum.kTopRightPosition
+                radioButtonOrientationTopRight.Checked = True
+            Case TitleBlockLocationEnum.kBottomLeftPosition
+                radioButtonOrientationBottomLeft.Checked = True
+            Case Else
+                radioButtonOrientationBottomRight.Checked = True
+        End Select
+    End Sub
+
     ''' <summary>清空选择/信息控件（保留标题栏定义列表，不清图纸名称）</summary>
     Private Sub ClearSheetInfoControls()
         textBoxSheetName.Clear()
@@ -336,6 +385,7 @@ Public Class FormSheetSettings
         Catch ex As Exception
             MessageBox.Show("应用图纸设置失败：" & ex.Message, "图纸设置", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
+        FormSheetSettings.ActiveForm.Close()
     End Sub
 
     ''' <summary>应用设置到所有图纸</summary>

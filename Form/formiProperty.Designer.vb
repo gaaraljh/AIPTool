@@ -27,7 +27,7 @@ Partial Class FormiProperty
         btn取消 = New Button()
         lbl图号 = New Label()
         txt图号 = New System.Windows.Forms.TextBox()
-        txt文件名 = New System.Windows.Forms.TextBox()
+        txt名称 = New System.Windows.Forms.TextBox()
         btn向上1 = New Button()
         btn向上2 = New Button()
         cmb描述 = New ComboBox()
@@ -90,14 +90,14 @@ Partial Class FormiProperty
         txt图号.Size = New Size(306, 31)
         txt图号.TabIndex = 0
         ' 
-        ' txt文件名
+        ' txt名称
         ' 
-        txt文件名.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
-        txt文件名.Location = New System.Drawing.Point(131, 103)
-        txt文件名.Margin = New Padding(4, 6, 4, 6)
-        txt文件名.Name = "txt文件名"
-        txt文件名.Size = New Size(306, 31)
-        txt文件名.TabIndex = 1
+        txt名称.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        txt名称.Location = New System.Drawing.Point(131, 103)
+        txt名称.Margin = New Padding(4, 6, 4, 6)
+        txt名称.Name = "txt名称"
+        txt名称.Size = New Size(306, 31)
+        txt名称.TabIndex = 1
         ' 
         ' btn向上1
         ' 
@@ -336,7 +336,7 @@ Partial Class FormiProperty
         Controls.Add(btn取消)
         Controls.Add(btn向上2)
         Controls.Add(btn向上1)
-        Controls.Add(txt文件名)
+        Controls.Add(txt名称)
         Controls.Add(txt图号)
         Controls.Add(lbl图号)
         FormBorderStyle = FormBorderStyle.FixedSingle
@@ -355,7 +355,7 @@ Partial Class FormiProperty
     Friend WithEvents btn取消 As System.Windows.Forms.Button
     Friend WithEvents lbl图号 As System.Windows.Forms.Label
     Friend WithEvents txt图号 As System.Windows.Forms.TextBox
-    Friend WithEvents txt文件名 As System.Windows.Forms.TextBox
+    Friend WithEvents txt名称 As System.Windows.Forms.TextBox
     Friend WithEvents btn向上1 As System.Windows.Forms.Button
     Friend WithEvents btn向上2 As System.Windows.Forms.Button
     Friend WithEvents cmb描述 As System.Windows.Forms.ComboBox
