@@ -3309,5 +3309,55 @@ Namespace My.Resources
                 Return CType(obj,System.Drawing.Icon)
             End Get
         End Property
+        
+        '''<summary>
+        '''  查找类似于 (位图) 的 System.Drawing.Bitmap 类型的本地化资源。
+        '''</summary>
+        Friend ReadOnly Property titleblock_BL() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("titleblock_BL", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  查找类似于 (位图) 的 System.Drawing.Bitmap 类型的本地化资源。
+        '''</summary>
+        Friend ReadOnly Property titleblock_BR() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("titleblock_BR", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  查找类似于 (位图) 的 System.Drawing.Bitmap 类型的本地化资源。
+        '''</summary>
+        Friend ReadOnly Property titleblock_TL() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("titleblock_TL", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  查找类似于 (位图) 的 System.Drawing.Bitmap 类型的本地化资源。
+        '''</summary>
+        Friend ReadOnly Property titleblock_TR() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("titleblock_TR", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
+        '''</summary>
+        Friend ReadOnly Property SheetSettings16() As System.Drawing.Icon
+            Get
+                Dim obj As Object = ResourceManager.GetObject("SheetSettings16", resourceCulture)
+                Return CType(obj,System.Drawing.Icon)
+            End Get
+        End Property
     End Module
 End Namespace

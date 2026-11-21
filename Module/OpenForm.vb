@@ -108,6 +108,20 @@ Module OpenForm
 
     End Sub
 
+    '打开图纸设置窗口
+    Public Sub FormSheetSettingsShow()
+        Try
+            SetStatusBarText()
+            If ThisApplication.ActiveDocumentType <> kDrawingDocumentObject Then
+                MessageBox.Show("该功能仅适用于工程图。", GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
+            End If
+            FormManager.ShowForm(Of FormSheetSettings)(False)
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, GLTool, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
     '打开技术要求窗口
     Public Sub FormSpecificationShow()
         Try

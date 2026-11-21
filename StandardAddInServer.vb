@@ -100,6 +100,7 @@ Namespace InventorAddIn
         Private WithEvents Menu_设置比例_Buttondef As Inventor.ButtonDefinition
         Private WithEvents Menu_设置对称件iProperty_Buttondef As Inventor.ButtonDefinition
         Private WithEvents Menu_设置签字_Buttondef As Inventor.ButtonDefinition
+        Private WithEvents Menu_图纸设置_Buttondef As Inventor.ButtonDefinition
         Private WithEvents Menu_设置日期_Buttondef As Inventor.ButtonDefinition
         Private WithEvents Menu_设置只读_Buttondef As ButtonDefinition
         Private WithEvents Menu_输入查询ERP编码_Buttondef As ButtonDefinition
@@ -463,6 +464,12 @@ Namespace InventorAddIn
             largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.设置签字32.ToBitmap)
             Menu_设置签字_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("设置签字", "GLToolInName设置签字",
                      CommandTypesEnum.kShapeEditCmdType, ClientID, "", "根据【签字】【工程师】的设置，将当前日期写入【iProperty】【自定义】字段。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
+
+            '图纸设置（图标：Sheet Settings.ico）
+            smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.SheetSettings16.ToBitmap)
+            largePicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.SheetSettings16.ToBitmap)
+            Menu_图纸设置_Buttondef = oCommandManager.ControlDefinitions.AddButtonDefinition("图纸设置", "GLToolInName图纸设置",
+                     CommandTypesEnum.kShapeEditCmdType, ClientID, "", "打开图纸设置，读取并设置当前图纸或所有图纸的名称、尺寸、标题栏与方向。", smallPicture, largePicture, ButtonDisplayEnum.kDisplayTextInLearningMode)
 
             '20
             smallPicture = ClsPictureConverter.ImageToPictureDisp(My.Resources.清除签字16.ToBitmap)
@@ -1283,7 +1290,11 @@ Namespace InventorAddIn
                     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                     '工程图环境
                     oRibbon = oUserInterfaceManager.Ribbons.Item("Drawing")
-                    'oRibbonTab = oRibbon.RibbonTabs.Item("id_TabPlaceViews")
+                    '在"放置视图"选项卡的"图纸(Sheets)"面板末尾添加图纸设置按钮
+                    oRibbonTab = oRibbon.RibbonTabs.Item("id_TabPlaceViews")
+                    oRibbonPanel = oRibbonTab.RibbonPanels.Item("id_PanelD_PlaceViewsSheets")
+                    oRibbonPanel.CommandControls.AddButton(Menu_图纸设置_Buttondef, True)
+
 
                     '在放置视图选项卡中添加
 
@@ -1334,6 +1345,7 @@ Namespace InventorAddIn
                     ' oRibbonPanel = oRibbonTab.RibbonPanels.Add(GLTool, "ShinMaywaPartPanel", ClientID)
 
                     oButtonDefinitions.Clear()
+
                     oRibbonPanel.CommandControls.AddButton(Menu_技术要求_Buttondef, True)
                     oRibbonPanel.CommandControls.AddButton(Menu_保存关闭_Buttondef, True)
                     '==========================================
@@ -1793,6 +1805,13 @@ Namespace InventorAddIn
         Private Sub Menu_错误清理_Buttondef_OnExecute(ByVal Context As Inventor.NameValueMap) Handles Menu_错误清理_Buttondef.OnExecute
             Try
                 ClearErrorTagging()
+            Catch __ex As Exception
+            End Try
+        End Sub
+
+        Private Sub Menu_图纸设置_Buttondef_OnExecute(ByVal Context As Inventor.NameValueMap) Handles Menu_图纸设置_Buttondef.OnExecute
+            Try
+                FormSheetSettingsShow()
             Catch __ex As Exception
             End Try
         End Sub
